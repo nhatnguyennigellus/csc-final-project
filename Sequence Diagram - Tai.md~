@@ -87,9 +87,11 @@
 	    (object Class "User"
 		quid       	"551C141E011B"
 		stereotype 	"Actor")
+	    (object Class "$UNNAMED$0"
+		quid       	"551C207D0259")
 	    (object Mechanism @1
 		logical_models 	(list unit_reference_list
-		    (object Object "$UNNAMED$0"
+		    (object Object "$UNNAMED$1"
 			quid       	"551B498B03BB"
 			collaborators 	(list link_list
 			    (object Link
@@ -189,7 +191,7 @@
 			multi      	FALSE)))
 	    (object Mechanism @2
 		logical_models 	(list unit_reference_list
-		    (object Object "$UNNAMED$1"
+		    (object Object "$UNNAMED$2"
 			quid       	"551B4BE2038D"
 			collaborators 	(list link_list
 			    (object Link
@@ -289,7 +291,7 @@
 			multi      	FALSE)))
 	    (object Mechanism @3
 		logical_models 	(list unit_reference_list
-		    (object Object "$UNNAMED$2"
+		    (object Object "$UNNAMED$3"
 			quid       	"551B4ABF0205"
 			collaborators 	(list link_list
 			    (object Link
@@ -364,10 +366,8 @@
 					ordinal    	5
 					quidu      	"000000000000"
 					creation   	FALSE))))
-			class      	"Logical View::javax::jms::Message"
-			quidu      	"39C926B3016F"
 			persistence 	"Transient"
-			creationObj 	TRUE
+			creationObj 	FALSE
 			multi      	FALSE)
 		    (object Object "Account Information"
 			quid       	"551B4AC202D4"
@@ -387,7 +387,7 @@
 					quidu      	"000000000000"
 					creation   	FALSE))))
 			persistence 	"Transient"
-			creationObj 	TRUE
+			creationObj 	FALSE
 			multi      	FALSE))))
 	logical_presentations 	(list unit_reference_list
 	    (object UseCaseDiagram "Main"
@@ -409,7 +409,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object InterObjView "$UNNAMED$0" @4
+		    (object InterObjView "$UNNAMED$1" @4
 			location   	(560, 272)
 			font       	(object Font
 			    size       	10
@@ -866,7 +866,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object InterObjView "$UNNAMED$1" @32
+		    (object InterObjView "$UNNAMED$2" @32
 			location   	(464, 320)
 			font       	(object Font
 			    size       	10
@@ -1323,7 +1323,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object InterObjView "$UNNAMED$2" @60
+		    (object InterObjView "$UNNAMED$3" @60
 			location   	(368, 336)
 			font       	(object Font
 			    size       	10
@@ -1382,7 +1382,7 @@
 			    y_coord    	0
 			    Nested     	FALSE))
 		    (object InterObjView "Edit Profile Page" @65
-			location   	(1104, 320)
+			location   	(1104, 224)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -1394,53 +1394,46 @@
 			    default_color 	TRUE)
 			label      	(object ItemLabel
 			    Parent_View 	@65
-			    location   	(1104, 346)
+			    location   	(1104, 224)
+			    fill_color 	13434879
 			    anchor_loc 	1
 			    nlines     	2
-			    max_width  	300
+			    max_width  	324
 			    justify    	0
 			    label      	"Edit Profile Page")
-			icon       	"Interface"
 			icon_style 	"Icon"
 			line_color 	3342489
 			fill_color 	13434879
 			quidu      	"551B4AC1006C"
-			width      	312
-			height     	1134
+			width      	342
+			height     	1230
 			icon_height 	57
 			icon_width 	57
 			icon_y_offset 	0
 			annotation 	1
 			Focus_Of_Control 	(object Focus_Of_Control "" @66
-			    location   	(1104, 400)
-			    line_color 	3342489
-			    InterObjView 	@65
-			    height     	140
-			    y_coord    	50
-			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @67
 			    location   	(1104, 480)
 			    line_color 	3342489
 			    InterObjView 	@65
 			    height     	195
 			    y_coord    	105
-			    Nested     	TRUE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @68
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @67
 			    location   	(1104, 720)
 			    line_color 	3342489
 			    InterObjView 	@65
 			    height     	195
 			    y_coord    	105
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @69
+			Focus_Of_Control 	(object Focus_Of_Control "" @68
 			    location   	(1104, 1168)
 			    line_color 	3342489
 			    InterObjView 	@65
 			    height     	102
 			    y_coord    	12
 			    Nested     	FALSE))
-		    (object InterObjView "Account Information" @70
-			location   	(1664, 336)
+		    (object InterObjView "Account Information" @69
+			location   	(1664, 224)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -1451,8 +1444,8 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@70
-			    location   	(1664, 336)
+			    Parent_View 	@69
+			    location   	(1664, 224)
 			    fill_color 	13434879
 			    anchor_loc 	1
 			    nlines     	2
@@ -1464,33 +1457,26 @@
 			fill_color 	13434879
 			quidu      	"551B4AC202D4"
 			width      	300
-			height     	1118
+			height     	1230
 			icon_height 	0
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @71
-			    location   	(1664, 416)
-			    line_color 	3342489
-			    InterObjView 	@70
-			    height     	90
-			    y_coord    	0
-			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @72
+			Focus_Of_Control 	(object Focus_Of_Control "" @70
 			    location   	(1664, 832)
 			    line_color 	3342489
-			    InterObjView 	@70
+			    InterObjView 	@69
 			    height     	188
 			    y_coord    	98
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @73
+			Focus_Of_Control 	(object Focus_Of_Control "" @71
 			    location   	(1664, 960)
 			    line_color 	3342489
-			    InterObjView 	@70
+			    InterObjView 	@69
 			    height     	404
 			    y_coord    	314
 			    Nested     	TRUE))
-		    (object InterMessView "Navigate and click edit button" @74
+		    (object InterMessView "Navigate and click edit button" @72
 			location   	(16, 480)
 			font       	(object Font
 			    size       	10
@@ -1501,8 +1487,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @75
-			    Parent_View 	@74
+			label      	(object SegLabel @73
+			    Parent_View 	@72
 			    location   	(735, 436)
 			    font       	(object Font
 				size       	10
@@ -1526,11 +1512,11 @@
 			client     	@60
 			supplier   	@65
 			Focus_Src  	@61
-			Focus_Entry 	@67
+			Focus_Entry 	@66
 			origin     	(383, 480)
 			terminus   	(1088, 480)
 			ordinal    	0)
-		    (object InterMessView "Displays current Account information" @76
+		    (object InterMessView "Displays current Account information" @74
 			location   	(16, 585)
 			font       	(object Font
 			    size       	10
@@ -1541,8 +1527,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @77
-			    Parent_View 	@76
+			label      	(object SegLabel @75
+			    Parent_View 	@74
 			    location   	(736, 541)
 			    font       	(object Font
 				size       	10
@@ -1565,12 +1551,12 @@
 			line_color 	3342489
 			client     	@65
 			supplier   	@60
-			Focus_Src  	@67
+			Focus_Src  	@66
 			Focus_Entry 	@62
 			origin     	(1088, 585)
 			terminus   	(384, 585)
 			ordinal    	1)
-		    (object InterMessView "Make changes" @78
+		    (object InterMessView "Make changes" @76
 			location   	(16, 720)
 			font       	(object Font
 			    size       	10
@@ -1581,8 +1567,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @79
-			    Parent_View 	@78
+			label      	(object SegLabel @77
+			    Parent_View 	@76
 			    location   	(735, 676)
 			    font       	(object Font
 				size       	10
@@ -1606,11 +1592,11 @@
 			client     	@60
 			supplier   	@65
 			Focus_Src  	@63
-			Focus_Entry 	@68
+			Focus_Entry 	@67
 			origin     	(383, 720)
 			terminus   	(1088, 720)
 			ordinal    	2)
-		    (object InterMessView "Send information" @80
+		    (object InterMessView "Send information" @78
 			location   	(16, 825)
 			font       	(object Font
 			    size       	10
@@ -1621,8 +1607,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @81
-			    Parent_View 	@80
+			label      	(object SegLabel @79
+			    Parent_View 	@78
 			    location   	(1383, 781)
 			    font       	(object Font
 				size       	10
@@ -1644,13 +1630,13 @@
 			    orientation 	0)
 			line_color 	3342489
 			client     	@65
-			supplier   	@70
-			Focus_Src  	@68
-			Focus_Entry 	@72
+			supplier   	@69
+			Focus_Src  	@67
+			Focus_Entry 	@70
 			origin     	(1119, 825)
 			terminus   	(1648, 825)
 			ordinal    	3)
-		    (object SelfMessView "Validate and update Information" @82
+		    (object SelfMessView "Validate and update Information" @80
 			location   	(16, 930)
 			font       	(object Font
 			    size       	10
@@ -1661,8 +1647,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @83
-			    Parent_View 	@82
+			label      	(object SegLabel @81
+			    Parent_View 	@80
 			    location   	(1996, 871)
 			    font       	(object Font
 				size       	10
@@ -1683,14 +1669,14 @@
 			    height     	60
 			    orientation 	0)
 			line_color 	3342489
-			client     	@70
-			supplier   	@70
-			Focus_Src  	@72
-			Focus_Entry 	@73
+			client     	@69
+			supplier   	@69
+			Focus_Src  	@70
+			Focus_Entry 	@71
 			origin     	(1680, 930)
 			terminus   	(1830, 930)
 			ordinal    	4)
-		    (object InterMessView "Notify the result" @84
+		    (object InterMessView "Notify the result" @82
 			location   	(16, 1165)
 			font       	(object Font
 			    size       	10
@@ -1701,8 +1687,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @85
-			    Parent_View 	@84
+			label      	(object SegLabel @83
+			    Parent_View 	@82
 			    location   	(1384, 1121)
 			    font       	(object Font
 				size       	10
@@ -1723,14 +1709,14 @@
 			    height     	45
 			    orientation 	1)
 			line_color 	3342489
-			client     	@70
+			client     	@69
 			supplier   	@65
-			Focus_Src  	@73
-			Focus_Entry 	@69
+			Focus_Src  	@71
+			Focus_Entry 	@68
 			origin     	(1648, 1165)
 			terminus   	(1120, 1165)
 			ordinal    	5)
-		    (object InterMessView "Notify the result" @86
+		    (object InterMessView "Notify the result" @84
 			location   	(16, 1270)
 			font       	(object Font
 			    size       	10
@@ -1741,8 +1727,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @87
-			    Parent_View 	@86
+			label      	(object SegLabel @85
+			    Parent_View 	@84
 			    location   	(736, 1226)
 			    font       	(object Font
 				size       	10
@@ -1765,7 +1751,7 @@
 			line_color 	3342489
 			client     	@65
 			supplier   	@60
-			Focus_Src  	@69
+			Focus_Src  	@68
 			Focus_Entry 	@64
 			origin     	(1088, 1270)
 			terminus   	(384, 1270)
@@ -1802,7 +1788,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object CategoryView "Logical View::java" @88
+		    (object CategoryView "Logical View::java" @86
 			location   	(208, 272)
 			font       	(object Font
 			    size       	10
@@ -1814,7 +1800,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@88
+			    Parent_View 	@86
 			    location   	(64, 188)
 			    nlines     	2
 			    max_width  	288
@@ -1826,7 +1812,7 @@
 			quidu      	"39C92661003B"
 			width      	300
 			height     	180)
-		    (object CategoryView "Logical View::javax" @89
+		    (object CategoryView "Logical View::javax" @87
 			location   	(656, 272)
 			font       	(object Font
 			    size       	10
@@ -1838,7 +1824,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@89
+			    Parent_View 	@87
 			    location   	(512, 188)
 			    nlines     	2
 			    max_width  	288
@@ -1850,7 +1836,7 @@
 			quidu      	"39C926610018"
 			width      	300
 			height     	180)
-		    (object CategoryView "Logical View::org" @90
+		    (object CategoryView "Logical View::org" @88
 			location   	(1104, 272)
 			font       	(object Font
 			    size       	10
@@ -1862,7 +1848,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@90
+			    Parent_View 	@88
 			    location   	(960, 188)
 			    nlines     	2
 			    max_width  	288
@@ -1883,7 +1869,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object NoteView @91
+		    (object NoteView @89
 			location   	(224, 624)
 			font       	(object Font
 			    size       	10
@@ -1898,7 +1884,7 @@
 			fill_color 	12632256
 			width      	300
 			height     	132)
-		    (object NoteView @92
+		    (object NoteView @90
 			location   	(704, 624)
 			font       	(object Font
 			    size       	10
@@ -1913,7 +1899,7 @@
 			fill_color 	8421631
 			width      	300
 			height     	132)
-		    (object NoteView @93
+		    (object NoteView @91
 			location   	(1200, 624)
 			font       	(object Font
 			    size       	10
@@ -1928,7 +1914,7 @@
 			fill_color 	12615680
 			width      	300
 			height     	132)
-		    (object NoteView @94
+		    (object NoteView @92
 			location   	(1664, 624)
 			font       	(object Font
 			    size       	10
@@ -1943,7 +1929,7 @@
 			fill_color 	16777215
 			width      	300
 			height     	132)
-		    (object Label @95
+		    (object Label @93
 			location   	(81, 369)
 			font       	(object Font
 			    size       	12
@@ -1958,7 +1944,7 @@
 			max_width  	1163
 			justify    	1
 			label      	"J2EE: Java 2 Platform, Enterprise Edition - v 1.2.1")
-		    (object Label @96
+		    (object Label @94
 			location   	(96, 608)
 			font       	(object Font
 			    size       	10
@@ -1973,7 +1959,7 @@
 			max_width  	268
 			justify    	1
 			label      	"Abstract Class")
-		    (object Label @97
+		    (object Label @95
 			location   	(592, 608)
 			font       	(object Font
 			    size       	10
@@ -1988,7 +1974,7 @@
 			max_width  	225
 			justify    	1
 			label      	"Final Class")
-		    (object Label @98
+		    (object Label @96
 			location   	(1104, 608)
 			font       	(object Font
 			    size       	10
@@ -2003,7 +1989,7 @@
 			max_width  	206
 			justify    	1
 			label      	"Interface")
-		    (object Label @99
+		    (object Label @97
 			location   	(1552, 608)
 			font       	(object Font
 			    size       	10

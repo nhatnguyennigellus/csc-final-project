@@ -296,7 +296,7 @@
 			collaborators 	(list link_list
 			    (object Link
 				quid       	"551B4AEA0295"
-				supplier   	"Edit Profile Page"
+				supplier   	"Edit Account Page"
 				quidu      	"551B4AC1006C"
 				messages   	(list Messages
 				    (object Message "Navigate and click edit button"
@@ -308,7 +308,7 @@
 					ordinal    	0
 					quidu      	"000000000000"
 					creation   	FALSE)
-				    (object Message "Displays current Account information"
+				    (object Message "Displays Account information"
 					quid       	"551B4B030129"
 					frequency  	"Aperiodic"
 					synchronization 	"Simple"
@@ -317,7 +317,7 @@
 					ordinal    	1
 					quidu      	"000000000000"
 					creation   	FALSE)
-				    (object Message "Make changes"
+				    (object Message "Make changes and submit"
 					quid       	"551B4B2F0005"
 					frequency  	"Aperiodic"
 					synchronization 	"Simple"
@@ -340,7 +340,7 @@
 			persistence 	"Transient"
 			creationObj 	TRUE
 			multi      	FALSE)
-		    (object Object "Edit Profile Page"
+		    (object Object "Edit Account Page"
 			quid       	"551B4AC1006C"
 			collaborators 	(list link_list
 			    (object Link
@@ -425,7 +425,7 @@
 			    location   	(560, 297)
 			    anchor_loc 	1
 			    nlines     	2
-			    max_width  	119
+			    max_width  	360
 			    justify    	0
 			    label      	"")
 			icon       	"Actor"
@@ -433,7 +433,7 @@
 			line_color 	3342489
 			fill_color 	13434879
 			quidu      	"551B498B03BB"
-			width      	130
+			width      	120
 			height     	1012
 			icon_height 	162
 			icon_width 	120
@@ -882,7 +882,7 @@
 			    location   	(464, 345)
 			    anchor_loc 	1
 			    nlines     	2
-			    max_width  	150
+			    max_width  	360
 			    justify    	0
 			    label      	"")
 			icon       	"Actor"
@@ -890,7 +890,7 @@
 			line_color 	3342489
 			fill_color 	13434879
 			quidu      	"551B4BE2038D"
-			width      	162
+			width      	120
 			height     	1092
 			icon_height 	162
 			icon_width 	120
@@ -1339,7 +1339,7 @@
 			    location   	(368, 361)
 			    anchor_loc 	1
 			    nlines     	2
-			    max_width  	150
+			    max_width  	360
 			    justify    	0
 			    label      	"")
 			icon       	"Actor"
@@ -1347,7 +1347,7 @@
 			line_color 	3342489
 			fill_color 	13434879
 			quidu      	"551B4ABF0205"
-			width      	162
+			width      	120
 			height     	1118
 			icon_height 	162
 			icon_width 	120
@@ -1381,7 +1381,7 @@
 			    height     	90
 			    y_coord    	0
 			    Nested     	FALSE))
-		    (object InterObjView "Edit Profile Page" @65
+		    (object InterObjView "Edit Account Page" @65
 			location   	(1104, 224)
 			font       	(object Font
 			    size       	10
@@ -1400,7 +1400,7 @@
 			    nlines     	2
 			    max_width  	324
 			    justify    	0
-			    label      	"Edit Profile Page")
+			    label      	"Edit Account Page")
 			icon_style 	"Icon"
 			line_color 	3342489
 			fill_color 	13434879
@@ -1433,7 +1433,7 @@
 			    y_coord    	12
 			    Nested     	FALSE))
 		    (object InterObjView "Account Information" @69
-			location   	(1664, 224)
+			location   	(1664, 225)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -1457,7 +1457,7 @@
 			fill_color 	13434879
 			quidu      	"551B4AC202D4"
 			width      	300
-			height     	1230
+			height     	1229
 			icon_height 	0
 			icon_width 	0
 			icon_y_offset 	0
@@ -1516,7 +1516,7 @@
 			origin     	(383, 480)
 			terminus   	(1088, 480)
 			ordinal    	0)
-		    (object InterMessView "Displays current Account information" @74
+		    (object InterMessView "Displays Account information" @74
 			location   	(16, 585)
 			font       	(object Font
 			    size       	10
@@ -1542,9 +1542,9 @@
 			    quidu      	"551B4B030129"
 			    anchor_loc 	1
 			    nlines     	1
-			    max_width  	676
+			    max_width  	528
 			    justify    	0
-			    label      	"Displays current Account information"
+			    label      	"Displays Account information"
 			    pctDist    	0.500000
 			    height     	45
 			    orientation 	1)
@@ -1556,7 +1556,7 @@
 			origin     	(1088, 585)
 			terminus   	(384, 585)
 			ordinal    	1)
-		    (object InterMessView "Make changes" @76
+		    (object InterMessView "Make changes and submit" @76
 			location   	(16, 720)
 			font       	(object Font
 			    size       	10
@@ -1582,9 +1582,9 @@
 			    quidu      	"551B4B2F0005"
 			    anchor_loc 	1
 			    nlines     	1
-			    max_width  	276
+			    max_width  	481
 			    justify    	0
-			    label      	"Make changes"
+			    label      	"Make changes and submit"
 			    pctDist    	0.500000
 			    height     	45
 			    orientation 	0)

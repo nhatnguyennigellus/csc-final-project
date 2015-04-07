@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="masterpage" template="/WEB-INF/views/layout.jsp">
+		<put-attribute name="title"></put-attribute>
+		<put-attribute name="body"></put-attribute>
+	</definition>
+	<definition name="login" extends="masterpage">
+		<put-attribute name="title" value="Login"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/login.jsp"></put-attribute>
+	</definition>
+	<definition name="home" extends="masterpage">
+		<put-attribute name="title" value="Home - CSC Banking System"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/home.jsp"></put-attribute>
+	</definition>
+</tiles-definitions>
