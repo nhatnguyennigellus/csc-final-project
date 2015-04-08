@@ -39,6 +39,7 @@ public class CustomerDAO {
 			entityManager.persist(customer);
 			enTr.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			enTr.rollback();
 			entityManager.close();
 			return false;

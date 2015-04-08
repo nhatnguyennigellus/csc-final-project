@@ -12,14 +12,14 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<h1>Customer List</h1>
-				
+
 				<ol class="breadcrumb">
 					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
 					<li class="active"><i class="fa fa-file"></i> Customer List</li>
 				</ol>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-md-12">
 
@@ -39,7 +39,7 @@
 						<c:forEach var="customer" items="${listCustomer }">
 							<tr>
 								<td>${customer.customerId }</td>
-								<td>${customer.lastName }${customer.middleName }
+								<td>${customer.lastName }&nbsp;${customer.middleName }
 									${customer.firstName }</td>
 								<td>${customer.idCardNumber }</td>
 								<td>${customer.address1 }
@@ -49,7 +49,11 @@
 									<p>${customer.phone2}</p>
 								</td>
 								<td>${customer.email}</td>
-								<td></td>
+								<td><a href="toAddAccount">
+										<button type="button" class="btn btn-primary btn-sm">
+											<span class="glyphicon glyphicon-book"></span>
+										</button>
+								</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -59,8 +63,9 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<a href="toAddAccount">
-					<button type="button" class="btn btn-primary btn-sm">Add Customer</button>
+				<a href="toAddCustomer">
+					<button type="button" class="btn btn-primary btn-sm">Add
+						Customer</button>
 				</a>
 			</div>
 		</div>
@@ -69,7 +74,11 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#tableCustomer').dataTable({
-			"bFilter" : false
+			"bFilter" : false,
+			"aoColumnDefs" : [ {
+				'bSortable' : false,
+				'aTargets' : [ 6 ]
+			} ]
 		});
 	});
 </script>

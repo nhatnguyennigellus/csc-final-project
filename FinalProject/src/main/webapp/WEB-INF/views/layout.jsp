@@ -37,7 +37,10 @@
 	src="<c:url value='/resources/js/jquery.dataTables.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/dataTables.bootstrap.js' />"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/additional-methods.js' /> "></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery.validate.js' /> "></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/additional-methods.js' /> "></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -81,7 +84,7 @@
 						<ul id="customer" class="collapse">
 							<li><a href="viewCustomer"><i
 									class="glyphicon glyphicon-th-list"></i> Customer List</a></li>
-							<li><a href="addCustomer"><i
+							<li><a href="toAddCustomer"><i
 									class="glyphicon glyphicon-plus"></i> Add Customer</a></li>
 						</ul></li>
 					<li><a href="searchAccount"><i

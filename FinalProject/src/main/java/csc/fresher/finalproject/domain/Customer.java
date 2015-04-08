@@ -25,7 +25,6 @@ public class Customer {
 	@NotEmpty
 	private String lastName;
 
-	@NotEmpty
 	private String middleName;
 
 	@NotEmpty
@@ -37,7 +36,6 @@ public class Customer {
 	@Length(max = 15, min = 10)
 	private String phone1;
 
-	@Length(max = 15, min = 10)
 	private String phone2;
 
 	@NotEmpty
