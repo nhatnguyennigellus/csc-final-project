@@ -20,7 +20,7 @@ public class SavingInterestRate {
 	private Integer id;
 
 	@NotEmpty
-	private String period;
+	private double period;
 
 	@NotEmpty
 	private double interestRate;
@@ -48,11 +48,11 @@ public class SavingInterestRate {
 		this.id = id;
 	}
 
-	public String getPeriod() {
+	public double getPeriod() {
 		return period;
 	}
 
-	public void setPeriod(String period) {
+	public void setPeriod(double period) {
 		this.period = period;
 	}
 

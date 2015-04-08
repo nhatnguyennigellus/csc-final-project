@@ -1,5 +1,6 @@
 package csc.fresher.finalproject.domain;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,12 @@ public class SavingAccount {
 	private double interest;
 	
 	@NotEmpty
+	private Date startDate;
+
+	@NotEmpty
+	private Date dueDate;
+
+	@NotEmpty
 	private boolean repeatable;
 	
 	@NotEmpty
@@ -43,7 +50,7 @@ public class SavingAccount {
 	private Customer customer;
 	
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "interestRateId")
 	private SavingInterestRate interestRate;
 	
 	@OneToMany(mappedBy = "savingAccount")
@@ -96,6 +103,24 @@ public class SavingAccount {
 	public void setState(String state) {
 		this.state = state;
 	}
+	
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+
 
 	public Customer getCustomer() {
 		return customer;

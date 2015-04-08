@@ -26,18 +26,18 @@
 
 
 <script type="text/javascript"
-	src="<c:url value='/resources/js/jquery/jquery.js' />"></script>
+	src="<c:url value='/resources/js/jquery.js' />"></script>
 <script type="text/javascript"
-	src="<c:url value='/resources/js/jquery/jquery-ui.js' />"></script>
+	src="<c:url value='/resources/js/jquery-ui.js' />"></script>
 <script type="text/javascript"
-	src="<c:url value='/resources/js/jquery/jquery-1.10.2.js' />"></script>
+	src="<c:url value='/resources/js/jquery-1.10.2.min.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/bootstrap.js'/> "></script>
 <script type="text/javascript"
-	src="<c:url value='/resources/js/jquery/jquery.dataTables.min.js' />"></script>
+	src="<c:url value='/resources/js/jquery.dataTables.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/dataTables.bootstrap.js' />"></script>
-
+<script type="text/javascript" src="<c:url value='/resources/js/additional-methods.js' /> "></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -86,7 +86,8 @@
 						</ul></li>
 					<li><a href="searchAccount"><i
 							class="glyphicon glyphicon-search"></i> &nbsp;Account</a></li>
-
+					<li><a href="viewInterestRate"><i
+							class="glyphicon glyphicon-search"></i> &nbsp;Interest Rate</a></li>
 					<li><a href="javascript:;" data-toggle="collapse"
 						data-target="#trans"><i class="glyphicon glyphicon-briefcase"></i>
 							&nbsp;Transaction <i class="glyphicon glyphicon-chevron-down"></i></a>

@@ -42,6 +42,17 @@ public class Customer {
 
 	@NotEmpty
 	private String email;
+	
+	@NotEmpty
+	private String idCardNumber;
+
+	public String getIdCardNumber() {
+		return idCardNumber;
+	}
+
+	public void setIdCardNumber(String idCardNumber) {
+		this.idCardNumber = idCardNumber;
+	}
 
 	@OneToMany(mappedBy = "customer")
 	private Set<SavingAccount> savingAccounts = new HashSet<SavingAccount>();
@@ -58,11 +69,11 @@ public class Customer {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Integer getId() {
+	public Integer getCustomerId() {
 		return customerId;
 	}
 
-	public void setId(Integer id) {
+	public void setCustomerId(Integer id) {
 		this.customerId = id;
 	}
 

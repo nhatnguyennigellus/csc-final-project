@@ -93,6 +93,28 @@
 
 			</div>
 		</div>
+		<div class="col-lg-3">
+			<div class="panel panel-yellow">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="glyphicon glyphicon-usd fa-4x"></i>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div><h4>SAVING INTEREST RATE</h4></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body">
+					<a href="viewInterestRate"> <span class="pull-left">View
+							Interest Rate</span> <span class="pull-right"> <i
+							class="glyphicon glyphicon-circle-arrow-right"></i>
+					</span></a>
+				</div>
+
+			</div>
+		</div>
 	</div>
 </body>
 </html>

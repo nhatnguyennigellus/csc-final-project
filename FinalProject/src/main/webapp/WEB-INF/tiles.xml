@@ -15,4 +15,8 @@
 		<put-attribute name="title" value="Home - CSC Banking System"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp"></put-attribute>
 	</definition>
+	<definition name="viewCustomer" extends="masterpage">
+		<put-attribute name="title" value="Customer List"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/viewCustomer.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>
