@@ -14,4 +14,5 @@ public class SessionName {
 	public static String USER = "USER";
 	public static String ROLE = "ROLE";
 	public static String ACCOUNT = "ACCOUNT";
+	public static String LOGIN_ATTEMPT = "LOGIN_ATTEMPT";
 }
