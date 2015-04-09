@@ -16,7 +16,7 @@ public class InterestRateService {
 		return rateDAO.getInterestRateList();
 	}
 
-	public SavingInterestRate getInterestRateByPeriod(String period) {
-		return rateDAO.getInterestRateByPeriod(period);
+	public SavingInterestRate getInterestRateByPeriod(double interestRatePeriod) {
+		return rateDAO.getInterestRateByPeriod(interestRatePeriod);
 	}
 }

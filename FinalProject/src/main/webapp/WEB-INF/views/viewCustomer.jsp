@@ -49,7 +49,7 @@
 									<p>${customer.phone2}</p>
 								</td>
 								<td>${customer.email}</td>
-								<td><a href="toAddAccount">
+								<td><a href="toAddAccount?customerId=${customer.customerId }">
 										<button type="button" class="btn btn-primary btn-sm">
 											<span class="glyphicon glyphicon-book"></span>
 										</button>

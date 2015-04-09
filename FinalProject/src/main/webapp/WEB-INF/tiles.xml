@@ -23,4 +23,8 @@
 		<put-attribute name="title" value="Add Customer"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/addCustomer.jsp"></put-attribute>
 	</definition>
+	<definition name="addAccount" extends="masterpage">
+		<put-attribute name="title" value="Add Saving Account"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/addAccount.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>

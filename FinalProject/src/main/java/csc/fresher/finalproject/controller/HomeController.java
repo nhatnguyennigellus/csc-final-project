@@ -12,6 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import csc.fresher.finalproject.domain.User;
 import csc.fresher.finalproject.mycookies.SessionName;
+import csc.fresher.finalproject.service.CustomerService;
+import csc.fresher.finalproject.service.SavingAccountService;
+import csc.fresher.finalproject.service.TransactionService;
 import csc.fresher.finalproject.service.UserService;
 
 /**
@@ -24,7 +27,9 @@ import csc.fresher.finalproject.service.UserService;
 @Controller
 public class HomeController {
 	private UserService userService = new UserService();
-
+	private CustomerService customerService = new CustomerService();
+	private SavingAccountService accountService = new SavingAccountService();
+	private TransactionService transService = new TransactionService();
 	/**
 	 * Redirects to Login Page
 	 * 
@@ -62,6 +67,10 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/home")
 	public String redirectHome(Model model) {
+		model.addAttribute("CustomerNo", customerService.getCustomerList().size());
+		model.addAttribute("AccountNo", accountService.getSavingAccounts().size());
+		model.addAttribute("TransactionNo", transService.getTransactionList().size());
+		
 		return ("home");
 	}
 	
@@ -101,12 +110,12 @@ public class HomeController {
 			if (user != null) {
 				session.setAttribute(SessionName.USER, user);
 				
-				return ("home");
+				return "redirect:home";
 			}
 			model.addAttribute("eNotify", "Invalid Username or Password");
 			return ("login");
 		} else {
-			return ("home");
+			return ("redirect:home");
 		}
 
 	}

@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -26,20 +27,20 @@ public class SavingAccount {
 	@NotEmpty
 	private String accountOwner;
 	
-	@NotEmpty
+	@NotNull 
 	@Min(value = 1000000)
 	private double balanceAmount;
 	
-	@NotEmpty
+	@NotNull
 	private double interest;
 	
-	@NotEmpty
+	@NotNull
 	private Date startDate;
-
-	@NotEmpty
+	
+	@NotNull
 	private Date dueDate;
 
-	@NotEmpty
+	@NotNull
 	private boolean repeatable;
 	
 	@NotEmpty

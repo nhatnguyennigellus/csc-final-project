@@ -10,8 +10,7 @@
 	<h1>Dashboard</h1>
 	<div class="row">
 		<ol class="breadcrumb">
-			<li><i class="glyphicon glyphicon-home"></i> Dashboard
-			</li>
+			<li><i class="glyphicon glyphicon-home"></i> Dashboard</li>
 		</ol>
 		<div class="col-lg-3">
 			<div class="panel panel-red">
@@ -20,7 +19,8 @@
 						<div class="col-xs-3">
 							<i class="glyphicon glyphicon-user fa-4x"></i>
 						</div>
-						<div class="col-xs-9 text-right"><div class="huge">12</div>
+						<div class="col-xs-9 text-right">
+							<div class="huge">${CustomerNo }</div>
 							<div>Customer</div>
 						</div>
 					</div>
@@ -49,7 +49,7 @@
 							<i class="glyphicon glyphicon-book fa-4x"></i>
 						</div>
 						<div class="col-xs-9 text-right">
-							<div class="huge">50</div>
+							<div class="huge">${AccountNo }</div>
 							<div>Account</div>
 						</div>
 					</div>
@@ -72,7 +72,8 @@
 						<div class="col-xs-3">
 							<i class="glyphicon glyphicon-briefcase fa-4x"></i>
 						</div>
-						<div class="col-xs-9 text-right"><div class="huge">100</div>
+						<div class="col-xs-9 text-right">
+							<div class="huge">${TransactionNo }</div>
 							<div>Transaction</div>
 						</div>
 					</div>
@@ -101,7 +102,9 @@
 							<i class="glyphicon glyphicon-usd fa-4x"></i>
 						</div>
 						<div class="col-xs-9 text-right">
-							<div><h4>SAVING INTEREST RATE</h4></div>
+							<div>
+								<h4>SAVING INTEREST RATE</h4>
+							</div>
 						</div>
 					</div>
 				</div>

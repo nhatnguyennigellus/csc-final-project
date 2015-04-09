@@ -38,8 +38,7 @@ public class CustomerController {
 	public String addCustomer(
 			@ModelAttribute("customer") @Valid Customer customer,
 			BindingResult result, Model model, HttpServletRequest request) {
-		System.out.println(customer.getFirstName() != null ? customer
-				.getFirstName() : "null First name");
+		
 		if (customerService.addCustomer(customer)) {
 			model.addAttribute("addCusSuccess",
 					"Added new customer successfully!");
