@@ -1,7 +1,7 @@
 package csc.fresher.finalproject.controller;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import csc.fresher.finalproject.domain.Customer;
 import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.SavingInterestRate;
-import csc.fresher.finalproject.domain.User;
-import csc.fresher.finalproject.mycookies.SessionName;
 import csc.fresher.finalproject.service.CustomerService;
 import csc.fresher.finalproject.service.InterestRateService;
 import csc.fresher.finalproject.service.SavingAccountService;
@@ -76,42 +74,5 @@ public class SavingAccountController {
 			model.addAttribute("addAccError", "Fail to add new account!");
 		}
 		return "addAccount";
-	}
-
-	/**
-	 * Redirect to searchAccount view if user logged in
-	 * @author vinh-tp
-	 * @since 2015-08-04
-	 * 
-	 */
-	@RequestMapping(value="/searchAccount", method=RequestMethod.GET)
-	public String viewSearchAccount(HttpServletRequest request,Model model) {
-		User user = (User) request.getSession().getAttribute(SessionName.USER);
-		String nextPage;
-		if (user!= null && user.getUsername()!="") {	// a little consideration here
-			nextPage = "searchAccount";
-			System.out.println("Going to searchAccount .....");
-		}
-		else {
-			nextPage = "login";
-		}
-		return nextPage;
-	}
-	
-	/**
-	 * Search for account existence 
-	 * @author vinh-tp
-	 * @since 2015-08-04
-	 */
-	@RequestMapping(value="/searchAccount", method=RequestMethod.POST)
-	public String searchAccount(HttpServletRequest request,Model model) {
-		//TODO: check for authentication
-		String idCardValue = request.getParameter("idCardValue");
-		String accNumberValue = request.getParameter("accNumberValue");
-		
-		List<SavingAccount> accounts = accountService.searchSavingAccounts(idCardValue, accNumberValue);
-		System.out.println(accounts.size());
-		model.addAttribute("accountList", accounts);
-		return "searchAccount";
 	}
 }
