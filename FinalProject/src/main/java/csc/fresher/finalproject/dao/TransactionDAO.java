@@ -37,16 +37,19 @@ public class TransactionDAO {
 		Transaction transaction = null;
 		try {
 			enTr.begin();
-			TypedQuery<Transaction> query = entityManager.createQuery(
-					"SELECT t FROM Transaction t WHERE t.id = ?1", Transaction.class);
-			query.setParameter(1, id);
-			transaction = query.getSingleResult();
+//			TypedQuery<Transaction> query = entityManager.createQuery(
+//					"SELECT t FROM Transaction t WHERE t.id = ?1",
+//					Transaction.class);
+//			query.setParameter(1, id);
+//			transaction = query.getSingleResult();
+			transaction = entityManager.find(Transaction.class, id);
 			enTr.commit();
 		} catch (Exception e) {
 			entityManager.close();
 		}
 		return transaction;
 	}
+
 	/*
 	 * public List<Transaction> searchTransaction() {
 	 * 
@@ -59,7 +62,7 @@ public class TransactionDAO {
 		EntityTransaction enTr = entityManager.getTransaction();
 		try {
 			enTr.begin();
-			
+
 			entityManager.persist(transaction);
 			enTr.commit();
 		} catch (Exception e) {
@@ -69,8 +72,59 @@ public class TransactionDAO {
 		}
 		return true;
 	}
-	
+
 	public boolean approveTransaction(Transaction transaction) {
 		return true;
+	}
+
+	/**
+	 * Get transactions by state (pending/approved)
+	 * 
+	 * @param state
+	 * @return transaction list
+	 * @author vinh-tp
+	 */
+	public List<Transaction> getTransactionsByState(String state) {
+		EntityManager entityManager = EntityManagerFactoryUtil
+				.createEntityManager();
+		EntityTransaction enTr = entityManager.getTransaction();
+		List<Transaction> transactions = null;
+		try {
+			enTr.begin();
+			TypedQuery<Transaction> query = entityManager.createQuery(
+					"SELECT t FROM Transaction t WHERE t.state = ?1",
+					Transaction.class);
+			query.setParameter(1, state);
+			transactions = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			entityManager.close();
+			return null;
+		}
+		return transactions;
+	}
+
+	public List<Transaction> searchTransaction(Transaction transaction) {
+		EntityManager entityManager = EntityManagerFactoryUtil
+				.createEntityManager();
+		EntityTransaction enTr = entityManager.getTransaction();
+		List<Transaction> transactions = null;
+		try {
+			enTr.begin();
+			TypedQuery<Transaction> query = entityManager
+					.createQuery(
+							"SELECT t FROM Transaction t WHERE t.state = ?1 AND t.type=?2 AND t.savingAccount LIKE ?3",
+							Transaction.class);
+			query.setParameter(1, transaction.getState() == null ? ""
+					: transaction.getState());
+			query.setParameter(2, transaction.getType()==null?"":transaction.getState());
+			query.setParameter(3, transaction.getSavingAccount()==null?"%%":"%"+transaction.getSavingAccount()+"%");
+			transactions = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			entityManager.close();
+			return null;
+		}
+		return transactions;
 	}
 }

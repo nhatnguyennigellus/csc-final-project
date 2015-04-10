@@ -30,7 +30,7 @@
 							<th>Owner</th>
 							<th>Account Name</th>
 							<th>Balance</th>
-							<th>Interest Rate</th>
+							<th>Period</th>
 							<th>Interest</th>
 							<th>Start Date</th>
 							<th>Due Date</th>
@@ -45,7 +45,8 @@
 								<td>${account.customer.lastName }&nbsp;${account.customer.firstName }
 								<td>${account.accountOwner }</td>
 								<td><fmt:formatNumber value="${account.balanceAmount }" type="number"/></td>
-								<td>${account.interestRate.interestRate }</td>
+								<!-- fix -->
+								<td>${account.interestRate.period }</td>
 								<td>${account.interest }</td>
 								<td><fmt:formatDate value="${account.startDate }" type="date"/></td>
 								<td><fmt:formatDate value="${account.dueDate }" type="date"/></td>
@@ -62,7 +63,7 @@
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#tableCustomer').dataTable()
+		$('#tableAccounts').dataTable()
 	});
 </script>
 </html>
