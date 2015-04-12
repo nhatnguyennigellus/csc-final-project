@@ -51,7 +51,7 @@
 			checkSpan[i] = $("#checkSpan" + i);
 
 			interestRate[i] = $("#interestRate" + i);
-			alert(interestRate[i].val());
+
 			if(originalRate.length < rowCount){
 				originalRate[i] = interestRate[i].val();
 			}
@@ -76,8 +76,10 @@
 			if(interestRate[i].val() == "" || period[i].val() == ""){
 				checkSpan[i].html("<font color ='red'><b>Value Require!</b></font>");
 			}
-			else if(interestRate[i].val() != originalRate[i]){
+			else if(interestRate[i].val() != originalRate[i] && originalRate[i] != ""){
 				checkSpan[i].html("<font color ='#D1D116'><b>Changing!</b></font>");
+			} else if(originalRate[i] == ""){
+				checkSpan[i].html("<font color ='green'><b>Valid!</b></font>");
 			} else{
 				checkSpan[i].html("<font color ='green'><b>Original!</b></font>");
 			}
@@ -102,7 +104,7 @@
 			} else if(j == 2){
 				cell2.innerHTML = "<input type='text' class='form-control' id='interestRate" + i + "' name='interestRate" + i + "' onblur='onBlur(" + i + ")'/>";
 			} else if(j == 3){
-				cell3.innerHTML = "<input type='text' class='form-control' id='period" + i + "' name='period" + i + "'/>";
+				cell3.innerHTML = "<input type='text' class='form-control' id='period" + i + "' name='period" + i + "' onblur='onBlur(" + i + ")'/>";
 			} else{
 				cell4.innerHTML = "<div id='checkDiv" + i + "' style='width: 100px; height: 25px;'><span id='checkSpan" + i + "'></span></div>";
 			}
@@ -113,6 +115,8 @@
 		
 		//Set focus
 		document.getElementById("interestRate" + i).focus();
+		var totalRow = $("#rowCount");
+		totalRow.val(i);
 		
 		getTableData();
 	}
@@ -120,7 +124,7 @@
 
 </head>
 <body>
-<%i = 1;%>
+<%i = 1; %>
 	<form id="rateForm" action="changeRate" method="post">
 		<table class="table" id="rateTable" style="width: 60%;">
 			<tr>
@@ -149,7 +153,7 @@
 		<input type="submit" id="saveChangeRate" value="Save Changes"><input
 			type="button" onclick="addRow()" value="Add Rate" />
 			
-		<input type="text" id="rowCount" name="rowCount" style="display: none;" value="<%=i%>"/>
+		<input type="text" id="rowCount" name="rowCount" style="display: none;"/>
 	</form>
 </body>
 </html>

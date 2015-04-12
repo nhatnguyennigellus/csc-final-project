@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -16,17 +17,26 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "savinginterestrate")
 public class SavingInterestRate {
 	@Id
-	@NotEmpty
+	@NotNull
 	private Integer id;
 
-	@NotEmpty
+	@NotNull
 	private double period;
 
-	@NotEmpty
+	@NotNull
 	private double interestRate;
 
 	@OneToMany(mappedBy = "interestRate")
 	private Set<SavingAccount> savingAccounts = new HashSet<SavingAccount>();
+	
+	
+
+	public SavingInterestRate(Integer id, double period, double interestRate) {
+		super();
+		this.id = id;
+		this.period = period;
+		this.interestRate = interestRate;
+	}
 
 	public Set<SavingAccount> getSavingAccounts() {
 		return savingAccounts;

@@ -107,4 +107,22 @@ public class InterestRateDAO {
 		
 		return true;
 	}
+
+	public boolean addInterestRate(SavingInterestRate newInterestRate) {
+		EntityManager entityManager = EntityManagerFactoryUtil
+				.createEntityManager();
+		EntityTransaction enTr = entityManager.getTransaction();
+		
+		try{
+			enTr.begin();
+			entityManager.persist(newInterestRate);
+			enTr.commit();
+		} catch(Exception e){
+			e.printStackTrace();
+			entityManager.close();
+			return false;
+		}
+		
+		return true;
+	}
 }

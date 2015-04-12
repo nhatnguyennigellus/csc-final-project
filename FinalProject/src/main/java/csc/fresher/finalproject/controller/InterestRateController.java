@@ -32,22 +32,39 @@ public class InterestRateController {
 	}
 	
 	@RequestMapping(value = "/changeRate", method = RequestMethod.POST)
-	public String changeRate(HttpServletRequest request){
+	public String changeRate(HttpServletRequest request, Model model){
 		InterestRateService interestRateService = new InterestRateService();
 		
 		List<SavingInterestRate> rateList = interestRateService.getInterestRateList();
 		int totalRate = rateList.size();
 		
-		for(int i = 1; i <= totalRate; i ++){
+		int rowCount;
+		
+		if(request.getParameter("rowCount") == ""){
+			rowCount = totalRate;
+		} else{
+			rowCount = Integer.parseInt(request.getParameter("rowCount"));
+		}
+		
+		for(int i = 1; i <= rowCount; i ++){
 			int id = Integer.parseInt(request.getParameter("id" + i));
 			double interestRate = Double.parseDouble(request.getParameter("interestRate" + i));
 			double period = Double.parseDouble(request.getParameter("period" + i));
 			
-			rateList.get(i - 1).setInterestRate(interestRate);
-			rateList.get(i - 1).setPeriod(period);
+			if(i <= totalRate){
+				rateList.get(i - 1).setInterestRate(interestRate);
+				rateList.get(i - 1).setPeriod(period);
+			} else{
+				SavingInterestRate newInterestRate = new SavingInterestRate(id, period, interestRate);
+				interestRateService.addInterestRate(newInterestRate);
+			}
 		}
 		
 		interestRateService.updateRate(rateList);
-		return "changeRate";
+		
+		rateList = interestRateService.getInterestRateList();
+		model.addAttribute("rateList", rateList);
+		
+		return "redirect:viewInterestRate";
 	}
 }
