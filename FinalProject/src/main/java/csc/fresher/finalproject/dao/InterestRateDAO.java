@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Component;
@@ -87,8 +88,23 @@ public class InterestRateDAO {
 
 		return rate;
 	}
-	/*
+	
 	public boolean updateInterestRate(SavingInterestRate rate) {
+		EntityManager entityManager = EntityManagerFactoryUtil
+				.createEntityManager();
+		EntityTransaction enTr = entityManager.getTransaction();
 		
-	}*/
+		try{
+			enTr.begin();
+			Query query = entityManager.createQuery("UPDATE SavingInterestRate SET interestRate = " + rate.getInterestRate() + ", period = " + rate.getPeriod() + " WHERE id = " + rate.getId());
+			query.executeUpdate();
+			enTr.commit();
+		} catch (Exception e){
+			enTr.rollback();
+			entityManager.close();
+			return false;
+		}
+		
+		return true;
+	}
 }

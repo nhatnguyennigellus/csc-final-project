@@ -2,6 +2,7 @@ package csc.fresher.finalproject.controller;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -74,5 +75,14 @@ public class SavingAccountController {
 			model.addAttribute("addAccError", "Fail to add new account!");
 		}
 		return "addAccount";
+	}
+	
+	@RequestMapping(value = "/viewAccount")
+	public String viewAccount(Model model, HttpServletRequest request){
+		List<SavingAccount> accountList = accountService.getSavingAccounts();
+		
+		model.addAttribute("accountList", accountList);
+		
+		return "viewAccount";
 	}
 }

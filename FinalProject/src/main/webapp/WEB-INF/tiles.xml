@@ -27,4 +27,13 @@
 		<put-attribute name="title" value="Add Saving Account"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/addAccount.jsp"></put-attribute>
 	</definition>
+	
+	<definition name="viewInterestRate" extends="masterpage">
+		<put-attribute name="title" value="View Interest Rates"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/viewInterestRate.jsp"></put-attribute>
+	</definition>
+	<definition name="viewAccount" extends="masterpage">
+		<put-attribute name="title" value="View Accounts"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/viewAccount.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>

@@ -56,7 +56,7 @@
 				</div>
 
 				<div class="panel-body">
-					<a href="searchAccount"> <span class="pull-left">View
+					<a href="viewAccount"> <span class="pull-left">View
 							Accounts</span> <span class="pull-right"> <i
 							class="glyphicon glyphicon-circle-arrow-right"></i>
 					</span></a>
