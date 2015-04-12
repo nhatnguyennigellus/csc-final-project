@@ -35,4 +35,8 @@ public class SavingAccountService {
 	public boolean updateSavingAccount(SavingAccount account) {
 		return savingAccountDAO.updateSavingAccount(account);
 	}
+
+	public SavingAccount findAccount(String accountNumber) {
+		return savingAccountDAO.findAccount(accountNumber);
+	}
 }

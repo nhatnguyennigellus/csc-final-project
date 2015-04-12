@@ -128,4 +128,11 @@ public class SavingAccountDAO {
 		}
 		return true;
 	}
+
+	public SavingAccount findAccount(String accountNumber) {
+		EntityManager entityManager = EntityManagerFactoryUtil
+				.createEntityManager();
+		
+		return entityManager.find(SavingAccount.class, accountNumber);
+	}
 }

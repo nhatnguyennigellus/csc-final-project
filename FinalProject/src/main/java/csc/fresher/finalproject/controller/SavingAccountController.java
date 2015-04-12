@@ -85,4 +85,13 @@ public class SavingAccountController {
 		
 		return "viewAccount";
 	}
+	
+	@RequestMapping(value="/modifyAccount")
+	public String modifyAccount(Model model){
+		SavingAccount savingAccount = accountService.findAccount("12345");
+		
+		model.addAttribute("account", savingAccount);
+		
+		return "modifyAccount";
+	}
 }
