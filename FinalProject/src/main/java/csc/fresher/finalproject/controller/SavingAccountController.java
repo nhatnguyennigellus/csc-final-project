@@ -91,7 +91,7 @@ public class SavingAccountController {
 	
 	@RequestMapping(value="/modifyAccount")
 	public String modifyAccount(Model model){
-		SavingAccount savingAccount = accountService.findAccount("acc1");
+		SavingAccount savingAccount = accountService.findAccount("12345");
 		
 		model.addAttribute("account", savingAccount);
 		
