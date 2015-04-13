@@ -30,6 +30,11 @@ function validate(name){
 </script>
 </head>
 <body>
+	<div id="customerDiv" style="border: 1px solid black; width: 100%">
+		<form action="updateCustomer" method="post">
+		</form>
+	</div>
+	<div>
 	<form action="updateAccount" method="post">
 		<div class="form-group">
 		Account Number<br>
@@ -63,5 +68,6 @@ function validate(name){
 		<input type="submit" value="Save Changes">
 		</div>
 	</form>
+	</div>
 </body>
 </html>
