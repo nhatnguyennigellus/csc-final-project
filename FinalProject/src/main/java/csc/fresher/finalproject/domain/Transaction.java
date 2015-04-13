@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -26,10 +27,10 @@ public class Transaction {
 	@NotEmpty
 	private String type;
 
-	@NotEmpty
+	@NotNull
 	private double amount;
 
-	@NotEmpty
+	@NotNull
 	private Date date;
 
 	@NotEmpty

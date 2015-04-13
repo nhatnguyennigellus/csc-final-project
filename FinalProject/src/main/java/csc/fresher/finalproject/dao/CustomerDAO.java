@@ -7,12 +7,15 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.Customer;
 
-@Component
+@Repository("customerDAO")
 public class CustomerDAO {
+	
 	public List<Customer> getCustomers() {
 		EntityManager entityManager = EntityManagerFactoryUtil
 				.createEntityManager();

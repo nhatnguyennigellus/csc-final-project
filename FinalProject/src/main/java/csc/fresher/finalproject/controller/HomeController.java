@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +28,15 @@ import csc.fresher.finalproject.service.UserService;
 
 @Controller
 public class HomeController {
-	private UserService userService = new UserService();
-	private CustomerService customerService = new CustomerService();
-	private SavingAccountService accountService = new SavingAccountService();
-	private TransactionService transService = new TransactionService();
+	
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private SavingAccountService accountService;
+	@Autowired
+	private TransactionService transService;
 
 	/**
 	 * Redirects to Login Page
@@ -89,6 +95,12 @@ public class HomeController {
 	@RequestMapping(value = "/submitLogin")
 	public String submitLogin(Model model, HttpServletRequest request,
 			HttpServletResponse response) {
+		String username = request.getParameter("txtUsername");
+		String password = request.getParameter("txtPassword");
+		if (username.isEmpty() || password.isEmpty()) {
+			model.addAttribute("eNotify", "Please enter username and password!");
+			return ("login");
+		}
 		HttpSession session = request.getSession();
 		if (session.getAttribute(SessionName.USERNAME) == null) {
 			if (session.getAttribute(SessionName.LOGIN_ATTEMPT) != null
@@ -97,12 +109,12 @@ public class HomeController {
 						"You have been temporarily blocked. Please try again later!");
 				return ("login");
 			}
-			String username = request.getParameter("txtUsername");
+
 			if (!this.userService.checkUserActive(username)) {
 				model.addAttribute("eNotify", "This username was deactivated!");
 				return ("login");
 			}
-			String password = request.getParameter("txtPassword");
+
 			String isRememberPass = request.getParameter("cbRemember");
 			if (isRememberPass != null && isRememberPass.equals("yes")) {
 				Cookie useNameCookie = new Cookie(SessionName.USERNAME,

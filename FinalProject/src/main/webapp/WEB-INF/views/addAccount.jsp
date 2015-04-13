@@ -35,13 +35,14 @@
 							<c:if test="${addAccSuccess != null }">
 
 								<div class="alert alert-success" role="alert">${addAccSuccess }
-									<strong><a href="viewCustomer">Back to customer
-											list</a> or <a href="searchAccount">Back to account list</a></strong>
+									<strong><a href="viewCustomer" class="alert-link">Back
+											to customer list</a> or <a href="searchAccount"
+										class="alert-link">Back to account list</a></strong>
 								</div>
 							</c:if>
 							<div class="form-group col-md-6">
 								<label class="control-label" for="accountNumber">Account
-									Number</label> <font color="red">* <form:input
+									Number</label> <font color="red">* <form:input readonly="true"
 										id="accountNumber" class="form-control input-sm" type="text"
 										name="accountNumber" path="accountNumber" />
 								</font>
@@ -104,14 +105,14 @@
 </body>
 <script type="text/javascript">
 	$(function() {
-		$.validator.addMethod('minStrict', function (value, el, param) {
-		    return value > param;
+		$.validator.addMethod('minStrict', function(value, el, param) {
+			return value > param;
 		});
-		
+
 		$.validator.addMethod("exactlength", function(value, element, param) {
-			 return this.optional(element) || value.length == param;
-			}, jQuery.format("Please enter exactly {0} digits."));
-		
+			return this.optional(element) || value.length == param;
+		}, jQuery.format("Please enter exactly {0} digits."));
+
 		$("#frmAddAccount").validate({
 			rules : {
 				accountNumber : {
@@ -144,7 +145,7 @@
 					minStrict : "Balance Amount must be at least 1.000.000 VND"
 				}
 			},
-			
+
 		})
 	});
 </script>

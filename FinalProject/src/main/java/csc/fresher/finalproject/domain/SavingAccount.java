@@ -28,7 +28,6 @@ public class SavingAccount {
 	private String accountOwner;
 	
 	@NotNull 
-	@Min(value = 1000000)
 	private double balanceAmount;
 	
 	@NotNull
@@ -37,7 +36,6 @@ public class SavingAccount {
 	@NotNull
 	private Date startDate;
 	
-	@NotNull
 	private Date dueDate;
 
 	@NotNull

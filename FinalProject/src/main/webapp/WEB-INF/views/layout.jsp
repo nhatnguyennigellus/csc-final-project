@@ -95,9 +95,9 @@
 						data-target="#trans"><i class="glyphicon glyphicon-briefcase"></i>
 							&nbsp;Transaction <i class="glyphicon glyphicon-chevron-down"></i></a>
 						<ul id="trans" class="collapse">
-							<li><a href="searchTransaction"><i
+							<li><a href="listTransaction"><i
 									class="glyphicon glyphicon-time"></i> Search Transaction</a></li>
-							<li><a href="performTransaction"><i
+							<li><a href="accountTransaction"><i
 									class="glyphicon glyphicon-usd"></i> Perform Transaction</a></li>
 						</ul></li>
 

@@ -35,7 +35,7 @@
 							<c:if test="${addCusSuccess!= null }">
 
 								<div class="alert alert-success" role="alert">${addCusSuccess }
-									<strong><a href="viewCustomer">Back to customer
+									<strong><a href="viewCustomer" class="alert-link">Back to customer
 											list</a></strong>
 								</div>
 							</c:if>

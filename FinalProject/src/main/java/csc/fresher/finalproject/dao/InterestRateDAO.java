@@ -7,11 +7,12 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.SavingInterestRate;
 
-@Component
+@Repository("interestRateDAO")
 public class InterestRateDAO {
 	public List<SavingInterestRate> getInterestRateList() {
 		EntityManager entityManager = EntityManagerFactoryUtil

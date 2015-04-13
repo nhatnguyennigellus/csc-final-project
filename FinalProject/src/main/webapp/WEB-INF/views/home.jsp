@@ -33,7 +33,7 @@
 					</span></a>
 				</div>
 				<div class="panel-body">
-					<a href="addCustomer"> <span class="pull-left">Add
+					<a href="toAddCustomer"> <span class="pull-left">Add
 							Customer</span> <span class="pull-right"> <i
 							class="glyphicon glyphicon-circle-arrow-right"></i>
 					</span></a>
@@ -86,7 +86,7 @@
 					</span></a>
 				</div>
 				<div class="panel-body">
-					<a href="performTransaction"> <span class="pull-left">Perform
+					<a href="accountTransaction"> <span class="pull-left">Perform
 							Transaction </span> <span class="pull-right"> <i
 							class="glyphicon glyphicon-circle-arrow-right"></i>
 					</span></a>

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,8 +18,9 @@ import csc.fresher.finalproject.service.CustomerService;
 
 @Controller
 public class CustomerController {
-	private CustomerService customerService = new CustomerService();
-
+	@Autowired
+	CustomerService customerService;
+	
 	@RequestMapping(value = "/viewCustomer")
 	public String viewCustomer(Model model, HttpServletRequest request) {
 		List<Customer> listCustomer = customerService.getCustomerList();
