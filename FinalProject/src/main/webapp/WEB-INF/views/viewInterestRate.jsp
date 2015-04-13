@@ -1,5 +1,3 @@
-<%@page import="com.sun.xml.internal.txw2.Document"%>
-<%@page import="com.sun.org.apache.bcel.internal.generic.DLOAD"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -19,6 +17,11 @@
 	background-image: url("http://cdn2.inlinkz.com/load.gif");
 	background-repeat: no-repeat;
 	background-position: center;
+}
+
+.cell{
+	vertical-align: middle;
+	display: table-cell;
 }
 </style>
 <script type="text/javascript">
@@ -67,6 +70,7 @@
 	});
 
 	function onBlur(i){
+		checkSpan[i].removeClass();
 		checkSpan[i].text("");
 		checkDiv[i].addClass("loading");
 		
@@ -74,16 +78,20 @@
 			checkDiv[i].removeClass("loading");
 			
 			if(interestRate[i].val() == "" || period[i].val() == ""){
-				checkSpan[i].html("<font color ='red'><b>Value Require!</b></font>");
+				checkSpan[i].addClass("label label-danger");
+				checkSpan[i].text("Value Require");
 			}
 			else if(interestRate[i].val() != originalRate[i] && originalRate[i] != ""){
-				checkSpan[i].html("<font color ='#D1D116'><b>Changing!</b></font>");
+				checkSpan[i].addClass("label label-warning");
+				checkSpan[i].text("Changing");
 			} else if(originalRate[i] == ""){
-				checkSpan[i].html("<font color ='green'><b>Valid!</b></font>");
+				checkSpan[i].addClass("label label-success");
+				checkSpan[i].text("Valid");
 			} else{
-				checkSpan[i].html("<font color ='green'><b>Original!</b></font>");
+				checkSpan[i].addClass("label label-success");
+				checkSpan[i].text("Original");
 			}
-		}, 2000)
+		}, 1000)
 		
 		return true;
 	}
@@ -100,13 +108,13 @@
 		var j = 0;
 		while(j < 4){
 			if(j == 1){
-				cell1.innerHTML = "<input type='text' style='border: none;' value='" + i + "' id='id" + i + "' name='id" + i + "' readonly='readonly'/>";
+				cell1.innerHTML = "<input type='text' style='border: none; width: 100px; height: 34px;' value='" + i + "' id='id" + i + "' name='id" + i + "' readonly='readonly'/>";
 			} else if(j == 2){
 				cell2.innerHTML = "<input type='text' class='form-control' id='interestRate" + i + "' name='interestRate" + i + "' onblur='onBlur(" + i + ")'/>";
 			} else if(j == 3){
-				cell3.innerHTML = "<input type='text' class='form-control' id='period" + i + "' name='period" + i + "' onblur='onBlur(" + i + ")'/>";
+				cell3.innerHTML = "<input type='text' class='form-control' style='width: 100px;' id='period" + i + "' name='period" + i + "' onblur='onBlur(" + i + ")'/>";
 			} else{
-				cell4.innerHTML = "<div id='checkDiv" + i + "' style='width: 100px; height: 25px;'><span id='checkSpan" + i + "'></span></div>";
+				cell4.innerHTML = "<div id='checkDiv" + i + "' style='width: 100px; height: 34px; display: table;'><span id='checkSpan" + i + "' style='display: table-cell; vertical-align: middle;'></span></div>";
 			}
 			
 			j ++;
@@ -126,7 +134,7 @@
 <body>
 <%i = 1; %>
 	<form id="rateForm" action="changeRate" method="post">
-		<table class="table" id="rateTable" style="width: 60%;">
+		<table class="table" id="rateTable" style="width: 60%">
 			<tr>
 				<th>ID</th>
 				<th>Interest Rate</th>
@@ -135,14 +143,14 @@
 			</tr>
 			<c:forEach items="${rateList}" var="rate">
 				<tr class="rateRow">
-					<td><input type="text" style="border: none;" value="${rate.id }" id="id<%=i%>"
+					<td><input type="text" style="border: none; width: 100px; height: 34px;" value="${rate.id }" id="id<%=i%>"
 						name="id<%=i%>" readonly="readonly"/></td>
 					<td><input type="text" class="form-control" value="${rate.interestRate }"
 						id="interestRate<%=i%>" name="interestRate<%=i%>" onblur="onBlur(<%=i%>)" /></td>
-					<td><input type="text" style="border: none;" value="${rate.period }"
+					<td><input type="text" style="border: none; height: 34px; width: 100px;" value="${rate.period }"
 						id="period<%=i%>" name="period<%=i%>" readonly="readonly"/></td>
-					<td><div id="checkDiv<%=i%>" style="width: 100px; height: 25px;">
-							<span id="checkSpan<%=i%>"></span>
+					<td><div id="checkDiv<%=i%>" style="width: 100px; height: 34px; display: table;">
+							<span id="checkSpan<%=i%>" style="display: table-cell; vertical-align: middle;"></span>
 						</div></td>
 				</tr>
 				<%
@@ -150,8 +158,8 @@
 				%>
 			</c:forEach>
 		</table>
-		<input type="submit" id="saveChangeRate" value="Save Changes"><input
-			type="button" onclick="addRow()" value="Add Rate" />
+		<input type="submit" class="btn btn-primary" id="saveChangeRate" value="Save Changes" style="margin-right: 20px;"><input
+			type="button" class="btn btn-info" onclick="addRow()" value="Add Rate" />
 			
 		<input type="text" id="rowCount" name="rowCount" style="display: none;"/>
 	</form>

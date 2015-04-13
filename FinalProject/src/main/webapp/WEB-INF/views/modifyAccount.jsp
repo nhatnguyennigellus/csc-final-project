@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,6 +11,11 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function(){
+	alert($("#repeatable").val());
+	$("#repeatable").val("false");
+});
+
 function validate(name){
 	var control = $("#" + name);
 	if(control.val() == ""){
@@ -24,24 +30,31 @@ function validate(name){
 </script>
 </head>
 <body>
-	<form>
+	<form action="updateAccount" method="post">
 		<div class="form-group">
 		Account Number<br>
-		<input class="form-control" style="width: 15%; display: inline;" type="text" id="accountNumber" name="accountNumber" value="${account.accountNumber }" onblur="validate('accountNumber')"/><span id="checkaccountNumber"></span><br>
+		<input class="form-control" style="width: 15%; display: inline;" type="text"  id="accountNumber" name="accountNumber" value="${account.accountNumber }" onblur="validate('accountNumber')"/><span id="checkaccountNumber"></span><br>
 		Account Owner<br>
-		<input class="form-control" style="width: 25%; display: inline;" type="text" id="accountOwner" name="accountOwner" value="${account.accountOwner }" onblur="validate('accountOwner')"/><span id="checkaccountOwner"></span><br>
+		<input class="form-control" style="width: 25%; display: inline;" type="text"  id="accountOwner" name="accountOwner" value="${account.accountOwner }" onblur="validate('accountOwner')"/><span id="checkaccountOwner"></span><br>
 		Balance Amount<br>
 		<input class="form-control" style="width: 15%; display: inline;" type="text" id="balanceAmount" name="balanceAmount" value="${account.balanceAmount }" onblur="validate('balanceAmount')"/><span id="checkbalanceAmount"></span><br>
 		Interest<br>
-		<input class="form-control" style="width: 5%; display: inline;" type="text" id="interest" name="interest" value="${account.interest }" onblur="validate('interest')"/><span id="checkinterest"></span><br>
+		<input class="form-control" style="width: 5%; display: inline;" type="text"  id="interest" name="interest" value="${account.interest }" onblur="validate('interest')"/><span id="checkinterest"></span><br>
 		Start Date<br>
 		<input class="form-control" style="width: 10%; display: inline;" type="text" id="startDate" name="startDate" value="${account.startDate }"/><br>
 		Due Date<br>
 		<input class="form-control" style="width: 10%; display: inline;" type="text" id="dueDate" name="dueDate" value="${account.dueDate }"/><br>
 		Repeatable<br>
-		<input class="form-control" style="width: 5%; display: inline;" type="text" id="repeatable" name="repeatable" value="${account.repeatable }"/><br>
+		<select id="repeatable" name="repeatable" class="form-control" style="width: 10%;">
+			<option value="true">True</option>
+			<option value="false">False</option>
+		</select>
 		State<br>
-		<input class="form-control" style="width: 5%; display: inline;" type="text" id="state" name="state" value="${account.state }"/><br>
+		<select id="state" name="state" class="form-control" style="width: 10%;">
+			<option value="active">Active</option>
+			<option value="hold">Hold</option>
+			<option value="done">Done</option>
+		</select>
 		Customer ID<br>
 		<input class="form-control" style="width: 5%; display: inline;" type="text" id="customerId" name="customerId" value="${account.customer.customerId }"/><br>
 		Interest ID<br>

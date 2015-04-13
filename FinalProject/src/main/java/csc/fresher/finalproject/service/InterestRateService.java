@@ -20,6 +20,10 @@ public class InterestRateService {
 		return rateDAO.getInterestRateByPeriod(interestRatePeriod);
 	}
 	
+	public SavingInterestRate getInterestRateById(int id){
+		return rateDAO.getInterestRateById(id);
+	}
+	
 	public boolean updateRate(List<SavingInterestRate> rateList){
 		boolean result = true;
 		

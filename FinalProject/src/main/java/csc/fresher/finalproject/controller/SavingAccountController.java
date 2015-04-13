@@ -1,5 +1,8 @@
 package csc.fresher.finalproject.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -88,10 +91,45 @@ public class SavingAccountController {
 	
 	@RequestMapping(value="/modifyAccount")
 	public String modifyAccount(Model model){
-		SavingAccount savingAccount = accountService.findAccount("12345");
+		SavingAccount savingAccount = accountService.findAccount("acc1");
 		
 		model.addAttribute("account", savingAccount);
 		
 		return "modifyAccount";
+	}
+	
+	@RequestMapping(value="/updateAccount", method = RequestMethod.POST)
+	public String udpateAccount(Model model, HttpServletRequest request){
+		String accountNumber = request.getParameter("accountNumber");
+		String accountOwner = request.getParameter("accountOwner");
+		double balanceAmount = Double.parseDouble(request.getParameter("balanceAmount"));
+		double interest = Double.parseDouble(request.getParameter("interest"));
+		
+		String repeatableString = request.getParameter("repeatable");
+		boolean repeatable = false;
+		if(repeatableString == "True"){
+			repeatable = true;
+		}
+		
+		String state = request.getParameter("state");
+		
+		int customerId = Integer.parseInt(request.getParameter("customerId"));
+		int interestId = Integer.parseInt(request.getParameter("interestId"));
+		
+		Customer customer = customerService.getCustomerById(customerId);
+		SavingInterestRate savingInterestRate = rateService.getInterestRateById(interestId);
+		
+		SavingAccount savingAccount = new SavingAccount(accountNumber, accountOwner, balanceAmount, interest, repeatable, state, customer, savingInterestRate);
+		
+		boolean result = accountService.updateSavingAccount(savingAccount);
+		if(!result){
+			model.addAttribute("notify", "<font color='red'>Cannot update Account!</font>");
+		} else{
+			model.addAttribute("notify", "<font color='green'>Updated Account!</font>");
+		}
+				
+		model.addAttribute("account", savingAccount);
+		
+		return "redirect:modifyAccount";
 	}
 }
