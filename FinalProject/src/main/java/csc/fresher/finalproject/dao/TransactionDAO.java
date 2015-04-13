@@ -37,11 +37,11 @@ public class TransactionDAO {
 		Transaction transaction = null;
 		try {
 			enTr.begin();
-//			TypedQuery<Transaction> query = entityManager.createQuery(
-//					"SELECT t FROM Transaction t WHERE t.id = ?1",
-//					Transaction.class);
-//			query.setParameter(1, id);
-//			transaction = query.getSingleResult();
+			// TypedQuery<Transaction> query = entityManager.createQuery(
+			// "SELECT t FROM Transaction t WHERE t.id = ?1",
+			// Transaction.class);
+			// query.setParameter(1, id);
+			// transaction = query.getSingleResult();
 			transaction = entityManager.find(Transaction.class, id);
 			enTr.commit();
 		} catch (Exception e) {
@@ -113,12 +113,14 @@ public class TransactionDAO {
 			enTr.begin();
 			TypedQuery<Transaction> query = entityManager
 					.createQuery(
-							"SELECT t FROM Transaction t WHERE t.state = ?1 AND t.type=?2 AND t.savingAccount LIKE ?3",
+							"SELECT t FROM Transaction t WHERE t.state LIKE ?1 AND t.type LIKE ?2 AND t.savingAccount.accountNumber LIKE ?3",
 							Transaction.class);
-			query.setParameter(1, transaction.getState() == null ? ""
+			query.setParameter(1, transaction.getState() == "" ? "%"
 					: transaction.getState());
-			query.setParameter(2, transaction.getType()==null?"":transaction.getState());
-			query.setParameter(3, transaction.getSavingAccount()==null?"%%":"%"+transaction.getSavingAccount()+"%");
+			query.setParameter(2, transaction.getType() == "" ? "%"
+					: transaction.getState());
+			query.setParameter(3, "%"
+					+ transaction.getSavingAccount().getAccountNumber() + "%");
 			transactions = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();

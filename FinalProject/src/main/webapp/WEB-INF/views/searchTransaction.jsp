@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h3>FILL IN TRANSACTION INFORMATION</h3>
-	<form action="searchAccount" method="POST" >
+	<form action="searchTransaction" method="POST" >
 		<fieldset>
 			<legend>Search By Transaction Details:</legend>
 			Account number: <input type="text" name="accountNumber" /><br>

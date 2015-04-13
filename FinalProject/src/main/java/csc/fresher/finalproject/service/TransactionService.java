@@ -47,7 +47,7 @@ public class TransactionService {
 			state = Character.toUpperCase(state.charAt(0)) + state.substring(1);
 		}
 		if (state.equalsIgnoreCase("all")) {
-			type="";
+			state="";
 		}
 		if (type.equalsIgnoreCase(TransactionConstants.TYPE_DEPOSIT)
 				|| type.equalsIgnoreCase(TransactionConstants.TYPE_WITHDRAW_BALANCE)
@@ -57,7 +57,9 @@ public class TransactionService {
 		if (type.equalsIgnoreCase("all")) {
 			type = "";
 		}
-		SavingAccount account = accountDao.getAccountByAccNumber(accountNumber);
+		//SavingAccount account = accountDao.getAccountByAccNumber(accountNumber);
+		SavingAccount account = new SavingAccount();
+		account.setAccountNumber(accountNumber);
 		transaction.setState(state);
 		transaction.setType(type);
 		transaction.setSavingAccount(account);

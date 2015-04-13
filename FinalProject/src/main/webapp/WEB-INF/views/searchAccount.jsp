@@ -45,13 +45,14 @@
 								<td>${account.customer.lastName }&nbsp;${account.customer.firstName }
 								<td>${account.accountOwner }</td>
 								<td><fmt:formatNumber value="${account.balanceAmount }" type="number"/></td>
-								<!-- fix -->
+								<!-- fix if period ==0 => nolimit-->
 								<td>${account.interestRate.period }</td>
 								<td>${account.interest }</td>
 								<td><fmt:formatDate value="${account.startDate }" type="date"/></td>
 								<td><fmt:formatDate value="${account.dueDate }" type="date"/></td>
 								<td>${account.repeatable }</td>
 								<td>${account.state }</td>
+								<td><a href="modifyAccount?accNumber="><button>Edit Account</button></a></td>
 								
 							</tr>
 						</c:forEach>

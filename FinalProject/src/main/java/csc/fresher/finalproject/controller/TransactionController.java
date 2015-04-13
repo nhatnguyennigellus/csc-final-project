@@ -49,6 +49,7 @@ public class TransactionController {
 	 * @return
 	 * @author vinh-tp
 	 */
+	@RequestMapping(value="/searchTransaction",method=RequestMethod.POST)
 	public String doSearchTransaction(HttpServletRequest request, Model model) {
 		// TODO check authentication
 		String state = request.getParameter("transactionState");
