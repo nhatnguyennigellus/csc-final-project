@@ -12,28 +12,32 @@
 
 </head>
 <body>
-	
+
 	<div class="col-md-4 col-md-offset-3">
-	<h1>Login</h1>
+		<h1>Login</h1>
 		<div class="panel panel-info">
 
 			<div class="panel-body">
+				<c:if test="${not empty error}">
+					<div class="alert alert-danger" role="alert">${error}</div>
+				</c:if>
+				<c:if test="${not empty msg}">
+					<div class="alert alert-primary" role="alert">${msg}</div>
+				</c:if>
 
-				<form action="submitLogin.html" method="post">
-					<c:if test="${eNotify != null }">
+				<form name='loginForm'
+					action="<c:url value='/j_spring_security_check' />" method='POST'>
 
-						<div class="alert alert-danger" role="alert">${eNotify }</div>
-					</c:if>
 					<div class="form-group">
-						<label for="txtUsername">Username</label> <font color="red"><input
-							class="form-control" type="text" name="txtUsername"
+						<label for="username">Username</label> <font color="red"><input
+							class="form-control" type="text" name="username"
 							class="textBox"
 							value="<%=CookieUtilities.getCookieValue(request,
 					SessionName.USERNAME, "")%>" /></font>
 					</div>
 					<div class="form-group">
-						<label for="txtPassword">Password</label> <font color="red"><input
-							class="form-control" type="password" name="txtPassword"
+						<label for="password">Password</label> <font color="red"><input
+							class="form-control" type="password" name="password"
 							value="<%=CookieUtilities.getCookieValue(request,
 					SessionName.PASSWORD, "")%>" /></font>
 					</div>
@@ -43,7 +47,8 @@
 						</label>
 					</div>
 					<input class="btn btn-success" type="submit" name="btLogin"
-						value="Login" class="button" />
+						value="Login" class="button" /> <input type="hidden"
+						name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 				</form>
 			</div>

@@ -26,7 +26,7 @@
 			<div class="col-md-8 col-md-offset-2">
 				<div class="panel panel-info">
 					<div class="panel-body">
-						<form action="performTransaction" method="post">
+						<form action="<c:url value='/performTransaction' />" method="get">
 							<c:if test="${accTransError != null }">
 								<div class="alert alert-danger" role="alert">${accTransError }</div>
 							</c:if>

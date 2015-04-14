@@ -3,6 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -64,18 +66,21 @@
 									">
 												${transaction.state}</span>
 										</h4></td>
-									<td><c:if test="${transaction.state == 'Pending' }">
-											<a href="approveTransaction?transactionId=${transaction.id }">
-												<button type="button" class="btn btn-success btn-sm">
-													<span class="glyphicon glyphicon-ok"></span>
-												</button>
-											</a>
-											<a href="rejectTransaction?transactionId=${transaction.id }">
-												<button type="button" class="btn btn-danger btn-sm">
-													<span class="glyphicon glyphicon-remove"></span>
-												</button>
-											</a>
-										</c:if></td>
+									<td><sec:authorize access="hasRole('Admin')">
+											<c:if test="${transaction.state == 'Pending' }">
+												<a
+													href="approveTransaction?transactionId=${transaction.id }">
+													<button type="button" class="btn btn-success btn-sm">
+														<span class="glyphicon glyphicon-ok"></span>
+													</button>
+												</a>
+												<a href="rejectTransaction?transactionId=${transaction.id }">
+													<button type="button" class="btn btn-danger btn-sm">
+														<span class="glyphicon glyphicon-remove"></span>
+													</button>
+												</a>
+											</c:if>
+										</sec:authorize></td>
 								</tr>
 							</c:forEach>
 						</tbody>

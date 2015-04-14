@@ -18,7 +18,7 @@ public class CronAccount {
 	@Autowired
 	private TransactionService transactionService;
 
-	@Scheduled(cron = "0 45 1 * * ?")
+	@Scheduled(cron = "0 0 0 * * ?")
 	public void updateAccount() {
 		/* System.out.println("task run!"); */
 

@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><tiles:insertAttribute name="title" ignore="true" /></title>
 <link rel="shortcut icon"
-	href="<c:url value='/resources/images/logo.png'/>" />
+	href="<c:url value='/resources/images/csc.png'/>" />
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/jquery-ui.css'/> ">
 <link rel="stylesheet"
@@ -22,8 +22,20 @@
 	href="<c:url value='/resources/css/sb-admin.css'/> ">
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/resources/font-awesome/css/font-awesome.min.css'/> ">
-
-
+<style>
+#footer {
+	background: #1878C6;
+	width: 100%;
+	height: 30px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	z-index: 1;
+	vertical-align: middle;
+	padding-top: 4px;
+}
+</style>
 
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.js' />"></script>
@@ -32,7 +44,7 @@
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery-1.10.2.min.js' />"></script>
 <script type="text/javascript"
-	src="<c:url value='/resources/js/bootstrap.js'/> "></script>
+	src="<c:url value='/resources/js/bootstrap.js'/>"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery.dataTables.js' />"></script>
 <script type="text/javascript"
@@ -60,27 +72,33 @@
 				alt="" />
 			</a>
 		</div>
-		<!-- Top Menu Items --> <c:if test="${sessionScope.USER != null }">
+		<!-- Top Menu Items --> <c:if test="${pageContext.request.userPrincipal.name != null}">
 			<ul class="nav navbar-right top-nav">
 
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"><i class="fa fa-user"></i>
-						${sessionScope.USER.username} <b class="caret"></b></a>
+					data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i>
+						${sessionScope.USER.username} <b class="caret"></b></a> 
+						
+						<c:url	value="/j_spring_security_logout" var="logoutUrl" />
+					<form action="${logoutUrl}" method="post" id="logoutForm">
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
+					</form>
 					<ul class="dropdown-menu">
 
-						<li><a href="logout"><i class="fa fa-fw fa-power-off"></i>
+						<li><a href="javascript:formSubmit()"><i class="fa fa-fw fa-power-off"></i>
 								Log Out</a></li>
 					</ul></li>
 			</ul>
 		</c:if> <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-		<c:if test="${sessionScope.USER != null }">
+		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav side-nav">
 					<li class="active"><a href="home"><i
 							class="glyphicon glyphicon-home"></i> &nbsp;Dashboard</a></li>
 					<li><a href="javascript:;" data-toggle="collapse"
 						data-target="#customer"><i class="glyphicon glyphicon-user"></i>
-							&nbsp;Customer <i class="glyphicon glyphicon-chevron-down"></i></a>
+							&nbsp;Customer &nbsp;<i class="glyphicon glyphicon-chevron-down"></i></a>
 						<ul id="customer" class="collapse">
 							<li><a href="viewCustomer"><i
 									class="glyphicon glyphicon-th-list"></i> Customer List</a></li>
@@ -93,7 +111,8 @@
 							class="glyphicon glyphicon-search"></i> &nbsp;Interest Rate</a></li>
 					<li><a href="javascript:;" data-toggle="collapse"
 						data-target="#trans"><i class="glyphicon glyphicon-briefcase"></i>
-							&nbsp;Transaction <i class="glyphicon glyphicon-chevron-down"></i></a>
+							&nbsp;Transaction &nbsp;<i
+							class="glyphicon glyphicon-chevron-down"></i></a>
 						<ul id="trans" class="collapse">
 							<li><a href="listTransaction"><i
 									class="glyphicon glyphicon-time"></i> Search Transaction</a></li>
@@ -121,11 +140,16 @@
 			<!-- /.container-fluid -->
 
 		</div>
-		<div class="col-md-12">
+		<div id="footer"><img src="<c:url value='/resources/images/csc.png'/>" width="25px">
 			<font color="white">CSC Java Fresher Mar 2015 - Final Project</font>
 		</div>
 		<!-- /#page-wrapper -->
 
 	</div>
 </body>
+<script>
+	function formSubmit() {
+		document.getElementById("logoutForm").submit();
+	}
+</script>
 </html>

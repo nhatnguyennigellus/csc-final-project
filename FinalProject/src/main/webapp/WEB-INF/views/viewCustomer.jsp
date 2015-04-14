@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -49,11 +51,15 @@
 									<p>${customer.phone2}</p>
 								</td>
 								<td>${customer.email}</td>
-								<td><a href="toAddAccount?customerId=${customer.customerId }">
+								<td>
+								<sec:authorize access="hasRole('Support')">
+								<a
+									href="toAddAccount?customerId=${customer.customerId }">
 										<button type="button" class="btn btn-primary btn-sm">
 											<span class="glyphicon glyphicon-book"></span>
 										</button>
-								</a></td>
+								</a>
+								</sec:authorize></td>
 							</tr>
 						</c:forEach>
 					</tbody>

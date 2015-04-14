@@ -1,0 +1,50 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+ 
+    <!-- enable use-expressions -->
+	<http auto-config="true" use-expressions="true">
+ 
+		<intercept-url pattern="/accountTransaction" access="hasAnyRole('Support')" />
+		<intercept-url pattern="/performTransaction" access="hasAnyRole('Support')" />
+		<intercept-url pattern="/searchTransaction" access="hasAnyRole('Admin', 'Support')" />
+		<intercept-url pattern="/searchAccount" access="hasAnyRole('Admin', 'Support')" />
+		<intercept-url pattern="/listTransaction" access="hasAnyRole('Admin', 'Support')" />
+		<intercept-url pattern="/viewCustomer" access="hasAnyRole('Admin', 'Support')" />
+		<intercept-url pattern="/toAddCustomer" access="hasAnyRole('Support')" />
+		<intercept-url pattern="/addCustomer" access="hasAnyRole('Support')" />
+		<intercept-url pattern="/toAddAccount" access="hasAnyRole('Support')" />
+		<intercept-url pattern="/addAccount" access="hasAnyRole('Support')" />
+		<intercept-url pattern="/viewinterestRate" access="hasAnyRole('Admin')" />
+		<intercept-url pattern="/home" access="hasAnyRole('Admin', 'Support')" />
+ 
+		<!-- access denied page -->
+		<access-denied-handler error-page="/403" />
+ 
+		<form-login 
+		    login-page="/login" 
+		    default-target-url="/home" 
+			authentication-failure-url="/login?error" 
+			username-parameter="username"
+			password-parameter="password" />
+		<logout logout-success-url="/login?logout"  />
+		<!-- enable csrf protection -->
+		<csrf/>
+	</http>
+ 
+	<!-- Select users and user_roles from database -->
+	<authentication-manager>
+	  <authentication-provider>
+		<jdbc-user-service data-source-ref="dataSource"
+		  users-by-username-query=
+		    "select username, password, enable from user where username=?"
+		  authorities-by-username-query=
+		    "select username, role from user where username =?  " />
+	  </authentication-provider>
+	</authentication-manager>
+ 
+</beans:beans>

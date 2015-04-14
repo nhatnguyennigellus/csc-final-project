@@ -37,8 +37,8 @@ public class TransactionController {
 	private UserService userService;
 
 	@RequestMapping(value = "/accountTransaction")
-	public String performTransaction() {
-		return "accountTransaction";
+	public ModelAndView performTransaction() {
+		return new ModelAndView("accountTransaction");
 	}
 
 	@RequestMapping(value = "/listTransaction")
@@ -48,7 +48,7 @@ public class TransactionController {
 		return "listTransaction";
 	}
 
-	@RequestMapping(value = "/performTransaction")
+	@RequestMapping(value = "/performTransaction", method = { RequestMethod.POST, RequestMethod.GET })
 	public ModelAndView getAccountTransaction(Model model,
 			HttpServletRequest request) {
 		String accNumber = request.getParameter("accountNumber");

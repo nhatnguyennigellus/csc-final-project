@@ -1,15 +1,23 @@
 package csc.fresher.finalproject.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import csc.fresher.finalproject.domain.User;
@@ -28,7 +36,7 @@ import csc.fresher.finalproject.service.UserService;
 
 @Controller
 public class HomeController {
-	
+
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -44,25 +52,36 @@ public class HomeController {
 	 * @param model
 	 * @return Login Page
 	 */
-	@RequestMapping(value = "/login")
-	public String redirectLogin(Model model) {
-		return ("login");
-	}
-
-	/**
-	 * Logout customer account and redirects to Login Page
-	 * 
-	 * @param request
-	 * @param response
-	 * @return Login View
-	 */
-	@RequestMapping(value = "/logout")
-	public ModelAndView redirectLogout(HttpServletRequest request,
-			HttpServletResponse response) {
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView redirectLogin(
+			@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout,
+			HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView();
 		HttpSession session = request.getSession();
-		session.invalidate();
-		ModelAndView mv = new ModelAndView("login");
-		return mv;
+
+		if (session.getAttribute(SessionName.USER) != null) {
+			model.setViewName("home");
+			
+			try {
+				response.sendRedirect("home");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return model;
+		}
+
+		if (error != null) {
+			model.addObject("error", "Invalid username and password!");
+		}
+
+		if (logout != null) {
+			model.addObject("msg", "You've been logged out successfully.");
+		}
+		model.setViewName("login");
+
+		return model;
 	}
 
 	/**
@@ -72,7 +91,15 @@ public class HomeController {
 	 * @return Home Page
 	 */
 	@RequestMapping(value = "/home")
-	public String redirectHome(Model model) {
+	public String redirectHome(Model model, HttpServletRequest request) {
+		request.getSession().removeAttribute(SessionName.LOGIN_ATTEMPT);
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		String username = auth.getName();
+		User user = userService.getUserByUsername(username);
+		HttpSession session = request.getSession();
+		session.setAttribute(SessionName.USER, user);
+
 		model.addAttribute("CustomerNo", customerService.getCustomerList()
 				.size());
 		model.addAttribute("AccountNo", accountService.getSavingAccounts()
@@ -83,80 +110,21 @@ public class HomeController {
 		return ("home");
 	}
 
-	/**
-	 * Submits Login Form and redirects to Home Page if login succeeds or back
-	 * to Login Page if fails
-	 * 
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return Login Page or Home Page
-	 */
-	@RequestMapping(value = "/submitLogin")
-	public String submitLogin(Model model, HttpServletRequest request,
-			HttpServletResponse response) {
-		String username = request.getParameter("txtUsername");
-		String password = request.getParameter("txtPassword");
-		if (username.isEmpty() || password.isEmpty()) {
-			model.addAttribute("eNotify", "Please enter username and password!");
-			return ("login");
+	@RequestMapping(value = "/403", method = RequestMethod.GET)
+	public ModelAndView accesssDenied() {
+
+		ModelAndView model = new ModelAndView();
+
+		// check if user is login
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			model.addObject("username", userDetail.getUsername());
 		}
-		HttpSession session = request.getSession();
-		if (session.getAttribute(SessionName.USERNAME) == null) {
-			if (session.getAttribute(SessionName.LOGIN_ATTEMPT) != null
-					&& (int) session.getAttribute(SessionName.LOGIN_ATTEMPT) == 3) {
-				model.addAttribute("eNotify",
-						"You have been temporarily blocked. Please try again later!");
-				return ("login");
-			}
 
-			if (!this.userService.checkUserActive(username)) {
-				model.addAttribute("eNotify", "This username was deactivated!");
-				return ("login");
-			}
-
-			String isRememberPass = request.getParameter("cbRemember");
-			if (isRememberPass != null && isRememberPass.equals("yes")) {
-				Cookie useNameCookie = new Cookie(SessionName.USERNAME,
-						request.getParameter("txtUsername"));
-				useNameCookie.setMaxAge(3600);
-				response.addCookie(useNameCookie);
-
-				Cookie passwordCookie = new Cookie(SessionName.PASSWORD,
-						request.getParameter("txtPassword"));
-				passwordCookie.setMaxAge(3600);
-				response.addCookie(passwordCookie);
-			}
-			User user = this.userService.checkUserAuthentication(username,
-					password);
-			if (user != null) {
-				session.setAttribute(SessionName.USER, user);
-
-				return "redirect:home";
-			}
-			model.addAttribute("eNotify", "Invalid Username or Password");
-
-			int attempt = 0;
-			if (session.getAttribute(SessionName.LOGIN_ATTEMPT) == null) {
-				session.setAttribute(SessionName.LOGIN_ATTEMPT, 1);
-			} else {
-				attempt = (int) session.getAttribute(SessionName.LOGIN_ATTEMPT);
-				session.setAttribute(SessionName.LOGIN_ATTEMPT, attempt + 1);
-
-			}
-
-			if ((int) session.getAttribute(SessionName.LOGIN_ATTEMPT) == 3) {
-				System.out.println("Block!");
-				session.setMaxInactiveInterval(30);
-				model.addAttribute("eNotify",
-						"Too many login attempts. Please try again later!");
-			}
-
-			return ("login");
-		} else {
-			return ("redirect:home");
-		}
+		model.setViewName("403");
+		return model;
 
 	}
-
 }
