@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import csc.fresher.finalproject.domain.Customer;
+import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.service.CustomerService;
+import csc.fresher.finalproject.service.SavingAccountService;
 
 @Controller
 public class CustomerController {
 	private CustomerService customerService = new CustomerService();
+	private SavingAccountService accountService = new SavingAccountService();
 
 	@RequestMapping(value = "/viewCustomer")
 	public String viewCustomer(Model model, HttpServletRequest request) {
@@ -48,5 +51,30 @@ public class CustomerController {
 		}
 
 		return "addCustomer";
+	}
+	
+	@RequestMapping(value = "/updateCustomer", method = RequestMethod.POST)
+	public String updateCustomer(Model model, HttpServletRequest request){
+		int id = Integer.parseInt(request.getParameter("customerID"));
+		String firstName = request.getParameter("customerFirstName");
+		String middleName = request.getParameter("customerMiddleName");
+		String lastName = request.getParameter("customerLastName");
+		String address1 = request.getParameter("address1");
+		String address2 = request.getParameter("address2");
+		String phone1 = request.getParameter("phone1");
+		String phone2 = request.getParameter("phone2");
+		String email = request.getParameter("email");
+		String idCardNumber = request.getParameter("idCard");
+		String currentAccountNumber = request.getParameter("currentAccount");
+		
+		Customer customer = new Customer(id, firstName, middleName, lastName, address1, address2, phone1, phone2, email, idCardNumber);
+		SavingAccount currentAccount = accountService.getSavingAccountByNumber(currentAccountNumber);
+		
+		boolean result = customerService.updateCustomer(customer);
+		
+		model.addAttribute("customer", customer);
+		model.addAttribute("account", currentAccount);
+		
+		return "redirect:modifyAccount";
 	}
 }

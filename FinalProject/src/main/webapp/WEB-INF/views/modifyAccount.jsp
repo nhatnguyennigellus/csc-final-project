@@ -14,62 +14,69 @@
 	$(document).ready(function() {
 		$("#repeatable").val("${account.repeatable}");
 		$("#state").val("${account.state}");
+		
+		$("#customerForm").submit(function(){
+			if($("#customerFirstName").val() == "" || $("#customerLastName").val() == "" || $("#address1").val() == "" || $("#address2").val() == "" || $("#phone1").val() == "" || $("#phone2").val() == "" || $("#email").val() == "" || $("#idCard").val() == ""){
+				alert("Please input valid value for all customer fields!")
+				return false;
+			}
+			
+			return true;
+		});
+		
+		$("#accountForm").submit(function(){
+			if($("#balanceAmount").val() == "" || $("#accountOwner").val() == "" || $("#interest").val() == ""){
+				alert("Please input valid value for all account fields!")
+				return false;
+			}
+			
+			return true;
+		});
 	});
 
+	
+	
 	function validate(name) {
 		var control = $("#" + name);
-		if (control.val() == "") {
-			if (control.attr("id") == "accountNumber") {
-				$("#check" + control.attr("id")).html(
-						"<font color='red'> NULL</font>");
-			}
-		} else {
-			$("#check" + control.attr("id")).html(
-					"<font color='green'> Valid</font>");
+		var checkSpan = $("#check" + control.attr("id"));
+		checkSpan.text("");
+
+		if (control.val() == "" && control.attr("id") != "customerMiddleName") {
+			checkSpan.removeClass("label label-success");
+			checkSpan.addClass("label label-danger");
+			checkSpan.text("Value Require");
+		} else if(control.val() != "") {
+			checkSpan.removeClass("label label-danger");
+			checkSpan.addClass("label label-success");
+			checkSpan.text("Valid");
 		}
 	}
 </script>
 </head>
 <body>
-	<div id="customerDiv" style="border: 1px solid black; width: 100%">
-		<form action="updateCustomer" method="post">
-			Customer ID: <input class="form-control" style="width: 10%; display: inline; margin-right: 5%;" type="text" id="customerID" name="customerID" value="${customer.customerId }" readonly="readonly"/><br>
-			First Name: <input class="form-control" style="width: 20%; display: inline; margin-right: 5%; margin-top: 5px;" type="text" id="customerFirstName" name="customerFirstName" value="${customer.firstName }" onblur="validate('customerFirstName')" /><span id="checkcustomerFirstName"></span>
-			Middle Name: <input class="form-control" style="width: 20%; display: inline; margin-right: 5%;" type="text" id="customerMiddleName" name="customerMiddleName" value="${customer.middleName }" onblur="validate('customerMiddleName')" /><span id="checkcustomerMiddleName"></span>
-			Last Name: <input class="form-control" style="width: 20%; display: inline; margin-right: 5%;" type="text" id="customerLastName" name="customerLastName" value="${customer.lastName }" onblur="validate('customerLastName')" /><span id="checkcustomerLastName"></span><br>
-			Address 1: <input class="form-control" style="width: 30%; display: inline; margin-right: 5%; margin-top: 5px;" type="text" id="accountNumber" name="accountNumber" value="${account.accountNumber }" onblur="validate('accountNumber')" /><span id="checkaccountNumber"></span>
-			Address 2: <input
-				class="form-control"
-				style="width: 30%; display: inline; margin-right: 5%;" type="text"
-				id="accountNumber" name="accountNumber"
-				value="${account.accountNumber }" onblur="validate('accountNumber')" /><span
-				id="checkaccountNumber"></span><br>
-				Phone 1: <input
-				class="form-control"
-				style="width: 15%; display: inline; margin-right: 5%; margin-top: 5px;" type="text"
-				id="accountNumber" name="accountNumber"
-				value="${account.accountNumber }" onblur="validate('accountNumber')" /><span
-				id="checkaccountNumber"></span> Phone 2: <input
-				class="form-control"
-				style="width: 15%; display: inline; margin-right: 5%;" type="text"
-				id="accountNumber" name="accountNumber"
-				value="${account.accountNumber }" onblur="validate('accountNumber')" /><span
-				id="checkaccountNumber"></span>
-				Email: <input
-				class="form-control"
-				style="width: 15%; display: inline; margin-right: 5%; margin-top: 5px;" type="text"
-				id="accountNumber" name="accountNumber"
-				value="${account.accountNumber }" onblur="validate('accountNumber')" /><span
-				id="checkaccountNumber"></span> ID Card Number: <input
-				class="form-control"
-				style="width: 15%; display: inline; margin-right: 5%;" type="text"
-				id="accountNumber" name="accountNumber"
-				value="${account.accountNumber }" onblur="validate('accountNumber')" /><span
-				id="checkaccountNumber"></span>
+	<div id="customerDiv" class="panel panel-primary" style="width: 100%">
+	<div class="panel-heading">Customer</div>
+	<div class="panel-body">
+		<form id="customerForm" action="updateCustomer" method="post">
+			Customer ID: <input class="form-control" style="width: 10%; display: inline; margin-right: 2%;" type="text" id="customerID" name="customerID" value="${customer.customerId }" readonly="readonly"/><br>
+			First Name: <input class="form-control" style="width: 15%; display: inline; margin-right: 2%; margin-top: 5px; margin-left: 2%;" type="text" id="customerFirstName" name="customerFirstName" value="${customer.firstName }" onblur="validate('customerFirstName')" /><span id="checkcustomerFirstName" style="width: 100px; height: 34px;"></span>
+			Middle Name: <input class="form-control" style="width: 15%; display: inline; margin-right: 2%; margin-left: 2%;" type="text" id="customerMiddleName" name="customerMiddleName" value="${customer.middleName }" onblur="validate('customerMiddleName')" /><span id="checkcustomerMiddleName" style="width: 100px; height: 34px;"></span>
+			Last Name: <input class="form-control" style="width: 15%; display: inline; margin-right: 2%; margin-left: 2%;" type="text" id="customerLastName" name="customerLastName" value="${customer.lastName }" onblur="validate('customerLastName')" /><span id="checkcustomerLastName" style="width: 100px; height: 34px;"></span><br>
+			Address 1: <input class="form-control" style="width: 30%; display: inline; margin-right: 2%; margin-top: 5px; margin-left: 2%;" type="text" id="address1" name="address1" value="${customer.address1 }" onblur="validate('address1')" /><span id="checkaddress1" style="width: 100px; height: 34px;"></span>
+			Address 2: <input class="form-control" style="width: 30%; display: inline; margin-right: 2%; margin-left: 2%;" type="text" id="address2" name="address2" value="${customer.address2 }" onblur="validate('address2')" /><span id="checkaddress2" style="width: 100px; height: 34px;"></span><br>
+			Phone 1: <input class="form-control" style="width: 15%; display: inline; margin-right: 2%; margin-top: 5px; margin-left: 2%;" type="text" id="phone1" name="phone1" value="${customer.phone1 }" onblur="validate('phone1')" /><span id="checkphone1" style="width: 100px; height: 34px;"></span>
+			Phone 2: <input class="form-control" style="width: 15%; display: inline; margin-right: 2%; margin-left: 2%;" type="text" id="phone2" name="phone2" value="${customer.phone2 }" onblur="validate('phone2')" /><span id="checkphone2" style="width: 100px; height: 34px;"></span><br>
+			Email: <input class="form-control" style="width: 15%; display: inline; margin-right: 2%; margin-top: 5px; margin-left: 2%;" type="text" id="email" name="email" value="${customer.email }" onblur="validate('email')" /><span id="checkemail" style="width: 100px; height: 34px;"></span>
+			ID Card Number: <input class="form-control" style="width: 15%; display: inline; margin-right: 2%; margin-left: 2%;" type="text" id="idCard" name="idCard" value="${customer.idCardNumber }" onblur="validate('idCard')" /><span id="checkidCard" style="width: 100px; height: 34px;"></span><br>
+			<input name="currentAccount" style="display: none;" value="${account.accountNumber}">
+			<input class="btn btn-primary" style="margin-top: 20px;" type="submit" value="Save Changes">
 		</form>
+		</div>
 	</div>
-	<div>
-		<form action="updateAccount" method="post">
+	<div class="panel panel-primary" style="margin-top: 30px;">
+	<div class="panel-heading">Saving Account</div>
+	<div class="panel-body">
+		<form id="accountForm" action="updateAccount" method="post">
 			<div class="form-group">
 				<div style="width: 50%; float: left;">
 					Account Number<br> <input class="form-control"
@@ -81,16 +88,16 @@
 						value="${account.balanceAmount }"
 						onblur="validate('balanceAmount')" /><span
 						id="checkbalanceAmount"></span><br> Start Date<br> <input
-						class="form-control" style="width: 20%; display: inline;"
+						class="form-control" style="width: 40%; display: inline;"
 						type="text" id="startDate" name="startDate"
-						value="${account.startDate }" /><br> Repeatable<br> <select
+						value="${account.startDate }" readonly="readonly"/><br> Repeatable<br> <select
 						id="repeatable" name="repeatable" class="form-control"
 						style="width: 20%;">
 						<option value="true">True</option>
 						<option value="false">False</option>
 					</select> Customer ID<br> <input class="form-control"
 						style="width: 10%; display: inline;" type="text" id="customerId"
-						name="customerId" value="${account.customer.customerId }" /><br>
+						name="customerId" value="${account.customer.customerId }" readonly="readonly"/><br>
 				</div>
 				<div style="width: 50%; float: left;">
 					Account Owner<br> <input class="form-control"
@@ -102,8 +109,8 @@
 						name="interest" value="${account.interest }"
 						onblur="validate('interest')" /><span id="checkinterest"></span><br>
 					Due Date<br> <input class="form-control"
-						style="width: 20%; display: inline;" type="text" id="dueDate"
-						name="dueDate" value="${account.dueDate }" /><br> State<br>
+						style="width: 40%; display: inline;" type="text" id="dueDate"
+						name="dueDate" value="${account.dueDate }" readonly="readonly"/><br> State<br>
 					<select id="state" name="state" class="form-control"
 						style="width: 20%;">
 						<option value="active">Active</option>
@@ -111,14 +118,13 @@
 						<option value="done">Done</option>
 					</select> Interest ID<br> <input class="form-control"
 						style="width: 10%; display: inline;" type="text" id="interestId"
-						name="interestId" value="${account.interestRate.id }" /><br>
+						name="interestId" value="${account.interestRate.id }" readonly="readonly"/><br>
 					<br>
 				</div>
-				</tr>
-				</table>
-				<input type="submit" value="Save Changes">
+				<input class="btn btn-primary" type="submit" value="Save Changes">
 			</div>
 		</form>
+		</div>
 	</div>
 </body>
 </html>

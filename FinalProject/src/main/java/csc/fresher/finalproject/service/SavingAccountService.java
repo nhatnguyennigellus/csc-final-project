@@ -39,4 +39,8 @@ public class SavingAccountService {
 	public SavingAccount findAccount(String accountNumber) {
 		return savingAccountDAO.findAccount(accountNumber);
 	}
+
+	public SavingAccount getSavingAccountByNumber(String currentAccountNumber) {
+		return savingAccountDAO.getAccountByAccNumber(currentAccountNumber);
+	}
 }

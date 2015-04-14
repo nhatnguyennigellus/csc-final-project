@@ -67,6 +67,22 @@
 
 	$(document).ready(function() {
 		getTableData();
+		
+		var j = 1;
+		rowCount = $("#rateTable tr").length;
+		
+		$("#rateForm").submit(function(){
+			while(j < rowCount){
+				if(interestRate[j].val() == ""){
+					alert("Please enter valid value!");
+					return false;
+				}
+				
+				j++;
+			}
+			
+			return true;
+		});
 	});
 
 	function onBlur(i){
