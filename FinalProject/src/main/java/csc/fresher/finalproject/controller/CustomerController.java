@@ -54,7 +54,7 @@ public class CustomerController {
 	}
 	
 	@RequestMapping(value = "/updateCustomer", method = RequestMethod.POST)
-	public String updateCustomer(Model model, HttpServletRequest request){
+	public String updateCustomer(Model model, HttpServletRequest request){		
 		int id = Integer.parseInt(request.getParameter("customerID"));
 		String firstName = request.getParameter("customerFirstName");
 		String middleName = request.getParameter("customerMiddleName");
@@ -66,6 +66,12 @@ public class CustomerController {
 		String email = request.getParameter("email");
 		String idCardNumber = request.getParameter("idCard");
 		String currentAccountNumber = request.getParameter("currentAccount");
+		
+		if(firstName == "" || middleName == "" || lastName == "" || address1 == "" || address2 == "" || phone1 == "" || phone2 == "" || email == "" || idCardNumber == "" || currentAccountNumber == ""){
+			model.addAttribute("notify", "<font color = 'red'>Please fill all fields with valid data!</font>");
+			return "redirect:modifyAccount";
+		}
+		
 		
 		Customer customer = new Customer(id, firstName, middleName, lastName, address1, address2, phone1, phone2, email, idCardNumber);
 		SavingAccount currentAccount = accountService.getSavingAccountByNumber(currentAccountNumber);

@@ -42,7 +42,7 @@ public class InterestRateService {
 		return true;
 	}
 
-	public boolean addInterestRate(SavingInterestRate newInterestRate) {
+	public boolean addInterestRate(SavingInterestRate newInterestRate) {	
 		return rateDAO.addInterestRate(newInterestRate);
 		
 	}

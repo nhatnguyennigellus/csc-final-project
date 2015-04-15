@@ -178,6 +178,7 @@
 			type="button" class="btn btn-info" onclick="addRow()" value="Add Rate" />
 			
 		<input type="text" id="rowCount" name="rowCount" style="display: none;"/>
+		<h3>${notify }</h3>
 	</form>
 </body>
 </html>

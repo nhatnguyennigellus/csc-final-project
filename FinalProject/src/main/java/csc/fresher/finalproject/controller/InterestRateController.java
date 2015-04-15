@@ -48,6 +48,13 @@ public class InterestRateController {
 		
 		for(int i = 1; i <= rowCount; i ++){
 			int id = Integer.parseInt(request.getParameter("id" + i));
+			
+			//Validate Interest Rates
+			if(request.getParameter("interestRate" + i) == "" || request.getParameter("period" + i) == ""){
+				model.addAttribute("rateList", rateList);
+				model.addAttribute("notify", "<font color = 'red'>Please enter value!</font>");
+			}
+			
 			double interestRate = Double.parseDouble(request.getParameter("interestRate" + i));
 			double period = Double.parseDouble(request.getParameter("period" + i));
 			

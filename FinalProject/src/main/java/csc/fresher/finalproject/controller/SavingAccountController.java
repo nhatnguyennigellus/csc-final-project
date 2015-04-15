@@ -102,21 +102,37 @@ public class SavingAccountController {
 	
 	@RequestMapping(value="/updateAccount", method = RequestMethod.POST)
 	public String udpateAccount(Model model, HttpServletRequest request){
-		String accountNumber = request.getParameter("accountNumber");
-		String accountOwner = request.getParameter("accountOwner");
-		double balanceAmount = Double.parseDouble(request.getParameter("balanceAmount"));
-		double interest = Double.parseDouble(request.getParameter("interest"));
 		
-		String repeatableString = request.getParameter("repeatable");
+		int customerId = 0;
+		int interestId = 0;
+		String accountNumber = "";
+		String accountOwner = "";
+		double balanceAmount = 0;
+		double interest = 0;
+		String repeatableString = "";
+		String state = "";
 		boolean repeatable = false;
-		if(repeatableString == "True"){
-			repeatable = true;
+		
+		//Validate Saving Account
+		if(request.getParameter("accountNumber") != "" && request.getParameter("accountOwner") != "" && request.getParameter("balanceAmount") != "" && request.getParameter("interest") != "" && request.getParameter("customerId") != "" && request.getParameter("interestId") != ""){
+			accountNumber = request.getParameter("accountNumber");
+			accountOwner = request.getParameter("accountOwner");
+			balanceAmount = Double.parseDouble(request.getParameter("balanceAmount"));
+			interest = Double.parseDouble(request.getParameter("interest"));
+			
+			repeatableString = request.getParameter("repeatable");
+			if(repeatableString == "True"){
+				repeatable = true;
+			}
+			
+			state = request.getParameter("state");
+			
+			customerId = Integer.parseInt(request.getParameter("customerId"));
+			interestId = Integer.parseInt(request.getParameter("interestId"));
+		} else{
+			model.addAttribute("notify", "<font color = 'red'>Please fill all fields with valid data!</font>");
+			return "redirect:modifyAccount";
 		}
-		
-		String state = request.getParameter("state");
-		
-		int customerId = Integer.parseInt(request.getParameter("customerId"));
-		int interestId = Integer.parseInt(request.getParameter("interestId"));
 		
 		Customer customer = customerService.getCustomerById(customerId);
 		SavingInterestRate savingInterestRate = rateService.getInterestRateById(interestId);
