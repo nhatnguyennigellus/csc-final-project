@@ -27,8 +27,8 @@
 					<thead>
 						<tr>
 							<th>Account Number</th>
-							<th>Owner</th>
-							<th>Account Name</th>
+							<th>Customer</th>
+							<th>Account Owner</th>
 							<th>Balance</th>
 							<th>Period</th>
 							<th>Interest</th>
@@ -45,14 +45,22 @@
 								<td>${account.customer.lastName }&nbsp;${account.customer.firstName }
 								<td>${account.accountOwner }</td>
 								<td><fmt:formatNumber value="${account.balanceAmount }" type="number"/></td>
-								<!-- fix if period ==0 => nolimit-->
-								<td>${account.interestRate.period }</td>
+								<td>
+								<c:choose>
+								<c:when test="${account.interestRate.period ==0}">
+									Unlimited
+								</c:when>
+								<c:otherwise>
+									${account.interestRate.period }
+								</c:otherwise>
+								</c:choose>
+								</td>
 								<td>${account.interest }</td>
 								<td><fmt:formatDate value="${account.startDate }" type="date"/></td>
 								<td><fmt:formatDate value="${account.dueDate }" type="date"/></td>
 								<td>${account.repeatable }</td>
 								<td>${account.state }</td>
-								<td><a href="modifyAccount?accNumber="><button>Edit Account</button></a></td>
+								<td><a href="modifyAccount?accNumber=${account.accountNumber }"><button>Edit Account</button></a></td>
 								
 							</tr>
 						</c:forEach>

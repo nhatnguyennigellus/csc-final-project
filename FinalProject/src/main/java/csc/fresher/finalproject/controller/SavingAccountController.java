@@ -86,16 +86,7 @@ public class SavingAccountController {
 	 */
 	@RequestMapping(value="/searchAccount", method=RequestMethod.GET)
 	public String viewSearchAccount(HttpServletRequest request,Model model) {
-		User user = (User) request.getSession().getAttribute(SessionName.USER);
-		String nextPage;
-		if (user!= null && user.getUsername()!="") {	// a little consideration here
-			nextPage = "searchAccount";
-			System.out.println("Going to searchAccount .....");
-		}
-		else {
-			nextPage = "login";
-		}
-		return nextPage;
+		return "searchAccount";
 	}
 	
 	/**
@@ -105,13 +96,15 @@ public class SavingAccountController {
 	 */
 	@RequestMapping(value="/searchAccount", method=RequestMethod.POST)
 	public String searchAccount(HttpServletRequest request,Model model) {
-		//TODO: check for authentication
 		String idCardValue = request.getParameter("idCardValue");
 		String accNumberValue = request.getParameter("accNumberValue");
-		
+		if (idCardValue!=null && accNumberValue!=null) {
 		List<SavingAccount> accounts = accountService.searchSavingAccounts(idCardValue, accNumberValue);
-		System.out.println(accounts.size());
 		model.addAttribute("accountList", accounts);
+		}
+		else {
+			model.addAttribute("message", "nullInput");
+		}
 		return "searchAccount";
 	}
 }

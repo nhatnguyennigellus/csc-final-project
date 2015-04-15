@@ -118,7 +118,7 @@ public class TransactionDAO {
 			query.setParameter(1, transaction.getState() == "" ? "%"
 					: transaction.getState());
 			query.setParameter(2, transaction.getType() == "" ? "%"
-					: transaction.getState());
+					: transaction.getType());
 			query.setParameter(3, "%"
 					+ transaction.getSavingAccount().getAccountNumber() + "%");
 			transactions = query.getResultList();

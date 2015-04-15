@@ -8,12 +8,15 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.User;
 
-@Component
+@Repository("userDAO")
 public class UserDAO {
+	public UserDAO(){}
+	
 	public User checkUser(String username, String password) {
 		EntityManager entityManager = EntityManagerFactoryUtil.createEntityManager();
 		EntityTransaction enTr = entityManager.getTransaction();
@@ -82,5 +85,26 @@ public class UserDAO {
 		}
 
 		return users;
+	}
+
+	/**
+	 * Get user by name
+	 * @param userName
+	 * @return User found or null if not found
+	 * @author vinh-tp
+	 */
+	public User getUserByName(String userName) {
+		EntityManager em = EntityManagerFactoryUtil.createEntityManager();
+		EntityTransaction enTr = em.getTransaction();
+		User user = null;
+		try {
+			enTr.begin();
+			user = em.find(User.class, userName);
+			enTr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return user;
 	}
 }

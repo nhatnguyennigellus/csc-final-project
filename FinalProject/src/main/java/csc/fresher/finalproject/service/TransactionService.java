@@ -41,27 +41,31 @@ public class TransactionService {
 	public List<Transaction> searchTransaction(String state,String type, String accountNumber)  {
 		Transaction transaction = new Transaction();
 		SavingAccountDAO accountDao = new SavingAccountDAO();
+		String newState ="";
+		String newType = "";
 		if (state.equalsIgnoreCase(TransactionConstants.STATE_APPROVED) 
 				|| state.equalsIgnoreCase(TransactionConstants.STATE_PENDING)
 				|| state.equalsIgnoreCase(TransactionConstants.STATE_REJECTED)) {
-			state = Character.toUpperCase(state.charAt(0)) + state.substring(1);
+			newState = Character.toUpperCase(state.charAt(0)) + state.substring(1);
 		}
 		if (state.equalsIgnoreCase("all")) {
-			state="";
+			newState="";
 		}
 		if (type.equalsIgnoreCase(TransactionConstants.TYPE_DEPOSIT)
 				|| type.equalsIgnoreCase(TransactionConstants.TYPE_WITHDRAW_BALANCE)
 				|| type.equalsIgnoreCase(TransactionConstants.TYPE_WITHDRAW_INTEREST)) {
-			type = Character.toUpperCase(state.charAt(0)) + state.substring(1);
+			char a = Character.toUpperCase(type.charAt(0));
+			String b = type.substring(1);
+			newType =  a + b;
 		}
 		if (type.equalsIgnoreCase("all")) {
-			type = "";
+			newType = "";
 		}
 		//SavingAccount account = accountDao.getAccountByAccNumber(accountNumber);
 		SavingAccount account = new SavingAccount();
 		account.setAccountNumber(accountNumber);
-		transaction.setState(state);
-		transaction.setType(type);
+		transaction.setState(newState);
+		transaction.setType(newType);
 		transaction.setSavingAccount(account);
 		return transactionDAO.searchTransaction(transaction);
 	}

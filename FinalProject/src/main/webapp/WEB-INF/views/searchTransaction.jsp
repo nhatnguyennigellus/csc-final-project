@@ -60,7 +60,17 @@
 								<td>${transation.savingAccount.accountNumber }</td>
 								<td>${transaction.state }</td>
 								<td>${transaction.type }</td>
-								<td>${transaction.users }</td>
+								<td><c:forEach var="user" items="${transaction.users }">
+									<p>
+									<c:if test="${user.role.role == 'admin'}">
+									 Approved By 
+									 </c:if>
+									<c:if test="${user.role.role == 'support'}">
+									 Performed By 
+									 </c:if>
+									 <strong>${user.username }</strong>
+									 </p>
+								</c:forEach></td>
 								
 							</tr>
 						</c:forEach>

@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,16 +31,7 @@ public class TransactionController {
 	 */
 	@RequestMapping(value = "/searchTransaction", method = RequestMethod.GET)
 	public String viewSearchTransaction(HttpServletRequest request) {
-		User user = (User) request.getSession().getAttribute(SessionName.USER);
-		String nextPage;
-		if (user != null && user.getUsername() != "") { // a little
-														// consideration here
-			nextPage = "searchTransaction";
-			System.out.println("Going to searchTransaction .....");
-		} else {
-			nextPage = "login";
-		}
-		return nextPage;
+		return "searchTransaction";
 	}
 
 	/**
@@ -51,7 +44,6 @@ public class TransactionController {
 	 */
 	@RequestMapping(value="/searchTransaction",method=RequestMethod.POST)
 	public String doSearchTransaction(HttpServletRequest request, Model model) {
-		// TODO check authentication
 		String state = request.getParameter("transactionState");
 		String type = request.getParameter("transactionType");
 		String submitAction = request.getParameter("submitAction");
