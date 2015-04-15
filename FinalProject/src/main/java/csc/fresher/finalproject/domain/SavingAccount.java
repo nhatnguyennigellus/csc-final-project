@@ -55,6 +55,24 @@ public class SavingAccount {
 	@OneToMany(mappedBy = "savingAccount")
 	private Set<Transaction> transactions = new HashSet<Transaction>();
 
+	public SavingAccount(){
+		
+	}
+	
+	public SavingAccount(String accountNumber, String accountOwner,
+			double balanceAmount, double interest, boolean repeatable,
+			String state, Customer customer, SavingInterestRate interestRate) {
+		super();
+		this.accountNumber = accountNumber;
+		this.accountOwner = accountOwner;
+		this.balanceAmount = balanceAmount;
+		this.interest = interest;
+		this.repeatable = repeatable;
+		this.state = state;
+		this.customer = customer;
+		this.interestRate = interestRate;
+	}
+
 	public String getAccountNumber() {
 		return accountNumber;
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.Customer;
+import csc.fresher.finalproject.domain.SavingAccount;
 
 @Repository("customerDAO")
 public class CustomerDAO {
@@ -68,5 +70,24 @@ public class CustomerDAO {
 			return null;
 		}
 		return customer;
+	}
+
+	public Customer findCustomerOfAccount(SavingAccount savingAccount) {
+		EntityManager entityManager = EntityManagerFactoryUtil.createEntityManager();
+		return entityManager.find(Customer.class, savingAccount.getCustomer().getCustomerId());
+	}
+
+	public boolean updateCustomer(Customer customer) {
+		EntityManager entityManager = EntityManagerFactoryUtil.createEntityManager();
+		EntityTransaction enTr = entityManager.getTransaction();
+		try{
+			enTr.begin();
+			entityManager.merge(customer);
+			enTr.commit();
+		} catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 }

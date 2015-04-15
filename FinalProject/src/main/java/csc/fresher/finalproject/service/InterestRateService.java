@@ -23,4 +23,31 @@ public class InterestRateService {
 	public SavingInterestRate getInterestRateByPeriod(double interestRatePeriod) {
 		return rateDAO.getInterestRateByPeriod(interestRatePeriod);
 	}
+	
+	public SavingInterestRate getInterestRateById(int id){
+		return rateDAO.getInterestRateById(id);
+	}
+	
+	public boolean updateRate(List<SavingInterestRate> rateList){
+		boolean result = true;
+		
+		while(result){
+			for(SavingInterestRate rate : rateList){
+				result = rateDAO.updateInterestRate(rate);
+				
+				if(!result){
+					return false;
+				}
+			}
+			
+			result = false;
+		}
+		
+		return true;
+	}
+
+	public boolean addInterestRate(SavingInterestRate newInterestRate) {	
+		return rateDAO.addInterestRate(newInterestRate);
+		
+	}
 }

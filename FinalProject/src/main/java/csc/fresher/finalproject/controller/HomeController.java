@@ -36,7 +36,6 @@ import csc.fresher.finalproject.service.UserService;
 
 @Controller
 public class HomeController {
-
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -83,7 +82,9 @@ public class HomeController {
 
 		return model;
 	}
-
+	
+	
+	
 	/**
 	 * Redirects to Home Page
 	 * 
@@ -125,6 +126,6 @@ public class HomeController {
 
 		model.setViewName("403");
 		return model;
-
+		
 	}
 }

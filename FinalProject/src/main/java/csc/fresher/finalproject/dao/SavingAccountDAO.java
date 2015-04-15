@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Component;
@@ -125,7 +126,19 @@ public class SavingAccountDAO {
 		EntityTransaction enTr = entityManager.getTransaction();
 		try {
 			enTr.begin();
-			entityManager.merge(account);
+			Query query = entityManager
+					.createQuery("UPDATE SavingAccount SET accountOwner='"
+							+ account.getAccountOwner() + "', balanceAmount="
+							+ account.getBalanceAmount() + ", interest="
+							+ account.getInterest() + ", repeatable="
+							+ account.isRepeatable() + ", state='"
+							+ account.getState() + "', customerId="
+							+ account.getCustomer().getCustomerId()
+							+ ", interestRate="
+							+ account.getInterestRate().getId()
+							+ " WHERE accountNumber='"
+							+ account.getAccountNumber() + "'");
+			query.executeUpdate();
 			enTr.commit();
 		} catch (Exception e) {
 			enTr.rollback();
@@ -134,7 +147,6 @@ public class SavingAccountDAO {
 		}
 		return true;
 	}
-	
 	/**
 	 * Get account by ID card number
 	 * 
@@ -198,5 +210,30 @@ public class SavingAccountDAO {
 			return null;
 		}
 		return accounts;
+	}
+
+	public SavingAccount findAccount(String accountNumber) {
+		EntityManager entityManager = EntityManagerFactoryUtil
+				.createEntityManager();
+
+		return entityManager.find(SavingAccount.class, accountNumber);
+	}
+
+	public boolean approve(SavingAccount account) {
+		EntityManager entityManager = EntityManagerFactoryUtil
+				.createEntityManager();
+		EntityTransaction enTr = entityManager.getTransaction();
+		try{
+			enTr.begin();
+			entityManager.merge(account);
+			enTr.commit();
+		} catch(Exception e){
+			e.printStackTrace();
+			entityManager.close();
+			return false;
+		}
+		
+		
+		return true;
 	}
 }

@@ -64,7 +64,24 @@ public class Customer {
 	}
 
 	public Customer() {
-		// TODO Auto-generated constructor stub
+	}
+
+	
+
+	public Customer(Integer customerId, String firstName, String lastName,
+			String middleName, String address1, String address2, String phone1,
+			String phone2, String email, String idCardNumber) {
+		super();
+		this.customerId = customerId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.middleName = middleName;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.phone1 = phone1;
+		this.phone2 = phone2;
+		this.email = email;
+		this.idCardNumber = idCardNumber;
 	}
 
 	public Integer getCustomerId() {

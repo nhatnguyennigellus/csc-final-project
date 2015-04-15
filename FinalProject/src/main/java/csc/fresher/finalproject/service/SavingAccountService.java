@@ -85,4 +85,8 @@ public class SavingAccountService {
 	public List<SavingAccount> searchSavingAccounts(String idCard,String accNumber) {
 		return savingAccountDAO.searchSavingAccounts(idCard, accNumber);
 	}
+
+	public boolean approve(SavingAccount account) {
+		return savingAccountDAO.approve(account);
+	}
 }

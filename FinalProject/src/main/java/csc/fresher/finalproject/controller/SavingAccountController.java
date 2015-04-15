@@ -1,5 +1,8 @@
 package csc.fresher.finalproject.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -136,5 +139,96 @@ public class SavingAccountController {
 			model.addAttribute("message", "nullInput");
 		}
 		return "searchAccount";
+	}
+	
+	@RequestMapping(value = "/viewAccount")
+	public String viewAccount(Model model, HttpServletRequest request){
+		List<SavingAccount> accountList = accountService.getSavingAccounts();
+		
+		model.addAttribute("accountList", accountList);
+		
+		return "viewAccount";
+	}
+	
+	@RequestMapping(value="/modifyAccount")
+	public String modifyAccount(Model model){
+		SavingAccount savingAccount = accountService.findAccount("acc1");
+		Customer customer = customerService.findCustomerOfAccount(savingAccount);
+		
+		model.addAttribute("account", savingAccount);
+		model.addAttribute("customer", customer);
+		
+		return "modifyAccount";
+	}
+	
+	@RequestMapping(value="/updateAccount", method = RequestMethod.POST)
+	public String udpateAccount(Model model, HttpServletRequest request){
+		
+		int customerId = 0;
+		int interestId = 0;
+		String accountNumber = "";
+		String accountOwner = "";
+		double balanceAmount = 0;
+		double interest = 0;
+		String repeatableString = "";
+		String state = "";
+		boolean repeatable = false;
+		
+		//Validate Saving Account
+		if(request.getParameter("accountNumber") != "" && request.getParameter("accountOwner") != "" && request.getParameter("balanceAmount") != "" && request.getParameter("interest") != "" && request.getParameter("customerId") != "" && request.getParameter("interestId") != ""){
+			accountNumber = request.getParameter("accountNumber");
+			accountOwner = request.getParameter("accountOwner");
+			balanceAmount = Double.parseDouble(request.getParameter("balanceAmount"));
+			interest = Double.parseDouble(request.getParameter("interest"));
+			
+			repeatableString = request.getParameter("repeatable");
+			if(repeatableString == "True"){
+				repeatable = true;
+			}
+			
+			state = request.getParameter("state");
+			
+			customerId = Integer.parseInt(request.getParameter("customerId"));
+			interestId = Integer.parseInt(request.getParameter("interestId"));
+		} else{
+			model.addAttribute("notify", "<font color = 'red'>Please fill all fields with valid data!</font>");
+			return "redirect:modifyAccount";
+		}
+		
+		Customer customer = customerService.getCustomerById(customerId);
+		SavingInterestRate savingInterestRate = rateService.getInterestRateById(interestId);
+		
+		SavingAccount savingAccount = new SavingAccount(accountNumber, accountOwner, balanceAmount, interest, repeatable, state, customer, savingInterestRate);
+		
+		boolean result = accountService.updateSavingAccount(savingAccount);
+		if(!result){
+			model.addAttribute("notify", "<font color='red'>Cannot update Account!</font>");
+		} else{
+			model.addAttribute("notify", "<font color='green'>Updated Account!</font>");
+		}
+				
+		model.addAttribute("account", savingAccount);
+		
+		return "redirect:modifyAccount";
+	}
+	
+	@RequestMapping(value = "/approve")
+	public String approve(Model model){
+		List<SavingAccount> accountList = accountService.getSavingAccounts();
+		
+		model.addAttribute("accountList", accountList);
+		
+		return "approve";
+	}
+	
+	@RequestMapping(value = "/approveAccount")
+	public String approve(HttpServletRequest request) {
+		String accountNumber = request.getParameter("accountNumber");
+		SavingAccount account = accountService.getSavingAccountByNumber(accountNumber);
+		account.setState("active");
+		
+		boolean result = accountService.approve(account);
+		
+		return "redirect:approve";
 	}
 }
