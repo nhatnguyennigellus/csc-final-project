@@ -43,4 +43,8 @@ public class SavingAccountService {
 	public SavingAccount getSavingAccountByNumber(String currentAccountNumber) {
 		return savingAccountDAO.getAccountByAccNumber(currentAccountNumber);
 	}
+
+	public boolean approve(SavingAccount account) {
+		return savingAccountDAO.approve(account);
+	}
 }

@@ -68,6 +68,13 @@
 							class="glyphicon glyphicon-circle-arrow-right"></i>
 					</span></a>
 				</div>
+				
+				<div class="panel-body">
+					<a href="approve"> <span class="pull-left">Approve
+							Accounts</span> <span class="pull-right"> <i
+							class="glyphicon glyphicon-circle-arrow-right"></i>
+					</span></a>
+				</div>
 			</div>
 		</div>
 

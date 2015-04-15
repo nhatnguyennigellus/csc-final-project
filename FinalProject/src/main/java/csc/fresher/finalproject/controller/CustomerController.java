@@ -72,8 +72,17 @@ public class CustomerController {
 			return "redirect:modifyAccount";
 		}
 		
+		Customer customer = customerService.getCustomerById(id);
+		customer.setFirstName(firstName);
+		customer.setMiddleName(middleName);
+		customer.setLastName(lastName);
+		customer.setAddress1(address1);
+		customer.setAddress2(address2);
+		customer.setPhone1(phone1);
+		customer.setPhone2(phone2);
+		customer.setEmail(email);
+		customer.setIdCardNumber(idCardNumber);
 		
-		Customer customer = new Customer(id, firstName, middleName, lastName, address1, address2, phone1, phone2, email, idCardNumber);
 		SavingAccount currentAccount = accountService.getSavingAccountByNumber(currentAccountNumber);
 		
 		boolean result = customerService.updateCustomer(customer);

@@ -23,6 +23,27 @@
 	vertical-align: middle;
 	display: table-cell;
 }
+
+@media screen and (max-width: 2000px){
+	#rateTable{
+		width: 60%;
+	}
+}
+
+@media screen and (max-width: 800px){
+	#rateTable{
+		width: 500px;
+	}
+}
+
+@media screen and (max-width: 500px){
+	#rateTable{
+		width: 300px;
+	}
+	#id1{
+		width: 50px;
+	}
+}
 </style>
 <script type="text/javascript">
 	var i = 1;
@@ -124,11 +145,11 @@
 		var j = 0;
 		while(j < 4){
 			if(j == 1){
-				cell1.innerHTML = "<input type='text' style='border: none; width: 100px; height: 34px;' value='" + i + "' id='id" + i + "' name='id" + i + "' readonly='readonly'/>";
+				cell1.innerHTML = "<input type='text' style='border: none; height: 34px; width: 50px;' value='" + i + "' id='id" + i + "' name='id" + i + "' readonly='readonly'/>";
 			} else if(j == 2){
 				cell2.innerHTML = "<input type='text' class='form-control' id='interestRate" + i + "' name='interestRate" + i + "' onblur='onBlur(" + i + ")'/>";
 			} else if(j == 3){
-				cell3.innerHTML = "<input type='text' class='form-control' style='width: 100px;' id='period" + i + "' name='period" + i + "' onblur='onBlur(" + i + ")'/>";
+				cell3.innerHTML = "<input type='text' style='width: 50px;' class='form-control' id='period" + i + "' name='period" + i + "' onblur='onBlur(" + i + ")'/>";
 			} else{
 				cell4.innerHTML = "<div id='checkDiv" + i + "' style='width: 100px; height: 34px; display: table;'><span id='checkSpan" + i + "' style='display: table-cell; vertical-align: middle;'></span></div>";
 			}
@@ -150,7 +171,7 @@
 <body>
 <%i = 1; %>
 	<form id="rateForm" action="changeRate" method="post">
-		<table class="table" id="rateTable" style="width: 60%">
+		<table class="table" id="rateTable">
 			<tr>
 				<th>ID</th>
 				<th>Interest Rate</th>
@@ -159,11 +180,11 @@
 			</tr>
 			<c:forEach items="${rateList}" var="rate">
 				<tr class="rateRow">
-					<td><input type="text" style="border: none; width: 100px; height: 34px;" value="${rate.id }" id="id<%=i%>"
-						name="id<%=i%>" readonly="readonly"/></td>
+					<td><input type="text" value="${rate.id }" id="id<%=i%>"
+						name="id<%=i%>" style="border: none; height: 34px; width: 50px;" readonly="readonly"/></td>
 					<td><input type="text" class="form-control" value="${rate.interestRate }"
 						id="interestRate<%=i%>" name="interestRate<%=i%>" onblur="onBlur(<%=i%>)" /></td>
-					<td><input type="text" style="border: none; height: 34px; width: 100px;" value="${rate.period }"
+					<td><input type="text" style="border: none; height: 34px; width: 50px;" value="${rate.period }"
 						id="period<%=i%>" name="period<%=i%>" readonly="readonly"/></td>
 					<td><div id="checkDiv<%=i%>" style="width: 100px; height: 34px; display: table;">
 							<span id="checkSpan<%=i%>" style="display: table-cell; vertical-align: middle;"></span>

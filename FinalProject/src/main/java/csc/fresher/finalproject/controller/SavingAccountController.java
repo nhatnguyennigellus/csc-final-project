@@ -150,4 +150,25 @@ public class SavingAccountController {
 		
 		return "redirect:modifyAccount";
 	}
+	
+	@RequestMapping(value = "/approve")
+	public String approve(Model model){
+		List<SavingAccount> accountList = accountService.getSavingAccounts();
+		
+		model.addAttribute("accountList", accountList);
+		
+		return "approve";
+	}
+	
+	@RequestMapping(value = "/approveAccount")
+	public String approve(HttpServletRequest request){
+		String accountNumber = request.getParameter("accountNumber");
+		SavingAccount account = accountService.getSavingAccountByNumber(accountNumber);
+		account.setState("active");
+		account.setBalanceAmount(10000000);
+		
+		boolean result = accountService.approve(account);
+		
+		return "redirect:approve";
+	}
 }

@@ -148,4 +148,22 @@ public class SavingAccountDAO {
 
 		return entityManager.find(SavingAccount.class, accountNumber);
 	}
+
+	public boolean approve(SavingAccount account) {
+		EntityManager entityManager = EntityManagerFactoryUtil
+				.createEntityManager();
+		EntityTransaction enTr = entityManager.getTransaction();
+		try{
+			enTr.begin();
+			entityManager.merge(account);
+			enTr.commit();
+		} catch(Exception e){
+			e.printStackTrace();
+			entityManager.close();
+			return false;
+		}
+		
+		
+		return true;
+	}
 }

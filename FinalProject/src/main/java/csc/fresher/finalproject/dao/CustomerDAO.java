@@ -79,15 +79,7 @@ public class CustomerDAO {
 		EntityTransaction enTr = entityManager.getTransaction();
 		try{
 			enTr.begin();
-			Query query = entityManager
-					.createQuery("UPDATE Customer SET firstName='"
-							+ customer.getFirstName() + "', middleName="
-							+ customer.getMiddleName() + ", lastName="
-							+ customer.getLastName() + ", address1="
-							+ customer.getAddress1() + ", address2='"
-							+ customer.getAddress2() + "', phone1='"
-							+ customer.getPhone1() + "', phone2='" + customer.getPhone2() + "', email='" + customer.getEmail() + "', idCardNumber='" + customer.getIdCardNumber() + "' WHERE customerId=" + customer.getCustomerId());
-			query.executeUpdate();
+			entityManager.merge(customer);
 			enTr.commit();
 		} catch(Exception e){
 			e.printStackTrace();

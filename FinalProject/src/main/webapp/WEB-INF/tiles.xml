@@ -40,4 +40,9 @@
 		<put-attribute name="title" value="Modify Accounts"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/modifyAccount.jsp"></put-attribute>
 	</definition>
+	
+	<definition name="approve" extends="masterpage">
+		<put-attribute name="title" value="Approve"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/approve.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>
