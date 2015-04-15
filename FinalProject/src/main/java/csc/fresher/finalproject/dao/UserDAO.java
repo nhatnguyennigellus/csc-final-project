@@ -15,6 +15,8 @@ import csc.fresher.finalproject.domain.User;
 
 @Repository("userDAO")
 public class UserDAO {
+	public UserDAO(){}
+	
 	public User checkUser(String username, String password) {
 		EntityManager entityManager = EntityManagerFactoryUtil.createEntityManager();
 		EntityTransaction enTr = entityManager.getTransaction();

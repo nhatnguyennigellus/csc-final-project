@@ -9,10 +9,10 @@ import csc.fresher.finalproject.domain.User;
 
 @Service("userService")
 public class UserService {
+	@Autowired
 	private UserDAO userDAO;
 
-	public UserService() {
-		this.userDAO = new UserDAO();
+	public UserService() {	
 	}
 
 	public User checkUserAuthentication (String username, String password) {
@@ -22,12 +22,12 @@ public class UserService {
 	public User getUserByUsername (String username) {
 		return userDAO.getUserByUsername(username);
 	}
-	public List<User> getUserByRole(String role) {
+	
+	public List<User> getUserByRole (String role) {
 		return userDAO.getUserByRole(role);
 	}
-	
+
 	public boolean checkUserActive (String username) {
 		return userDAO.checkUserActive(username);
 	}
-	
 }

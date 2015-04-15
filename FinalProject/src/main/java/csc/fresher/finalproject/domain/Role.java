@@ -27,11 +27,11 @@ public class Role {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getRoleName() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRoleName(String roleName) {
+	public void setRole(String roleName) {
 		this.role = roleName;
 	}
 

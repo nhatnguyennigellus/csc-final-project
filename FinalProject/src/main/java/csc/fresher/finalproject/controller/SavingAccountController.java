@@ -20,6 +20,8 @@ import csc.fresher.finalproject.domain.Customer;
 import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.SavingInterestRate;
 import csc.fresher.finalproject.domain.Transaction;
+import csc.fresher.finalproject.domain.User;
+import csc.fresher.finalproject.mycookies.SessionName;
 import csc.fresher.finalproject.service.CustomerService;
 import csc.fresher.finalproject.service.DateUtils;
 import csc.fresher.finalproject.service.InterestRateService;
@@ -106,60 +108,33 @@ public class SavingAccountController {
 		}
 		return "addAccount";
 	}
-/*
-	@Scheduled(cron = "0 32 17 * * ?")
-	public void updateAccount() {
-		for (SavingAccount account : accountService.getSavingAccounts()) {
-			if (account.getInterestRate().getPeriod() != 0) {
-				List<Transaction> list = transactionService
-						.getWithdrawAll(account);
-				Date latestDate = null;
-				if (!list.isEmpty()) {
-					latestDate = list.get(list.size() - 1).getDate();
-				}
-
-				Calendar cal = Calendar.getInstance();
-				cal.add(Calendar.DAY_OF_MONTH, -1);
-				if ((!DateUtils.isSameDay(latestDate, cal.getTime()) && latestDate != null)
-						|| list.isEmpty()) {
-					System.out.println("task run!");
-					if (account.isRepeatable() == true) {
-						account.setBalanceAmount(account.getBalanceAmount()
-								+ account.getInterest());
-						Calendar calAcc = Calendar.getInstance();
-						account.setStartDate(calAcc.getTime());
-
-						calAcc.add(Calendar.MONTH, (int) account
-								.getInterestRate().getPeriod());
-						account.setDueDate(calAcc.getTime());
-						int dateDiff = DateUtils.daysBetween(account
-								.getStartDate().getTime(), account.getDueDate()
-								.getTime());
-						double interest = account.getBalanceAmount()
-								* account.getInterestRate().getInterestRate()
-								/ 365 * dateDiff;
-						account.setInterest(interest);
-					}
-				}
-
-			} else {
-				List<Transaction> list = transactionService
-						.getInterestWithdraw(account);
-				Date latestDate = list.get(list.size() - 1).getDate();
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(latestDate);
-				cal.add(Calendar.MONTH, 1);
-				cal.add(Calendar.DAY_OF_MONTH, 1);
-				if (DateUtils.isSameDay(new Date(), cal.getTime())) {
-					account.setBalanceAmount(account.getBalanceAmount()
-							+ account.getInterest());
-					double interest = account.getBalanceAmount()
-							* account.getInterestRate().getInterestRate() / 360
-							* 30;
-					account.setInterest(interest);
-				}
-			}
-			accountService.updateSavingAccount(account);
+	/**
+	 * Redirect to searchAccount view if user logged in
+	 * @author vinh-tp
+	 * @since 2015-08-04
+	 * 
+	 */
+	@RequestMapping(value="/searchAccount", method=RequestMethod.GET)
+	public String viewSearchAccount(HttpServletRequest request,Model model) {
+		return "searchAccount";
+	}
+	
+	/**
+	 * Search for account existence 
+	 * @author vinh-tp
+	 * @since 2015-08-04
+	 */
+	@RequestMapping(value="/searchAccount", method=RequestMethod.POST)
+	public String searchAccount(HttpServletRequest request,Model model) {
+		String idCardValue = request.getParameter("idCardValue");
+		String accNumberValue = request.getParameter("accNumberValue");
+		if (idCardValue!=null && accNumberValue!=null) {
+		List<SavingAccount> accounts = accountService.searchSavingAccounts(idCardValue, accNumberValue);
+		model.addAttribute("accountList", accounts);
 		}
-	}*/
+		else {
+			model.addAttribute("message", "nullInput");
+		}
+		return "searchAccount";
+	}
 }

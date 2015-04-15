@@ -75,5 +75,14 @@ public class SavingAccountService {
 		return accountNo;
 	}
 	
-	
+	/**
+	 * Call DAO to search Accounts
+	 * @param idCard
+	 * @param accNumber
+	 * @return
+	 * @author vinh-tp
+	 */
+	public List<SavingAccount> searchSavingAccounts(String idCard,String accNumber) {
+		return savingAccountDAO.searchSavingAccounts(idCard, accNumber);
+	}
 }
