@@ -15,10 +15,12 @@ import csc.fresher.finalproject.domain.User;
 
 @Repository("userDAO")
 public class UserDAO {
-	public UserDAO(){}
-	
+	public UserDAO() {
+	}
+
 	public User checkUser(String username, String password) {
-		EntityManager entityManager = EntityManagerFactoryUtil.createEntityManager();
+		EntityManager entityManager = EntityManagerFactoryUtil
+				.createEntityManager();
 		EntityTransaction enTr = entityManager.getTransaction();
 
 		User user = new User();
@@ -41,9 +43,10 @@ public class UserDAO {
 
 		return user;
 	}
-	
+
 	public boolean checkUserActive(String username) {
-		EntityManager entityManager = EntityManagerFactoryUtil.createEntityManager();
+		EntityManager entityManager = EntityManagerFactoryUtil
+				.createEntityManager();
 		EntityTransaction enTr = entityManager.getTransaction();
 		boolean active = false;
 		try {
@@ -64,18 +67,17 @@ public class UserDAO {
 
 		return active;
 	}
-	
+
 	public User getUserByUsername(String username) {
-		EntityManager entityManager = EntityManagerFactoryUtil.createEntityManager();
+		EntityManager entityManager = EntityManagerFactoryUtil
+				.createEntityManager();
 		EntityTransaction enTr = entityManager.getTransaction();
 		User user = new User();
 		try {
 			enTr.begin();
 
-			TypedQuery<User> query = entityManager
-					.createQuery(
-							"SELECT u FROM User u WHERE u.username = ?1",
-							User.class);
+			TypedQuery<User> query = entityManager.createQuery(
+					"SELECT u FROM User u WHERE u.username = ?1", User.class);
 			query.setParameter(1, username);
 			user = query.getSingleResult();
 			enTr.commit();

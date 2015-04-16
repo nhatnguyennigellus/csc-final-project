@@ -61,7 +61,8 @@ public class TransactionController {
 		return "listTransaction";
 	}
 
-	@RequestMapping(value = "/performTransaction", method = { RequestMethod.POST, RequestMethod.GET })
+	@RequestMapping(value = "/performTransaction", method = {
+			RequestMethod.POST, RequestMethod.GET })
 	public ModelAndView getAccountTransaction(Model model,
 			HttpServletRequest request) {
 		String accNumber = request.getParameter("accountNumber");
@@ -192,11 +193,17 @@ public class TransactionController {
 		} else if (transaction.getType().equals("Deposit")) {
 			// Period
 			if (account.getInterestRate().getPeriod() != 0) {
+				List<Date> list = transactionService.getWithdrawAll(account);
+				Date lastWithdrawAll = new Date();
+				if (!list.isEmpty())
+					lastWithdrawAll = list.get(list.size() - 1);
 				// Deposit before due date
 				if (DateUtils.isBeforeDay(new Date(), account.getDueDate())
-						&& !DateUtils.isToday(account.getDueDate())) {
+						&& !DateUtils.isToday(account.getDueDate())
+						|| (!list.isEmpty() && DateUtils.isBeforeDay(
+								account.getDueDate(), lastWithdrawAll))) {
 					model.addAttribute("transError",
-							"You cannot deposit at this time!");
+							"This account cannot deposit at this time!");
 					model.addAttribute("account", account);
 					return new ModelAndView("performTransaction");
 				}
@@ -231,6 +238,8 @@ public class TransactionController {
 		int transId = Integer.parseInt(request.getParameter("transactionId"));
 		Transaction trans = transactionService.getTransactionById(transId);
 		trans.setState("Approved");
+		User user = (User) request.getSession().getAttribute(SessionName.USER);
+		trans.getUsers().add(user);
 		if (transactionService.approveTransaction(trans)) {
 			model.addAttribute("apprSuccess", "Transaction '" + trans.getType()
 					+ "' of account "
@@ -242,7 +251,7 @@ public class TransactionController {
 		model.addAttribute("listTransaction",
 				transactionService.getTransactionList());
 
-		return "listTransaction";
+		return "searchTransaction";
 	}
 
 	@RequestMapping(value = "/rejectTransaction")
@@ -261,10 +270,8 @@ public class TransactionController {
 		model.addAttribute("listTransaction",
 				transactionService.getTransactionList());
 
-		return "listTransaction";
+		return "searchTransaction";
 	}
-	
-
 
 	/**
 	 * Redirect to searchTransaction views if logged in
@@ -273,8 +280,10 @@ public class TransactionController {
 	 * @return
 	 * @author vinh-tp
 	 */
-	@RequestMapping(value = "/searchTransaction", method = RequestMethod.GET)
-	public String viewSearchTransaction(HttpServletRequest request) {
+
+	@RequestMapping(value = "/searchTransaction")
+	public String viewSearchTransaction(Model model, HttpServletRequest request) {
+
 		return "searchTransaction";
 	}
 
@@ -286,13 +295,14 @@ public class TransactionController {
 	 * @return
 	 * @author vinh-tp
 	 */
-	@RequestMapping(value="/searchTransaction",method=RequestMethod.POST)
+	@RequestMapping(value = "/submitSearchTransaction", method = {
+			RequestMethod.POST, RequestMethod.GET })
 	public String doSearchTransaction(HttpServletRequest request, Model model) {
 		String state = request.getParameter("transactionState");
 		String type = request.getParameter("transactionType");
 		String submitAction = request.getParameter("submitAction");
 		String accountNumber = request.getParameter("accountNumber");
-		String transactionId = request.getParameter("transactionId");
+
 		Hashtable<String, String> messages = new Hashtable<String, String>();
 		List<Transaction> transactions = null;
 		if (submitAction.equalsIgnoreCase("Search by details")) {
@@ -300,8 +310,14 @@ public class TransactionController {
 					accountNumber);
 
 		} else if (submitAction.equalsIgnoreCase("Search by ID")) {
+
 			Transaction transaction;
 			try {
+				int transactionId = 0;
+				if (request.getParameter("transactionId") != null) {
+					transactionId = Integer.parseInt(request
+							.getParameter("transactionId"));
+				}
 				transaction = transactionService
 						.getTransactionById(transactionId);
 				transactions = new ArrayList<Transaction>();
@@ -309,7 +325,8 @@ public class TransactionController {
 					transactions.add(transaction);
 				}
 			} catch (NumberFormatException e) {
-				messages.put("numberFormat", "NumberFormatError");
+				model.addAttribute("apprError", "Please enter a transaction ID");
+				return "searchTransaction";
 			}
 		}
 		model.addAttribute("transactionList", transactions);

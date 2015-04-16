@@ -24,7 +24,7 @@ public class CustomerController {
 	CustomerService customerService;
 	@Autowired
 	SavingAccountService accountService;
-	
+
 	@RequestMapping(value = "/viewCustomer")
 	public String viewCustomer(Model model, HttpServletRequest request) {
 		List<Customer> listCustomer = customerService.getCustomerList();
@@ -44,7 +44,7 @@ public class CustomerController {
 	public String addCustomer(
 			@ModelAttribute("customer") @Valid Customer customer,
 			BindingResult result, Model model, HttpServletRequest request) {
-		
+
 		if (customerService.addCustomer(customer)) {
 			model.addAttribute("addCusSuccess",
 					"Added new customer successfully!");
@@ -55,9 +55,10 @@ public class CustomerController {
 
 		return "addCustomer";
 	}
-	
-	@RequestMapping(value = "/updateCustomer", method = RequestMethod.POST)
-	public String updateCustomer(Model model, HttpServletRequest request){		
+
+	@RequestMapping(value = "/updateCustomer", method = { RequestMethod.POST,
+			RequestMethod.GET })
+	public String updateCustomer(Model model, HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("customerID"));
 		String firstName = request.getParameter("customerFirstName");
 		String middleName = request.getParameter("customerMiddleName");
@@ -69,12 +70,16 @@ public class CustomerController {
 		String email = request.getParameter("email");
 		String idCardNumber = request.getParameter("idCard");
 		String currentAccountNumber = request.getParameter("currentAccount");
-		
-		if(firstName == "" || middleName == "" || lastName == "" || address1 == "" || address2 == "" || phone1 == "" || phone2 == "" || email == "" || idCardNumber == "" || currentAccountNumber == ""){
-			model.addAttribute("notify", "<font color = 'red'>Please fill all fields with valid data!</font>");
-			return "redirect:modifyAccount";
+
+		if (firstName == "" || lastName == ""
+				|| address1 == "" || phone1 == ""
+				|| email == "" || idCardNumber == ""
+				|| currentAccountNumber == "") {
+			model.addAttribute("updateError",
+					"Please fill all fields with valid data!");
+			return "redirect:modifyAccount?accNumber=" + currentAccountNumber;
 		}
-		
+
 		Customer customer = customerService.getCustomerById(id);
 		customer.setFirstName(firstName);
 		customer.setMiddleName(middleName);
@@ -85,14 +90,22 @@ public class CustomerController {
 		customer.setPhone2(phone2);
 		customer.setEmail(email);
 		customer.setIdCardNumber(idCardNumber);
-		
-		SavingAccount currentAccount = accountService.getSavingAccountByNumber(currentAccountNumber);
-		
+
+		SavingAccount currentAccount = accountService
+				.getSavingAccountByAccNumber(currentAccountNumber);
+
 		boolean result = customerService.updateCustomer(customer);
-		
+
 		model.addAttribute("customer", customer);
 		model.addAttribute("account", currentAccount);
-		
-		return "redirect:modifyAccount";
+
+		if (!result) {
+			request.getSession().setAttribute("updateError",
+					"Cannot update customer info!");
+		} else {
+			request.getSession().setAttribute("updateSuccess",
+					"Updated customer info!");
+		}
+		return "redirect:modifyAccount?accNumber=" + currentAccountNumber;
 	}
 }

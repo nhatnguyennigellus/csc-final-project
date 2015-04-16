@@ -14,7 +14,7 @@
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap.css'/> ">
 <link rel="stylesheet"
-	href="<c:url value='/resources/css/jquery.dataTables.min.css' />">
+	href="<c:url value='/resources/css/jquery.dataTables.css' />">
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/dataTables.bootstrap.css' />">
 
@@ -114,7 +114,7 @@
 							&nbsp;Transaction &nbsp;<i
 							class="glyphicon glyphicon-chevron-down"></i></a>
 						<ul id="trans" class="collapse">
-							<li><a href="listTransaction"><i
+							<li><a href="searchTransaction"><i
 									class="glyphicon glyphicon-time"></i> Search Transaction</a></li>
 							<li><a href="accountTransaction"><i
 									class="glyphicon glyphicon-usd"></i> Perform Transaction</a></li>
@@ -129,20 +129,15 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-12">
-
 						<tiles:insertAttribute name="body" />
-
 					</div>
-
 				</div>
-
 			</div>
 			<!-- /.container-fluid -->
 
 		</div>
-		<div id="footer"><img src="<c:url value='/resources/images/csc.png'/>" width="25px">
+		<img src="<c:url value='/resources/images/csc.png'/>" width="25px">
 			<font color="white">CSC Java Fresher Mar 2015 - Final Project</font>
-		</div>
 		<!-- /#page-wrapper -->
 
 	</div>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -19,28 +20,28 @@
 	background-position: center;
 }
 
-.cell{
+.cell {
 	vertical-align: middle;
 	display: table-cell;
 }
 
-@media screen and (max-width: 2000px){
-	#rateTable{
+@media screen and (max-width: 2000px) {
+	#rateTable {
 		width: 60%;
 	}
 }
 
-@media screen and (max-width: 800px){
-	#rateTable{
+@media screen and (max-width: 800px) {
+	#rateTable {
 		width: 500px;
 	}
 }
 
-@media screen and (max-width: 500px){
-	#rateTable{
+@media screen and (max-width: 500px) {
+	#rateTable {
 		width: 300px;
 	}
-	#id1{
+	#id1 {
 		width: 50px;
 	}
 }
@@ -156,7 +157,7 @@
 			
 			j ++;
 		}
-		<%i ++;%>
+		<%i++;%>
 		
 		//Set focus
 		document.getElementById("interestRate" + i).focus();
@@ -169,37 +170,64 @@
 
 </head>
 <body>
-<%i = 1; %>
-	<form id="rateForm" action="changeRate" method="post">
-		<table class="table" id="rateTable">
-			<tr>
-				<th>ID</th>
-				<th>Interest Rate</th>
-				<th>Period</th>
-				<th></th>
-			</tr>
-			<c:forEach items="${rateList}" var="rate">
-				<tr class="rateRow">
-					<td><input type="text" value="${rate.id }" id="id<%=i%>"
-						name="id<%=i%>" style="border: none; height: 34px; width: 50px;" readonly="readonly"/></td>
-					<td><input type="text" class="form-control" value="${rate.interestRate }"
-						id="interestRate<%=i%>" name="interestRate<%=i%>" onblur="onBlur(<%=i%>)" /></td>
-					<td><input type="text" style="border: none; height: 34px; width: 50px;" value="${rate.period }"
-						id="period<%=i%>" name="period<%=i%>" readonly="readonly"/></td>
-					<td><div id="checkDiv<%=i%>" style="width: 100px; height: 34px; display: table;">
-							<span id="checkSpan<%=i%>" style="display: table-cell; vertical-align: middle;"></span>
-						</div></td>
-				</tr>
-				<%
-					i++;
-				%>
-			</c:forEach>
-		</table>
-		<input type="submit" class="btn btn-primary" id="saveChangeRate" value="Save Changes" style="margin-right: 20px;"><input
-			type="button" class="btn btn-info" onclick="addRow()" value="Add Rate" />
-			
-		<input type="text" id="rowCount" name="rowCount" style="display: none;"/>
-		<h3>${notify }</h3>
-	</form>
+	<%
+		i = 1;
+	%>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>Interest Rate</h1>
+
+				<ol class="breadcrumb">
+					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
+					<li class="active"><i class="fa fa-file"></i> Interest Rate</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<form id="rateForm" action="changeRate">
+					<input type="submit" class="btn btn-primary" id="saveChangeRate"
+						value="Save Changes" style="margin-right: 20px;"><input
+						type="button" class="btn btn-info" onclick="addRow()"
+						value="Add Rate" /> <input type="text" id="rowCount"
+						name="rowCount" style="display: none;" />
+					<h3>${notify }</h3>
+					<table class="table" id="rateTable">
+						<tr>
+							<th>ID</th>
+							<th>Interest Rate</th>
+							<th>Period (months)</th>
+							<th></th>
+						</tr>
+						<c:forEach items="${rateList}" var="rate">
+							<tr class="rateRow">
+								<td><input type="text" value="${rate.id }" id="id<%=i%>"
+									name="id<%=i%>"
+									style="border: none; height: 34px; width: 50px;"
+									readonly="readonly" /></td>
+								<td><input type="text" class="form-control"
+									value="${rate.interestRate }" id="interestRate<%=i%>"
+									name="interestRate<%=i%>" onblur="onBlur(<%=i%>)" /></td>
+								<td><input type="text"
+									style="border: none; height: 34px; width: 50px;"
+									value="<fmt:formatNumber value="${rate.period }" type="number"/>" id="period<%=i%>" name="period<%=i%>"
+									readonly="readonly" /></td>
+								<td><div id="checkDiv<%=i%>"
+										style="width: 100px; height: 34px; display: table;">
+										<span id="checkSpan<%=i%>"
+											style="display: table-cell; vertical-align: middle;"></span>
+									</div></td>
+							</tr>
+							<%
+								i++;
+							%>
+						</c:forEach>
+					</table>
+
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

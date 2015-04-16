@@ -41,27 +41,28 @@ public class SavingAccountService {
 	public boolean updateSavingAccount(SavingAccount account) {
 		return savingAccountDAO.updateSavingAccount(account);
 	}
-	
+
 	public SavingAccount getSavingAccountByAccNumber(String accNumber) {
-		return savingAccountDAO.getAccountByAccNumber(accNumber); 
+		return savingAccountDAO.getAccountByAccNumber(accNumber);
 	}
-	
+
 	public String generateAccountNumber() {
 		String accountNo = "";
-		
+
 		StringBuilder accNoBuilder = new StringBuilder();
 		Calendar cal = Calendar.getInstance();
-		DecimalFormat fmt2Digit= new DecimalFormat("00");
-		
-		accNoBuilder.append(String.valueOf(cal.get(Calendar.YEAR)).substring(2));
+		DecimalFormat fmt2Digit = new DecimalFormat("00");
+
+		accNoBuilder
+				.append(String.valueOf(cal.get(Calendar.YEAR)).substring(2));
 		accNoBuilder.append(fmt2Digit.format(cal.get(Calendar.MONTH) + 1));
 		accNoBuilder.append(fmt2Digit.format(cal.get(Calendar.DAY_OF_MONTH)));
-		
+
 		String suffix = "";
 		List<SavingAccount> listAcc = this.getSavingAccounts();
-		if (listAcc.contains(accNoBuilder.toString() + "000000")) {
+		if (this.getSavingAccountByAccNumber(accNoBuilder.toString() + "000000") == null) {
 			suffix = "000000";
-			
+
 		} else {
 			SavingAccount account = listAcc.get(listAcc.size() - 1);
 			suffix = account.getAccountNumber().substring(6);
@@ -69,20 +70,22 @@ public class SavingAccountService {
 			DecimalFormat fmt6Digits = new DecimalFormat("000000");
 			suffix = fmt6Digits.format(next);
 		}
-		
+
 		accNoBuilder.append(suffix);
 		accountNo = accNoBuilder.toString();
 		return accountNo;
 	}
-	
+
 	/**
 	 * Call DAO to search Accounts
+	 * 
 	 * @param idCard
 	 * @param accNumber
 	 * @return
 	 * @author vinh-tp
 	 */
-	public List<SavingAccount> searchSavingAccounts(String idCard,String accNumber) {
+	public List<SavingAccount> searchSavingAccounts(String idCard,
+			String accNumber) {
 		return savingAccountDAO.searchSavingAccounts(idCard, accNumber);
 	}
 

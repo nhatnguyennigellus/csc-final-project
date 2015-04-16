@@ -33,18 +33,18 @@ import csc.fresher.finalproject.service.TransactionService;
 
 @Controller
 public class SavingAccountController {
-	
+
 	@Autowired
-	private SavingAccountService accountService ;
-	
+	private SavingAccountService accountService;
+
 	@Autowired
-	private CustomerService customerService ;
-	
+	private CustomerService customerService;
+
 	@Autowired
 	private TransactionService transactionService;
-	
+
 	@Autowired
-	private InterestRateService rateService ;
+	private InterestRateService rateService;
 
 	@RequestMapping(value = "/toAddAccount")
 	public String toAddCustomer(Model model, HttpServletRequest request) {
@@ -69,7 +69,7 @@ public class SavingAccountController {
 		int customerId = Integer.parseInt(request.getParameter("customerId"));
 		Customer customer = customerService.getCustomerById(customerId);
 
-		double interestRatePeriod = Double.parseDouble(request
+		Integer interestRatePeriod = Integer.parseInt(request
 				.getParameter("period"));
 		SavingInterestRate interestRate = rateService
 				.getInterestRateByPeriod(interestRatePeriod);
@@ -111,59 +111,69 @@ public class SavingAccountController {
 		}
 		return "addAccount";
 	}
+
 	/**
 	 * Redirect to searchAccount view if user logged in
+	 * 
 	 * @author vinh-tp
 	 * @since 2015-08-04
 	 * 
 	 */
-	@RequestMapping(value="/searchAccount", method=RequestMethod.GET)
-	public String viewSearchAccount(HttpServletRequest request,Model model) {
-		return "searchAccount";
-	}
-	
+	/*
+	 * @RequestMapping(value = "/searchAccount", method = RequestMethod.GET)
+	 * public String viewSearchAccount(HttpServletRequest request, Model model)
+	 * { return "searchAccount"; }
+	 */
 	/**
-	 * Search for account existence 
+	 * Search for account existence
+	 * 
 	 * @author vinh-tp
 	 * @since 2015-08-04
 	 */
-	@RequestMapping(value="/searchAccount", method=RequestMethod.POST)
-	public String searchAccount(HttpServletRequest request,Model model) {
+	@RequestMapping(value = "/searchAccount", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String searchAccount(HttpServletRequest request, Model model) {
+		request.getSession().removeAttribute("updateSuccess");
+		request.getSession().removeAttribute("updateError");
 		String idCardValue = request.getParameter("idCardValue");
 		String accNumberValue = request.getParameter("accNumberValue");
-		if (idCardValue!=null && accNumberValue!=null) {
-		List<SavingAccount> accounts = accountService.searchSavingAccounts(idCardValue, accNumberValue);
-		model.addAttribute("accountList", accounts);
-		}
-		else {
+		if (idCardValue != null && accNumberValue != null) {
+			List<SavingAccount> accounts = accountService.searchSavingAccounts(
+					idCardValue, accNumberValue);
+			model.addAttribute("accountList", accounts);
+		} else {
 			model.addAttribute("message", "nullInput");
 		}
 		return "searchAccount";
 	}
-	
+
 	@RequestMapping(value = "/viewAccount")
-	public String viewAccount(Model model, HttpServletRequest request){
+	public String viewAccount(Model model, HttpServletRequest request) {
 		List<SavingAccount> accountList = accountService.getSavingAccounts();
-		
+
 		model.addAttribute("accountList", accountList);
-		
+
 		return "viewAccount";
 	}
-	
-	@RequestMapping(value="/modifyAccount")
-	public String modifyAccount(Model model){
-		SavingAccount savingAccount = accountService.findAccount("acc1");
-		Customer customer = customerService.findCustomerOfAccount(savingAccount);
-		
+
+	@RequestMapping(value = "/modifyAccount")
+	public String modifyAccount(Model model, HttpServletRequest request) {
+		String accNumber = request.getParameter("accNumber");
+		SavingAccount savingAccount = accountService
+				.getSavingAccountByAccNumber(accNumber);
+		Customer customer = customerService
+				.findCustomerOfAccount(savingAccount);
+
 		model.addAttribute("account", savingAccount);
 		model.addAttribute("customer", customer);
-		
+
 		return "modifyAccount";
 	}
-	
-	@RequestMapping(value="/updateAccount", method = RequestMethod.POST)
-	public String udpateAccount(Model model, HttpServletRequest request){
-		
+
+	@RequestMapping(value = "/updateAccount", method = { RequestMethod.POST,
+			RequestMethod.GET })
+	public String updateAccount(Model model, HttpServletRequest request) {
+
 		int customerId = 0;
 		int interestId = 0;
 		String accountNumber = "";
@@ -173,62 +183,66 @@ public class SavingAccountController {
 		String repeatableString = "";
 		String state = "";
 		boolean repeatable = false;
-		
-		//Validate Saving Account
-		if(request.getParameter("accountNumber") != "" && request.getParameter("accountOwner") != "" && request.getParameter("balanceAmount") != "" && request.getParameter("interest") != "" && request.getParameter("customerId") != "" && request.getParameter("interestId") != ""){
+
+		// Validate Saving Account
+		if (request.getParameter("accountNumber") != ""
+				&& request.getParameter("accountOwner") != ""
+				&& request.getParameter("balanceAmount") != ""
+				&& request.getParameter("interest") != ""
+				&& request.getParameter("customerId") != ""
+				&& request.getParameter("interestId") != "") {
 			accountNumber = request.getParameter("accountNumber");
 			accountOwner = request.getParameter("accountOwner");
-			balanceAmount = Double.parseDouble(request.getParameter("balanceAmount"));
+			balanceAmount = Double.parseDouble(request
+					.getParameter("balanceAmount"));
 			interest = Double.parseDouble(request.getParameter("interest"));
-			
+
 			repeatableString = request.getParameter("repeatable");
-			if(repeatableString == "True"){
+			if (repeatableString == "True") {
 				repeatable = true;
 			}
-			
+
 			state = request.getParameter("state");
-			
+
 			customerId = Integer.parseInt(request.getParameter("customerId"));
 			interestId = Integer.parseInt(request.getParameter("interestId"));
-		} else{
-			model.addAttribute("notify", "<font color = 'red'>Please fill all fields with valid data!</font>");
-			return "redirect:modifyAccount";
+		} else {
+			request.getSession().setAttribute("updateError",
+					"Please fill all fields with valid data!");
+			return "redirect:modifyAccount?accNumber=" + accountNumber;
 		}
-		
+
 		Customer customer = customerService.getCustomerById(customerId);
-		SavingInterestRate savingInterestRate = rateService.getInterestRateById(interestId);
-		
-		SavingAccount savingAccount = new SavingAccount(accountNumber, accountOwner, balanceAmount, interest, repeatable, state, customer, savingInterestRate);
-		
+		SavingInterestRate savingInterestRate = rateService
+				.getInterestRateById(interestId);
+
+		SavingAccount savingAccount = new SavingAccount(accountNumber,
+				accountOwner, balanceAmount, interest, repeatable, state,
+				customer, savingInterestRate);
+
 		boolean result = accountService.updateSavingAccount(savingAccount);
-		if(!result){
-			model.addAttribute("notify", "<font color='red'>Cannot update Account!</font>");
-		} else{
-			model.addAttribute("notify", "<font color='green'>Updated Account!</font>");
+		if (!result) {
+			request.getSession().setAttribute("updateError",
+					"Cannot update Account!");
+		} else {
+			request.getSession().setAttribute("updateSuccess",
+					"Updated Account!");
 		}
-				
+
 		model.addAttribute("account", savingAccount);
-		
-		return "redirect:modifyAccount";
+
+		return "redirect:modifyAccount?accNumber=" + accountNumber;
 	}
-	
-	@RequestMapping(value = "/approve")
-	public String approve(Model model){
-		List<SavingAccount> accountList = accountService.getSavingAccounts();
-		
-		model.addAttribute("accountList", accountList);
-		
-		return "approve";
-	}
-	
+
 	@RequestMapping(value = "/approveAccount")
 	public String approve(HttpServletRequest request) {
 		String accountNumber = request.getParameter("accountNumber");
-		SavingAccount account = accountService.getSavingAccountByNumber(accountNumber);
+		SavingAccount account = accountService
+				.getSavingAccountByAccNumber(accountNumber);
 		account.setState("active");
-		
+
 		boolean result = accountService.approve(account);
-		
-		return "redirect:approve";
+
+		return "redirect:searchAccount?idCardValue=&accNumberValue=";
 	}
 }

@@ -40,7 +40,7 @@ public class InterestRateDAO {
 		return rateList;
 	}
 
-	public SavingInterestRate getInterestRateByPeriod(double interestRatePeriod) {
+	public SavingInterestRate getInterestRateByPeriod(Integer interestRatePeriod) {
 		EntityManager entityManager = EntityManagerFactoryUtil
 				.createEntityManager();
 		EntityTransaction enTr = entityManager.getTransaction();
@@ -49,10 +49,9 @@ public class InterestRateDAO {
 		try {
 			enTr.begin();
 
-			TypedQuery<SavingInterestRate> query = entityManager
-					.createQuery(
-							"SELECT r FROM SavingInterestRate r WHERE r.period = ?1",
-							SavingInterestRate.class);
+			TypedQuery<SavingInterestRate> query = entityManager.createQuery(
+					"SELECT r FROM SavingInterestRate r WHERE r.period = ?1",
+					SavingInterestRate.class);
 			query.setParameter(1, interestRatePeriod);
 			rate = query.getSingleResult();
 			enTr.commit();
@@ -64,7 +63,7 @@ public class InterestRateDAO {
 
 		return rate;
 	}
-	
+
 	public SavingInterestRate getInterestRateById(int id) {
 		EntityManager entityManager = EntityManagerFactoryUtil
 				.createEntityManager();
@@ -74,10 +73,9 @@ public class InterestRateDAO {
 		try {
 			enTr.begin();
 
-			TypedQuery<SavingInterestRate> query = entityManager
-					.createQuery(
-							"SELECT r FROM SavingInterestRate r WHERE r.id = ?1",
-							SavingInterestRate.class);
+			TypedQuery<SavingInterestRate> query = entityManager.createQuery(
+					"SELECT r FROM SavingInterestRate r WHERE r.id = ?1",
+					SavingInterestRate.class);
 			query.setParameter(1, id);
 			rate = query.getSingleResult();
 			enTr.commit();
@@ -89,23 +87,27 @@ public class InterestRateDAO {
 
 		return rate;
 	}
-	
+
 	public boolean updateInterestRate(SavingInterestRate rate) {
 		EntityManager entityManager = EntityManagerFactoryUtil
 				.createEntityManager();
 		EntityTransaction enTr = entityManager.getTransaction();
-		
-		try{
+
+		try {
 			enTr.begin();
-			Query query = entityManager.createQuery("UPDATE SavingInterestRate SET interestRate = " + rate.getInterestRate() + ", period = " + rate.getPeriod() + " WHERE id = " + rate.getId());
+			Query query = entityManager
+					.createQuery("UPDATE SavingInterestRate SET interestRate = "
+							+ rate.getInterestRate()
+							+ ", period = "
+							+ rate.getPeriod() + " WHERE id = " + rate.getId());
 			query.executeUpdate();
 			enTr.commit();
-		} catch (Exception e){
+		} catch (Exception e) {
 			enTr.rollback();
 			entityManager.close();
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -113,17 +115,17 @@ public class InterestRateDAO {
 		EntityManager entityManager = EntityManagerFactoryUtil
 				.createEntityManager();
 		EntityTransaction enTr = entityManager.getTransaction();
-		
-		try{
+
+		try {
 			enTr.begin();
 			entityManager.persist(newInterestRate);
 			enTr.commit();
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			entityManager.close();
 			return false;
 		}
-		
+
 		return true;
 	}
 }

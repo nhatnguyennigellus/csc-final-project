@@ -20,6 +20,7 @@
 		<intercept-url pattern="/toAddAccount" access="hasAnyRole('Support')" />
 		<intercept-url pattern="/addAccount" access="hasAnyRole('Support')" />
 		<intercept-url pattern="/viewinterestRate" access="hasAnyRole('Admin')" />
+		<intercept-url pattern="/modifyAccount" access="hasAnyRole('Admin')" />
 		<intercept-url pattern="/home" access="hasAnyRole('Admin', 'Support')" />
  
 		<!-- access denied page -->

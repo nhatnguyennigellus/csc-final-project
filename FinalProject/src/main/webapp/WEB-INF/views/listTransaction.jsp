@@ -24,71 +24,67 @@
 				</ol>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-info">
-				<div class="panel-body">
-					<c:if test="${apprError != null }">
-						<div class="alert alert-danger" role="alert">${apprError }</div>
-					</c:if>
-					<c:if test="${apprSuccess != null }">
-						<div class="alert alert-success" role="alert">${apprSuccess }
-						</div>
-					</c:if>
-					<table class="table table-striped" id="tableCustomer">
-						<thead>
+		<div class="row">
+			<div class="col-md-12">
+				<c:if test="${apprError != null }">
+					<div class="alert alert-danger" role="alert">${apprError }</div>
+				</c:if>
+				<c:if test="${apprSuccess != null }">
+					<div class="alert alert-success" role="alert">${apprSuccess }
+					</div>
+				</c:if>
+				<table class="table table-striped" id="tableCustomer">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Account Number</th>
+							<th>Amount</th>
+							<th>Date</th>
+							<th>Type</th>
+							<th>State</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="transaction" items="${listTransaction }">
 							<tr>
-								<th>ID</th>
-								<th>Account Number</th>
-								<th>Amount</th>
-								<th>Date</th>
-								<th>Type</th>
-								<th>State</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="transaction" items="${listTransaction }">
-								<tr>
-									<td>${transaction.id }</td>
-									<td>${transaction.savingAccount.accountNumber}</td>
-									<td><fmt:formatNumber groupingUsed="false" type="number"
-											value="${transaction.amount}" /></td>
-									<td>${transaction.date }</td>
-									<td>${transaction.type}</td>
-									<td><h4>
-											<span
-												class="
+								<td>${transaction.id }</td>
+								<td>${transaction.savingAccount.accountNumber}</td>
+								<td><fmt:formatNumber groupingUsed="false" type="number"
+										value="${transaction.amount}" /></td>
+								<td>${transaction.date }</td>
+								<td>${transaction.type}</td>
+								<td><h4>
+										<span
+											class="
 									<c:if test="${transaction.state == 'Pending'}">label label-info</c:if>
 									<c:if test="${transaction.state == 'Approved'}">label label-success</c:if>
 									<c:if test="${transaction.state == 'Rejected'}">label label-danger</c:if>
 									">
-												${transaction.state}</span>
-										</h4></td>
-									<td><sec:authorize access="hasRole('Admin')">
-											<c:if test="${transaction.state == 'Pending' }">
-												<a
-													href="approveTransaction?transactionId=${transaction.id }">
-													<button type="button" class="btn btn-success btn-sm">
-														<span class="glyphicon glyphicon-ok"></span>
-													</button>
-												</a>
-												<a href="rejectTransaction?transactionId=${transaction.id }">
-													<button type="button" class="btn btn-danger btn-sm">
-														<span class="glyphicon glyphicon-remove"></span>
-													</button>
-												</a>
-											</c:if>
-										</sec:authorize></td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
+											${transaction.state}</span>
+									</h4></td>
+								<td><sec:authorize access="hasRole('Admin')">
+										<c:if test="${transaction.state == 'Pending' }">
+											<a href="approveTransaction?transactionId=${transaction.id }">
+												<button type="button" class="btn btn-success btn-sm">
+													<span class="glyphicon glyphicon-ok"></span>
+												</button>
+											</a>
+											<a href="rejectTransaction?transactionId=${transaction.id }">
+												<button type="button" class="btn btn-danger btn-sm">
+													<span class="glyphicon glyphicon-remove"></span>
+												</button>
+											</a>
+										</c:if>
+									</sec:authorize></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
+
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {

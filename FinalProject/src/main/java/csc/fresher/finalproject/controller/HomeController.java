@@ -45,6 +45,11 @@ public class HomeController {
 	@Autowired
 	private TransactionService transService;
 
+	@RequestMapping(value = "/404")
+	public String error404() {
+		return "404";
+	}
+
 	/**
 	 * Redirects to Login Page
 	 * 
@@ -61,7 +66,7 @@ public class HomeController {
 
 		if (session.getAttribute(SessionName.USER) != null) {
 			model.setViewName("home");
-			
+
 			try {
 				response.sendRedirect("home");
 			} catch (IOException e) {
@@ -82,9 +87,7 @@ public class HomeController {
 
 		return model;
 	}
-	
-	
-	
+
 	/**
 	 * Redirects to Home Page
 	 * 
@@ -126,6 +129,6 @@ public class HomeController {
 
 		model.setViewName("403");
 		return model;
-		
+
 	}
 }

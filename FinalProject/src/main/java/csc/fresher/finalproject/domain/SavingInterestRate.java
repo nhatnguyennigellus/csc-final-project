@@ -21,7 +21,7 @@ public class SavingInterestRate {
 	private Integer id;
 
 	@NotNull
-	private double period;
+	private Integer period;
 
 	@NotNull
 	private double interestRate;
@@ -29,9 +29,7 @@ public class SavingInterestRate {
 	@OneToMany(mappedBy = "interestRate")
 	private Set<SavingAccount> savingAccounts = new HashSet<SavingAccount>();
 	
-	
-
-	public SavingInterestRate(Integer id, double period, double interestRate) {
+	public SavingInterestRate(Integer id, Integer period, double interestRate) {
 		super();
 		this.id = id;
 		this.period = period;
@@ -47,7 +45,6 @@ public class SavingInterestRate {
 	}
 
 	public SavingInterestRate() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Integer getId() {
@@ -62,7 +59,7 @@ public class SavingInterestRate {
 		return period;
 	}
 
-	public void setPeriod(double period) {
+	public void setPeriod(Integer period) {
 		this.period = period;
 	}
 

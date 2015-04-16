@@ -147,6 +147,7 @@ public class SavingAccountDAO {
 		}
 		return true;
 	}
+
 	/**
 	 * Get account by ID card number
 	 * 
@@ -198,7 +199,9 @@ public class SavingAccountDAO {
 			entr.begin();
 			TypedQuery<SavingAccount> query = entityManager
 					.createQuery(
-							//"SELECT a FROM SavingAccount a WHERE a.customer.idCardNumber LIKE '%" +idCard+ "%' AND a.accountNumber LIKE '%"+ accNumber + "%'",
+							// "SELECT a FROM SavingAccount a WHERE a.customer.idCardNumber LIKE '%"
+							// +idCard+ "%' AND a.accountNumber LIKE '%"+
+							// accNumber + "%'",
 							"SELECT a FROM SavingAccount a WHERE a.customer.idCardNumber LIKE ?1 AND a.accountNumber LIKE ?2",
 							SavingAccount.class);
 			query.setParameter(1, "%" + idCard + "%");
@@ -212,28 +215,20 @@ public class SavingAccountDAO {
 		return accounts;
 	}
 
-	public SavingAccount findAccount(String accountNumber) {
-		EntityManager entityManager = EntityManagerFactoryUtil
-				.createEntityManager();
-
-		return entityManager.find(SavingAccount.class, accountNumber);
-	}
-
 	public boolean approve(SavingAccount account) {
 		EntityManager entityManager = EntityManagerFactoryUtil
 				.createEntityManager();
 		EntityTransaction enTr = entityManager.getTransaction();
-		try{
+		try {
 			enTr.begin();
 			entityManager.merge(account);
 			enTr.commit();
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			entityManager.close();
 			return false;
 		}
-		
-		
+
 		return true;
 	}
 }

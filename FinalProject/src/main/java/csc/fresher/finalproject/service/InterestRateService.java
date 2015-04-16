@@ -20,7 +20,7 @@ public class InterestRateService {
 		return rateDAO.getInterestRateList();
 	}
 
-	public SavingInterestRate getInterestRateByPeriod(double interestRatePeriod) {
+	public SavingInterestRate getInterestRateByPeriod(Integer interestRatePeriod) {
 		return rateDAO.getInterestRateByPeriod(interestRatePeriod);
 	}
 	

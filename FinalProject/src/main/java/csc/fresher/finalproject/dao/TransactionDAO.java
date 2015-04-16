@@ -46,15 +46,10 @@ public class TransactionDAO {
 			enTr.commit();
 		} catch (Exception e) {
 			entityManager.close();
+			e.printStackTrace();
 		}
 		return transaction;
 	}
-
-	/*
-	 * public List<Transaction> searchTransaction() {
-	 * 
-	 * }
-	 */
 
 	public boolean getInterestAlready(SavingAccount account) {
 		EntityManager entityManager = EntityManagerFactoryUtil
@@ -156,6 +151,7 @@ public class TransactionDAO {
 			entityManager.persist(transaction);
 			enTr.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			enTr.rollback();
 			entityManager.close();
 			return false;
@@ -243,7 +239,7 @@ public class TransactionDAO {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Get transactions by state (pending/approved)
 	 * 
@@ -282,10 +278,8 @@ public class TransactionDAO {
 					.createQuery(
 							"SELECT t FROM Transaction t WHERE t.state LIKE ?1 AND t.type LIKE ?2 AND t.savingAccount.accountNumber LIKE ?3",
 							Transaction.class);
-			query.setParameter(1, transaction.getState() == "" ? "%"
-					: transaction.getState());
-			query.setParameter(2, transaction.getType() == "" ? "%"
-					: transaction.getType());
+			query.setParameter(1, "%" + transaction.getState() + "%");
+			query.setParameter(2, "%" + transaction.getType() + "%");
 			query.setParameter(3, "%"
 					+ transaction.getSavingAccount().getAccountNumber() + "%");
 			transactions = query.getResultList();
