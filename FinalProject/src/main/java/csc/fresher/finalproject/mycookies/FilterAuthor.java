@@ -32,19 +32,7 @@ public class FilterAuthor implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse res = (HttpServletResponse) response;
-		HttpSession session = req.getSession(false);
-		String uri = req.getRequestURI();
-		
-		if (session == null
-				&& !(uri.endsWith("index.jsp") || uri.endsWith("register.html") || uri
-						.endsWith("submitRegister.html"))) {
-			res.sendRedirect("index.jsp");
-		} else {
-			// pass the request along the filter chain
 			chain.doFilter(request, response);
-		}
 
 	}
 

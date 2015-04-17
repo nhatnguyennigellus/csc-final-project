@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +15,11 @@ import csc.fresher.finalproject.service.InterestRateService;
 
 @Controller
 public class InterestRateController {
+	@Autowired
+	InterestRateService interestRateService;
 
 	@RequestMapping(value = "/viewInterestRate")
 	public String viewInterestRate(Model model) {
-		InterestRateService interestRateService = new InterestRateService();
 
 		List<SavingInterestRate> rateList = interestRateService
 				.getInterestRateList();
@@ -35,7 +37,6 @@ public class InterestRateController {
 	@RequestMapping(value = "/changeRate", method = { RequestMethod.POST,
 			RequestMethod.GET })
 	public String changeRate(HttpServletRequest request, Model model) {
-		InterestRateService interestRateService = new InterestRateService();
 
 		List<SavingInterestRate> rateList = interestRateService
 				.getInterestRateList();

@@ -10,7 +10,7 @@ import javax.servlet.http.*;
  *
  */
 public class CookieUtilities {
-
+/*
 	public static String getCookieValue(HttpServletRequest request,
 			String cookieName, String defaultValue) {
 		Cookie[] cookies = request.getCookies();
@@ -34,5 +34,5 @@ public class CookieUtilities {
 			}
 		}
 		return (null);
-	}
+	}*/
 }
