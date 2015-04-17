@@ -1,0 +1,13 @@
+<dataset>
+  <customer customerId="1" address1="lac long quan hcm" address2="nha trang" email="tpvinh@gmail" firstName="vinh" idCardNumber="225499940" lastName="truong" middleName="phuc" phone1="01226703343" phone2="0122666878"/>
+  <savingaccount accountNumber="201504080001" accountOwner="vinh" balanceAmount="1.25E7" dueDate="2015-07-09 00:00:00.0" interest="0.0" repeatable="true" startDate="2015-04-09 00:00:00.0" state="active" customerId="1" interestRateId="2"/>
+  <savinginterestrate id="1" interestRate="0.005" period="0.0"/>
+  <savinginterestrate id="2" interestRate="0.03" period="3.0"/>
+  <transaction id="1" amount="1.05E7" date="2015-04-10 00:00:00.0" state="Rejected" type="Deposit" accountNumber="201504080001"/>
+  <transaction id="2" amount="2000000.0" date="2015-05-10 00:00:00.0" state="Approved" type="WithdrawBalance" accountNumber="201504080001"/>
+  <user username="sp" enable="true" password="123" role="Support"/>
+  <user username="vinh" enable="true" password="123" role="Admin"/>
+  <userrole role="Admin" description="admin"/>
+  <userrole role="Support" description="support"/>
+  <usertransaction transaction_id="1" username="sp"/>
+</dataset>
