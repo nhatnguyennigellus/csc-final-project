@@ -22,7 +22,7 @@
 					<div class="alert alert-danger" role="alert">${error}</div>
 				</c:if>
 				<c:if test="${not empty msg}">
-					<div class="alert alert-primary" role="alert">${msg}</div>
+					<div class="alert alert-success" role="alert">${msg}</div>
 				</c:if>
 
 				<form name='loginForm'

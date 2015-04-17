@@ -55,7 +55,7 @@ public class SavingInterestRate {
 		this.id = id;
 	}
 
-	public double getPeriod() {
+	public Integer getPeriod() {
 		return period;
 	}
 

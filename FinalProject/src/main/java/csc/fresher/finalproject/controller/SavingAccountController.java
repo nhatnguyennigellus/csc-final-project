@@ -51,6 +51,7 @@ public class SavingAccountController {
 		SavingAccount account = new SavingAccount();
 		account.setAccountNumber(accountService.generateAccountNumber());
 
+		model.addAttribute("rateList", rateService.getInterestRateList());
 		model.addAttribute("savingAccount", account);
 		model.addAttribute("customerId", request.getParameter("customerId"));
 		return "addAccount";

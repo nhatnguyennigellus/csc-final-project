@@ -70,13 +70,23 @@
 								<label class="control-label" for="period">Saving Period</label>
 								<font color="red">* <select class="form-control input-sm"
 									id="period" name="period">
-										<option value="0">No period</option>
+									<c:forEach items="${rateList }" var="rate">
+										<c:choose >
+										<c:when test="${rate.period == 0}">
+												<option value="0">No period</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${rate.period}">${rate.period} months</option>
+										</c:otherwise>
+										</c:choose>
+									</c:forEach>
+										<!-- 
 										<option value="1">1 month</option>
 										<option value="2">2 months</option>
 										<option value="3">3 months</option>
 										<option value="6">6 months</option>
 										<option value="12">12 months</option>
-										<option value="24">24 months</option>
+										<option value="24">24 months</option> -->
 								</select>
 								</font>
 							</div>
@@ -106,7 +116,7 @@
 <script type="text/javascript">
 	$(function() {
 		$.validator.addMethod('minStrict', function(value, el, param) {
-			return value > param;
+			return value >= param;
 		});
 
 		$.validator.addMethod("exactlength", function(value, element, param) {
