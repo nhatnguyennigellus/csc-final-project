@@ -15,6 +15,10 @@ import javax.servlet.ServletContextListener;
 public class EntityManagerFactoryUtil implements ServletContextListener {
 
 	private static EntityManagerFactory emf;
+	
+	public static void setEntityManagerFactory(){
+		emf = Persistence.createEntityManagerFactory("FinalProject");
+	}
 
 	/**
 	 * Used to get entity manager
