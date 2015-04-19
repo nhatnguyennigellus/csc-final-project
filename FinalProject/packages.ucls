@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.8" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <package id="1" language="java" name="csc.fresher.finalproject.utilities" project="FinalProject" 
+    file="/FinalProject/src/main/java/csc/fresher/finalproject/utilities" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="384" y="156"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="2" language="java" name="csc.fresher.finalproject.controller" project="FinalProject" 
+    file="/FinalProject/src/main/java/csc/fresher/finalproject/controller" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="148" y="74"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="3" language="java" name="csc.fresher.finalproject.domain" project="FinalProject" 
+    file="/FinalProject/src/main/java/csc/fresher/finalproject/domain" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="612" y="74"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="4" language="java" name="csc.fresher.finalproject.dao" project="FinalProject" 
+    file="/FinalProject/src/main/java/csc/fresher/finalproject/dao" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="603" y="156"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="5" language="java" name="csc.fresher.finalproject.service" project="FinalProject" 
+    file="/FinalProject/src/main/java/csc/fresher/finalproject/service" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="382" y="74"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

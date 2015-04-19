@@ -1,5 +1,4 @@
-<%@page import="csc.fresher.finalproject.mycookies.SessionName"%>
-<%@page import="csc.fresher.finalproject.mycookies.CookieUtilities"%>
+<%@page import="csc.fresher.finalproject.utilities.SessionName"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -24,26 +23,21 @@
 				<c:if test="${not empty msg}">
 					<div class="alert alert-success" role="alert">${msg}</div>
 				</c:if>
-
 				<form name='loginForm'
-					action="<c:url value='/j_spring_security_check' />" method='POST'>
+					action="<c:url value='/auth/login_check?targetUrl=${targetUrl}' />" method='POST'>
 
 					<div class="form-group">
 						<label for="username">Username</label> <font color="red"><input
 							class="form-control" type="text" name="username"
-							class="textBox"
-							value="<%=CookieUtilities.getCookieValue(request,
-					SessionName.USERNAME, "")%>" /></font>
+							class="textBox"/></font>
 					</div>
 					<div class="form-group">
 						<label for="password">Password</label> <font color="red"><input
-							class="form-control" type="password" name="password"
-							value="<%=CookieUtilities.getCookieValue(request,
-					SessionName.PASSWORD, "")%>" /></font>
+							class="form-control" type="password" name="password" /></font>
 					</div>
 					<div class="checkbox">
 						<label> <input type="checkbox" value="yes"
-							name="cbRemember" /> Remember me
+							name="remember-me" /> Remember me
 						</label>
 					</div>
 					<input class="btn btn-success" type="submit" name="btLogin"

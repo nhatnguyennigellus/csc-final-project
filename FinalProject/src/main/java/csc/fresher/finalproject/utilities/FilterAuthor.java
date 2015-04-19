@@ -1,4 +1,4 @@
-package csc.fresher.finalproject.mycookies;
+package csc.fresher.finalproject.utilities;
 
 import java.io.IOException;
 

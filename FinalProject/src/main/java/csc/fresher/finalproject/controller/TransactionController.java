@@ -18,10 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.Transaction;
 import csc.fresher.finalproject.domain.User;
-import csc.fresher.finalproject.mycookies.SessionName;
 import csc.fresher.finalproject.service.DateUtils;
 import csc.fresher.finalproject.service.InterestRateService;
 import csc.fresher.finalproject.service.SavingAccountService;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import csc.fresher.finalproject.service.TransactionService;
 import csc.fresher.finalproject.service.UserService;
+import csc.fresher.finalproject.utilities.SessionName;
 
 @Controller
 public class TransactionController {

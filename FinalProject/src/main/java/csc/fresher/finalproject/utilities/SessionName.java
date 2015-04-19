@@ -1,4 +1,4 @@
-package csc.fresher.finalproject.mycookies;
+package csc.fresher.finalproject.utilities;
 
 /**
  * This class defines session names as constants, which are used to save values

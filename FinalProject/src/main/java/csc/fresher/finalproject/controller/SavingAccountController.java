@@ -24,12 +24,12 @@ import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.SavingInterestRate;
 import csc.fresher.finalproject.domain.Transaction;
 import csc.fresher.finalproject.domain.User;
-import csc.fresher.finalproject.mycookies.SessionName;
 import csc.fresher.finalproject.service.CustomerService;
 import csc.fresher.finalproject.service.DateUtils;
 import csc.fresher.finalproject.service.InterestRateService;
 import csc.fresher.finalproject.service.SavingAccountService;
 import csc.fresher.finalproject.service.TransactionService;
+import csc.fresher.finalproject.utilities.SessionName;
 
 @Controller
 public class SavingAccountController {
