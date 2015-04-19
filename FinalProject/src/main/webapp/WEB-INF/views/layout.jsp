@@ -137,7 +137,7 @@
 
 		</div>
 		<img src="<c:url value='/resources/images/csc.png'/>" width="25px">
-			<font color="white">CSC Java Fresher Mar 2015 - Final Project</font>
+			<font color="white">CSC Java Fresher Mar 2015 - Final Project - Group 2</font>
 		<!-- /#page-wrapper -->
 
 	</div>

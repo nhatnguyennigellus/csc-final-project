@@ -213,13 +213,20 @@ public class SavingAccountController {
 			return "redirect:modifyAccount?accNumber=" + accountNumber;
 		}
 
-		Customer customer = customerService.getCustomerById(customerId);
+		
+		//Customer customer = customerService.getCustomerById(customerId);
 		SavingInterestRate savingInterestRate = rateService
 				.getInterestRateById(interestId);
-
-		SavingAccount savingAccount = new SavingAccount(accountNumber,
+/*SavingAccount savingAccount = new SavingAccount(accountNumber,
 				accountOwner, balanceAmount, interest, repeatable, state,
-				customer, savingInterestRate);
+				customer, savingInterestRate);*/
+		SavingAccount savingAccount = accountService.getSavingAccountByAccNumber(accountNumber);
+		savingAccount.setAccountOwner(accountOwner);
+		savingAccount.setBalanceAmount(balanceAmount);
+		savingAccount.setInterest(interest);
+		savingAccount.setState(state);
+		savingAccount.setInterestRate(savingInterestRate);
+		savingAccount.setRepeatable(repeatable);
 
 		boolean result = accountService.updateSavingAccount(savingAccount);
 		if (!result) {

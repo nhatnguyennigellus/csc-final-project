@@ -64,6 +64,7 @@ public class HomeController {
 		ModelAndView model = new ModelAndView();
 		HttpSession session = request.getSession();
 
+		model.addObject("targetUrl", "/home");
 		if (session.getAttribute(SessionName.USER) != null) {
 			model.setViewName("home");
 
@@ -88,7 +89,7 @@ public class HomeController {
 
 		if (logout != null) {
 			model.addObject("msg", "You've been logged out successfully.");
-			model.addObject("targetUrl", "/home");
+			
 		}
 		model.setViewName("login");
 
