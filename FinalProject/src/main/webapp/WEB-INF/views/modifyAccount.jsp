@@ -64,7 +64,7 @@
 				checkSpan.text("Invalid");
 			}
 		}
-		
+
 		if (control.attr("id") == "phone2" && control.val() != ""
 				&& (control.val().length < 10 || control.val().length > 15)) {
 			checkSpan.addClass("label label-danger");
@@ -235,6 +235,11 @@
 										<c:if test="${account.state != 'new'}">
 											<option value="active">Active</option>
 											<option value="hold">Hold</option>
+
+										</c:if>
+										<c:if
+											test="${account.balanceAmount == 0 && account.interest == 0 || account.state == 'done'
+											 }">
 											<option value="done">Done</option>
 										</c:if>
 										<c:if test="${account.state == 'new'}">

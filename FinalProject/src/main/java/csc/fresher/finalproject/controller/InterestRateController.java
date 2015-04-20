@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import csc.fresher.finalproject.domain.SavingInterestRate;
-import csc.fresher.finalproject.service.InterestRateService;
+import csc.fresher.finalproject.service.BankingService;
 
 @Controller
 public class InterestRateController {
 	@Autowired
-	InterestRateService interestRateService;
+	BankingService bankingService;
 
 	@RequestMapping(value = "/viewInterestRate")
 	public String viewInterestRate(Model model) {
 
-		List<SavingInterestRate> rateList = interestRateService
+		List<SavingInterestRate> rateList = bankingService
 				.getInterestRateList();
 		model.addAttribute("rateList", rateList);
 
@@ -38,7 +38,7 @@ public class InterestRateController {
 			RequestMethod.GET })
 	public String changeRate(HttpServletRequest request, Model model) {
 
-		List<SavingInterestRate> rateList = interestRateService
+		List<SavingInterestRate> rateList = bankingService
 				.getInterestRateList();
 		int totalRate = rateList.size();
 
@@ -70,15 +70,16 @@ public class InterestRateController {
 				rateList.get(i - 1).setInterestRate(interestRate);
 				rateList.get(i - 1).setPeriod(period);
 			} else {
-				SavingInterestRate newInterestRate = new SavingInterestRate(id,
-						period, interestRate);
-				interestRateService.addInterestRate(newInterestRate);
+				SavingInterestRate newInterestRate = new SavingInterestRate();
+				newInterestRate.setPeriod(period);
+				newInterestRate.setInterestRate(interestRate);
+				bankingService.addInterestRate(newInterestRate);
 			}
 		}
 
-		interestRateService.updateRate(rateList);
+		bankingService.updateRate(rateList);
 
-		rateList = interestRateService.getInterestRateList();
+		rateList = bankingService.getInterestRateList();
 		model.addAttribute("rateList", rateList);
 
 		return "redirect:viewInterestRate";

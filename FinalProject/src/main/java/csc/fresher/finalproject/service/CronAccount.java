@@ -14,21 +14,19 @@ import csc.fresher.finalproject.domain.SavingAccount;
 @Service
 public class CronAccount {
 	@Autowired
-	private SavingAccountService accountService;
-	@Autowired
-	private TransactionService transactionService;
-
+	private BankingService bankingService;
+	
 	@Scheduled(cron = "0 0 0 * * ?")
 	public void updateAccount() {
 		/* System.out.println("task run!"); */
 
-		for (SavingAccount account : accountService.getSavingAccounts()) {
+		for (SavingAccount account : bankingService.getSavingAccounts()) {
 			System.out.println(account.getAccountNumber());
 			if (account.getInterestRate().getPeriod() != 0) {
 
 				List<Date> list = new ArrayList<Date>();
 				try {
-					list = transactionService.getWithdrawAll(account);
+					list = bankingService.getWithdrawAll(account);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -65,7 +63,7 @@ public class CronAccount {
 				}
 
 			} else {
-				List<Date> list = transactionService
+				List<Date> list = bankingService
 						.getInterestWithdraw(account);
 				Date latestDate = new Date();
 				if (!list.isEmpty()) {
@@ -94,7 +92,7 @@ public class CronAccount {
 					account.setInterest(interest);
 				}
 			}
-			accountService.updateSavingAccount(account);
+			bankingService.updateSavingAccount(account);
 		}
 	}
 

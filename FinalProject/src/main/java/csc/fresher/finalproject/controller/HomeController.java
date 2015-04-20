@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import csc.fresher.finalproject.domain.User;
-import csc.fresher.finalproject.service.CustomerService;
-import csc.fresher.finalproject.service.SavingAccountService;
-import csc.fresher.finalproject.service.TransactionService;
-import csc.fresher.finalproject.service.UserService;
+import csc.fresher.finalproject.service.BankingService;
 import csc.fresher.finalproject.utilities.SessionName;
 
 /**
@@ -37,13 +34,7 @@ import csc.fresher.finalproject.utilities.SessionName;
 @Controller
 public class HomeController {
 	@Autowired
-	private UserService userService;
-	@Autowired
-	private CustomerService customerService;
-	@Autowired
-	private SavingAccountService accountService;
-	@Autowired
-	private TransactionService transService;
+	BankingService bankingService;
 
 	@RequestMapping(value = "/404")
 	public String error404() {
@@ -108,16 +99,16 @@ public class HomeController {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 		String username = auth.getName();
-		User user = userService.getUserByUsername(username);
+		User user = bankingService.getUserByUsername(username);
 		HttpSession session = request.getSession();
 		session.setAttribute(SessionName.USER, user);
 
 		setRememberMeTargetUrlToSession(request);
-		model.addAttribute("CustomerNo", customerService.getCustomerList()
+		model.addAttribute("CustomerNo", bankingService.getCustomerList()
 				.size());
-		model.addAttribute("AccountNo", accountService.getSavingAccounts()
+		model.addAttribute("AccountNo", bankingService.getSavingAccounts()
 				.size());
-		model.addAttribute("TransactionNo", transService.getTransactionList()
+		model.addAttribute("TransactionNo", bankingService.getTransactionList()
 				.size());
 
 		return ("home");

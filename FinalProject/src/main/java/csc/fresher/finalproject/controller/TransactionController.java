@@ -18,37 +18,19 @@ import org.springframework.web.servlet.ModelAndView;
 import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.Transaction;
 import csc.fresher.finalproject.domain.User;
+import csc.fresher.finalproject.service.BankingService;
 import csc.fresher.finalproject.service.DateUtils;
-import csc.fresher.finalproject.service.InterestRateService;
-import csc.fresher.finalproject.service.SavingAccountService;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import csc.fresher.finalproject.service.TransactionService;
-import csc.fresher.finalproject.service.UserService;
 import csc.fresher.finalproject.utilities.SessionName;
 
 @Controller
 public class TransactionController {
 	@Autowired
-	private TransactionService transactionService;
-	@Autowired
-	private SavingAccountService accountService;
-	@Autowired
-	private InterestRateService rateService;
-	@Autowired
-	private UserService userService;
+	BankingService bankingService;
 
 	@RequestMapping(value = "/accountTransaction")
 	public ModelAndView performTransaction() {
@@ -58,7 +40,7 @@ public class TransactionController {
 	@RequestMapping(value = "/listTransaction")
 	public String listTransaction(Model model) {
 		model.addAttribute("listTransaction",
-				transactionService.getTransactionList());
+				bankingService.getTransactionList());
 		return "listTransaction";
 	}
 
@@ -68,19 +50,19 @@ public class TransactionController {
 			HttpServletRequest request) {
 		String accNumber = request.getParameter("accountNumber");
 
-		if (!accountService.existedAccountNumber(accNumber)) {
+		if (!bankingService.existedAccountNumber(accNumber)) {
 			model.addAttribute("accTransError",
 					"This account number does not exist!");
 			return new ModelAndView("accountTransaction");
 		}
 
-		if (transactionService.pendingAvail(accNumber)) {
+		if (bankingService.pendingAvail(accNumber)) {
 			model.addAttribute("accTransError",
 					"This account still have pending transaction!"
 							+ " Please come back later!");
 			return new ModelAndView("accountTransaction");
 		}
-		SavingAccount account = accountService
+		SavingAccount account = bankingService
 				.getSavingAccountByAccNumber(accNumber);
 		if (!account.getState().equals("active")) {
 			model.addAttribute("accTransError",
@@ -94,7 +76,7 @@ public class TransactionController {
 		int dateDiff = DateUtils.daysBetween(account.getStartDate().getTime(),
 				today.getTime());
 		model.addAttribute("BeforeDueTotal", account.getBalanceAmount()
-				+ rateService.getInterestRateByPeriod(0).getInterestRate()
+				+ bankingService.getInterestRateByPeriod(0).getInterestRate()
 				/ 365 * dateDiff * account.getBalanceAmount());
 
 		model.addAttribute("DueDateTotal",
@@ -119,7 +101,7 @@ public class TransactionController {
 				.getParameter("dueDateAmount"));
 		double beforeDueAmount = Double.parseDouble(request
 				.getParameter("beforeDueAmount"));
-		SavingAccount account = accountService
+		SavingAccount account = bankingService
 				.getSavingAccountByAccNumber(transaction.getSavingAccount()
 						.getAccountNumber());
 
@@ -183,7 +165,7 @@ public class TransactionController {
 				model.addAttribute("account", account);
 				return new ModelAndView("performTransaction");
 			}
-			if (transactionService.getInterestAlready(account)) {
+			if (bankingService.getInterestAlready(account)) {
 				model.addAttribute("transError",
 						"This account has withdrawn this month's interest!");
 				model.addAttribute("account", account);
@@ -194,7 +176,7 @@ public class TransactionController {
 		} else if (transaction.getType().equals("Deposit")) {
 			// Period
 			if (account.getInterestRate().getPeriod() != 0) {
-				List<Date> list = transactionService.getWithdrawAll(account);
+				List<Date> list = bankingService.getWithdrawAll(account);
 				Date lastWithdrawAll = new Date();
 				if (!list.isEmpty())
 					lastWithdrawAll = list.get(list.size() - 1);
@@ -224,7 +206,7 @@ public class TransactionController {
 		transaction.setDate(new Date());
 		transaction.setState("Pending");
 
-		if (transactionService.performTransaction(transaction)) {
+		if (bankingService.performTransaction(transaction)) {
 			model.addAttribute("transSuccess",
 					"Added new transaction successfully!");
 		} else {
@@ -237,11 +219,11 @@ public class TransactionController {
 	@RequestMapping(value = "/approveTransaction")
 	public String approveTransaction(Model model, HttpServletRequest request) {
 		int transId = Integer.parseInt(request.getParameter("transactionId"));
-		Transaction trans = transactionService.getTransactionById(transId);
+		Transaction trans = bankingService.getTransactionById(transId);
 		trans.setState("Approved");
 		User user = (User) request.getSession().getAttribute(SessionName.USER);
 		trans.getUsers().add(user);
-		if (transactionService.approveTransaction(trans)) {
+		if (bankingService.approveTransaction(trans)) {
 			model.addAttribute("apprSuccess", "Transaction '" + trans.getType()
 					+ "' of account "
 					+ trans.getSavingAccount().getAccountNumber()
@@ -250,7 +232,7 @@ public class TransactionController {
 			model.addAttribute("apprError", "Error occurs!");
 		}
 		model.addAttribute("listTransaction",
-				transactionService.getTransactionList());
+				bankingService.getTransactionList());
 
 		return "searchTransaction";
 	}
@@ -258,9 +240,9 @@ public class TransactionController {
 	@RequestMapping(value = "/rejectTransaction")
 	public String rejectTransaction(Model model, HttpServletRequest request) {
 		int transId = Integer.parseInt(request.getParameter("transactionId"));
-		Transaction trans = transactionService.getTransactionById(transId);
+		Transaction trans = bankingService.getTransactionById(transId);
 		trans.setState("Rejected");
-		if (transactionService.rejectTransaction(trans)) {
+		if (bankingService.rejectTransaction(trans)) {
 			model.addAttribute("apprError", "Transaction '" + trans.getType()
 					+ "' of account "
 					+ trans.getSavingAccount().getAccountNumber()
@@ -269,7 +251,7 @@ public class TransactionController {
 			model.addAttribute("apprError", "Error occurs!");
 		}
 		model.addAttribute("listTransaction",
-				transactionService.getTransactionList());
+				bankingService.getTransactionList());
 
 		return "searchTransaction";
 	}
@@ -307,7 +289,7 @@ public class TransactionController {
 		Hashtable<String, String> messages = new Hashtable<String, String>();
 		List<Transaction> transactions = null;
 		if (submitAction.equalsIgnoreCase("Search by details")) {
-			transactions = transactionService.searchTransaction(state, type,
+			transactions = bankingService.searchTransaction(state, type,
 					accountNumber);
 
 		} else if (submitAction.equalsIgnoreCase("Search by ID")) {
@@ -319,7 +301,7 @@ public class TransactionController {
 					transactionId = Integer.parseInt(request
 							.getParameter("transactionId"));
 				}
-				transaction = transactionService
+				transaction = bankingService
 						.getTransactionById(transactionId);
 				transactions = new ArrayList<Transaction>();
 				if (transaction != null) {

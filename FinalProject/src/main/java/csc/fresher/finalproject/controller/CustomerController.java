@@ -15,19 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import csc.fresher.finalproject.domain.Customer;
 import csc.fresher.finalproject.domain.SavingAccount;
-import csc.fresher.finalproject.service.CustomerService;
-import csc.fresher.finalproject.service.SavingAccountService;
+import csc.fresher.finalproject.service.BankingService;
 
 @Controller
 public class CustomerController {
 	@Autowired
-	CustomerService customerService;
-	@Autowired
-	SavingAccountService accountService;
+	BankingService bankingService;
 
 	@RequestMapping(value = "/viewCustomer")
 	public String viewCustomer(Model model, HttpServletRequest request) {
-		List<Customer> listCustomer = customerService.getCustomerList();
+		List<Customer> listCustomer = bankingService.getCustomerList();
 
 		model.addAttribute("listCustomer", listCustomer);
 		return "viewCustomer";
@@ -45,7 +42,7 @@ public class CustomerController {
 			@ModelAttribute("customer") @Valid Customer customer,
 			BindingResult result, Model model, HttpServletRequest request) {
 
-		if (customerService.addCustomer(customer)) {
+		if (bankingService.addCustomer(customer)) {
 			model.addAttribute("addCusSuccess",
 					"Added new customer successfully!");
 
@@ -80,7 +77,7 @@ public class CustomerController {
 			return "redirect:modifyAccount?accNumber=" + currentAccountNumber;
 		}
 
-		Customer customer = customerService.getCustomerById(id);
+		Customer customer = bankingService.getCustomerById(id);
 		customer.setFirstName(firstName);
 		customer.setMiddleName(middleName);
 		customer.setLastName(lastName);
@@ -91,10 +88,10 @@ public class CustomerController {
 		customer.setEmail(email);
 		customer.setIdCardNumber(idCardNumber);
 
-		SavingAccount currentAccount = accountService
+		SavingAccount currentAccount = bankingService
 				.getSavingAccountByAccNumber(currentAccountNumber);
 
-		boolean result = customerService.updateCustomer(customer);
+		boolean result = bankingService.updateCustomer(customer);
 
 		model.addAttribute("customer", customer);
 		model.addAttribute("account", currentAccount);

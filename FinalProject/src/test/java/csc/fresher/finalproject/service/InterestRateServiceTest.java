@@ -21,27 +21,27 @@ import csc.fresher.finalproject.domain.SavingInterestRate;
 @RunWith(EasyMockRunner.class)
 @TransactionConfiguration(defaultRollback=true)
 public class InterestRateServiceTest {
-	InterestRateService rateService;
+	BankingService bankingService;
 	
 	public InterestRateServiceTest(){
-		rateService = new InterestRateService();
+		bankingService = new BankingService();
 		EntityManagerFactoryUtil.setEntityManagerFactory();
 	}
 	
 
 	@Test
 	public void testGetInterestRateList() {
-		assertNotNull(rateService.getInterestRateList());
+		assertNotNull(bankingService.getInterestRateList());
 	}
 	
 	@Test
 	public void testGetInterestRateByPeriod() {
-		assertNotNull(rateService.getInterestRateByPeriod(6));
+		assertNotNull(bankingService.getInterestRateByPeriod(6));
 	}
 
 	@Test
 	public void testGetInterestRateById() {
-		assertNotNull(rateService.getInterestRateById(1));
+		assertNotNull(bankingService.getInterestRateById(1));
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class InterestRateServiceTest {
 		List<SavingInterestRate> rateList = new ArrayList<SavingInterestRate>();
 		rateList.add(interestRate);
 		
-		assertTrue(rateService.updateRate(rateList));
+		assertTrue(bankingService.updateRate(rateList));
 		
 		
 	}

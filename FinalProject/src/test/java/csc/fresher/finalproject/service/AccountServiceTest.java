@@ -15,7 +15,7 @@ import csc.fresher.finalproject.domain.SavingAccount;
 @RunWith(EasyMockRunner.class)
 public class AccountServiceTest {
 	@Autowired
-	private SavingAccountService accountService;
+	private BankingService bankingService;
 	
 	@Test
 	public void testAccountService() {
