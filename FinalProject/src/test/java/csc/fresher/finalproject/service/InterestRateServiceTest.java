@@ -1,19 +1,25 @@
 package csc.fresher.finalproject.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.transaction.Transactional;
 
+import org.easymock.EasyMockRunner;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
+import csc.fresher.finalproject.dao.InterestRateDAO;
 import csc.fresher.finalproject.domain.SavingInterestRate;
 
+@RunWith(EasyMockRunner.class)
+@TransactionConfiguration(defaultRollback=true)
 public class InterestRateServiceTest {
 	InterestRateService rateService;
 	
@@ -45,12 +51,18 @@ public class InterestRateServiceTest {
 		rateList.add(interestRate);
 		
 		assertTrue(rateService.updateRate(rateList));
+		
+		
 	}
 
 	@Test
 	public void testAddInterestRate() {
-		SavingInterestRate interestRate = new SavingInterestRate(2, 10, 0.27);
-		assertTrue(rateService.addInterestRate(interestRate));
+		InterestRateDAO rateDAO = new InterestRateDAO();
+		EntityManager en = EntityManagerFactoryUtil.createEntityManager();
+		SavingInterestRate newInterestRate = new SavingInterestRate(5,1, 0.2);
+		en.getTransaction().begin();
+		assertTrue(rateDAO.addInterestRate(newInterestRate, en));
+		en.getTransaction().rollback();
 	}
 
 }

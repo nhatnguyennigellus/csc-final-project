@@ -128,4 +128,16 @@ public class InterestRateDAO {
 
 		return true;
 	}
+	
+	//-----------------TEST-----------------------
+	public boolean addInterestRate(SavingInterestRate newInterestRate, EntityManager entityManager){
+		try{
+			entityManager.persist(newInterestRate);
+		} catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
 }
