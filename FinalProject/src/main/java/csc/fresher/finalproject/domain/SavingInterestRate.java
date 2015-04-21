@@ -18,7 +18,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "savinginterestrate")
 public class SavingInterestRate {
 	@Id
-	@NotNull
 	@GeneratedValue
 	private Integer id;
 

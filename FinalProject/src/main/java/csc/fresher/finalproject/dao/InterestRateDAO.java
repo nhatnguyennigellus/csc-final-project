@@ -140,4 +140,15 @@ public class InterestRateDAO {
 		
 		return true;
 	}
+	
+	public boolean updateInterestRate(SavingInterestRate interestRate, EntityManager entityManager){
+		try{
+			entityManager.merge(interestRate);
+		} catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
 }

@@ -31,6 +31,10 @@ public class BankingService {
 	private UserDAO userDAO;
 	@Autowired
 	private SavingAccountDAO savingAccountDAO;
+	
+	public BankingService() {
+		// TODO Auto-generated constructor stub
+	}
 
 	// ***************
 	// *************** User services
