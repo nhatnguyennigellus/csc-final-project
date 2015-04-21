@@ -1,14 +1,11 @@
 package csc.fresher.finalproject.service;
 
-import java.text.DateFormat;
+import static org.junit.Assert.*;
 
-import javax.swing.text.DateFormatter;
+import java.util.List;
 
-import junit.framework.Assert;
-
-import org.easymock.EasyMock;
-import org.easymock.EasyMockRunner;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +21,53 @@ public class AccountServiceTest {
 	@Autowired
 	private BankingService bankingService;
 	
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		EntityManagerFactoryUtil.setEntityManagerFactory();
 	}
 	
 	@Test
-	public void testAccountService() {
-		Assert.assertNotNull(bankingService);
-		bankingService.existedAccountNumber("2015");
+	public void testBankingService() {
+		assertNotNull(bankingService);
 	}
+	
+	@Test
+	public void testExistedAccountNumber() {
+		assertFalse(bankingService.existedAccountNumber("2015"));
+	}
+	
+	@Test
+	public void testSearchAccount() {
+		String idCard="225499940";
+		String accNumber="";
+		List<SavingAccount> accounts = bankingService.searchSavingAccounts(idCard, accNumber);
+		assertTrue(!accounts.isEmpty());
+		assertTrue(accounts.get(0).getCustomer().getIdCardNumber().equals(idCard));
+	}
+	
+	@Test
+	public void testSearchAccount2() {
+		String idCard="";
+		String accNumber="15";
+		List<SavingAccount> accounts = bankingService.searchSavingAccounts(idCard, accNumber);
+		assertTrue(!accounts.isEmpty());
+		assertTrue(accounts.get(0).getAccountNumber().contains(accNumber));
+	}
+	
+	@Test
+	public void testGenerateAccountNumber() {
+		String genAccountNumber = bankingService.generateAccountNumber();
+		assertTrue("Account length is not 12 -> " + genAccountNumber.length(),genAccountNumber.length()==12);
+		assertTrue("Wrong year -> "+genAccountNumber.substring(0,2),genAccountNumber.substring(0, 2).equals("15"));
+		
+	}
+	
+	@Test
+	public void testGetSavingAccounts() {
+		List<SavingAccount> accounts = bankingService.getSavingAccounts();
+		assertTrue(!accounts.isEmpty());
+		assertTrue(accounts.get(0).getAccountNumber().length()>0);
+	}
+	
+	
 }

@@ -92,13 +92,9 @@ public class BankingService {
 		return savingAccountDAO.getAccountList();
 	}
 
-	public List<SavingAccount> getSavingAccountByState(String state) {
-		return savingAccountDAO.getAccountByState(state);
-	}
-
-	public List<SavingAccount> getSavingAccountByCustomer(String customerId) {
-		return savingAccountDAO.getAccountByCustomer(customerId);
-	}
+//	public List<SavingAccount> getSavingAccountByCustomer(String customerId) {
+//		return savingAccountDAO.getAccountByCustomer(customerId);
+//	}
 
 	public boolean addSavingAccount(SavingAccount account) {
 		return savingAccountDAO.addSavingAccount(account);

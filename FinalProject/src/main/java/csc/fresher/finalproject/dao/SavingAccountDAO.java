@@ -119,13 +119,14 @@ public class SavingAccountDAO {
 		}
 		return true;
 	}
-
+	
 	public boolean updateSavingAccount(SavingAccount account) {
 		EntityManager entityManager = EntityManagerFactoryUtil
 				.createEntityManager();
 		EntityTransaction enTr = entityManager.getTransaction();
 		try {
 			enTr.begin();
+			//TODO Fix this
 			Query query = entityManager
 					.createQuery("UPDATE SavingAccount SET accountOwner='"
 							+ account.getAccountOwner() + "', balanceAmount="
@@ -199,9 +200,6 @@ public class SavingAccountDAO {
 			entr.begin();
 			TypedQuery<SavingAccount> query = entityManager
 					.createQuery(
-							// "SELECT a FROM SavingAccount a WHERE a.customer.idCardNumber LIKE '%"
-							// +idCard+ "%' AND a.accountNumber LIKE '%"+
-							// accNumber + "%'",
 							"SELECT a FROM SavingAccount a WHERE a.customer.idCardNumber LIKE ?1 AND a.accountNumber LIKE ?2",
 							SavingAccount.class);
 			query.setParameter(1, "%" + idCard + "%");
