@@ -95,12 +95,7 @@ public class InterestRateDAO {
 
 		try {
 			enTr.begin();
-			Query query = entityManager
-					.createQuery("UPDATE SavingInterestRate SET interestRate = "
-							+ rate.getInterestRate()
-							+ ", period = "
-							+ rate.getPeriod() + " WHERE id = " + rate.getId());
-			query.executeUpdate();
+			entityManager.merge(rate);
 			enTr.commit();
 		} catch (Exception e) {
 			enTr.rollback();
