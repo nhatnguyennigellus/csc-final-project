@@ -10,8 +10,11 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.easymock.EasyMockRunner;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
@@ -20,11 +23,13 @@ import csc.fresher.finalproject.domain.SavingInterestRate;
 
 @RunWith(EasyMockRunner.class)
 @TransactionConfiguration(defaultRollback=true)
+@ContextConfiguration(locations={"classpath:/META-INF/test-context.xml"})
 public class InterestRateServiceTest {
+	@Autowired
 	BankingService bankingService;
 	
-	public InterestRateServiceTest(){
-		bankingService = new BankingService();
+	@BeforeClass
+	public static void setUp() {
 		EntityManagerFactoryUtil.setEntityManagerFactory();
 	}
 	
@@ -38,7 +43,7 @@ public class InterestRateServiceTest {
 	@Test
 	public void testGetInterestRateByPeriod() {
 		InterestRateDAO rateDAO = new InterestRateDAO();
-		assertNotNull(rateDAO.getInterestRateByPeriod(6));
+		assertNotNull(rateDAO.getInterestRateByPeriod(1));
 	}
 
 	@Test

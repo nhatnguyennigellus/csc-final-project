@@ -10,7 +10,7 @@ import csc.fresher.finalproject.service.InterestRateServiceTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	AccountServiceTest.class,
-//	InterestRateServiceTest.class
+	InterestRateServiceTest.class
 })
 public class AllTests {
 
