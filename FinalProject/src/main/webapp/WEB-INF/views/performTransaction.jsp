@@ -18,8 +18,8 @@
 				<ol class="breadcrumb">
 					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
 
-					<li class="active"><i class="fa fa-file"></i> Perform
-						Transaction</li>
+					<li class="active"><i class="glyphicon glyphicon-usd"></i>
+						Perform Transaction</li>
 				</ol>
 			</div>
 		</div>
@@ -30,7 +30,10 @@
 						<form:form action="submitTransaction" method="post" id="frmTrans"
 							modelAttribute="Transaction">
 							<c:if test="${transError != null }">
-								<div class="alert alert-danger" role="alert">${transError }</div>
+								<div class="alert alert-danger" role="alert">${transError }
+									<a href="javascript:history.go(-1)" class="alert-link">Back</a>
+								</div>
+
 							</c:if>
 							<c:if test="${transSuccess != null }">
 
@@ -75,22 +78,22 @@
 								<label class="control-label" for="interest">Withdrawable
 									Total </label> <font color="red"><input readonly
 									id="dueDateAmount" class="form-control input-sm" type="text"
-									name="dueDateAmount" 
+									name="dueDateAmount"
 									value="<fmt:formatNumber groupingUsed="false" maxFractionDigits="0"
 							type="number" value="${DueDateTotal}" />" />
 
 								</font>
 							</div>
-								<div class="form-group col-md-3">
-									<label class="control-label" for="interest">Total
-										Before Due (Period)</label> <font color="red"><input readonly
-										id="beforeDueAmount" class="form-control input-sm" type="text"
-										name="beforeDueAmount"
-										value="<fmt:formatNumber groupingUsed="false"  maxFractionDigits="0"
+							<div class="form-group col-md-3">
+								<label class="control-label" for="interest">Total Before
+									Due (Period)</label> <font color="red"><input readonly
+									id="beforeDueAmount" class="form-control input-sm" type="text"
+									name="beforeDueAmount"
+									value="<fmt:formatNumber groupingUsed="false"  maxFractionDigits="0"
 							type="number" value="${BeforeDueTotal}" />" />
 
-									</font>
-								</div>
+								</font>
+							</div>
 							<div class="form-group col-md-3">
 								<label class="control-label" for="type">Transaction Type</label>
 								<form:select class="form-control input-sm" id="type" name="type"
@@ -115,8 +118,9 @@
 								</font>
 							</div>
 							<div class="form-group col-md-10">
-								<input type="submit" value="Submit" name="subRegister"
-									class="btn btn-success" />
+								<button type="submit" class="btn btn-success">
+									<span class="glyphicon glyphicon-check">&nbsp;</span> Submit
+								</button>
 							</div>
 						</form:form>
 					</div>

@@ -180,7 +180,7 @@
 
 				<ol class="breadcrumb">
 					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
-					<li class="active"><i class="fa fa-file"></i> Interest Rate</li>
+					<li class="active"><i class="glyphicon glyphicon-usd"></i> Interest Rate</li>
 				</ol>
 			</div>
 		</div>

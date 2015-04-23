@@ -18,7 +18,7 @@
 					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
 					<li><i class="fa fa-file"></i> <a href="viewCustomer">
 							Customer List</a></li>
-					<li class="active"><i class="fa fa-file"></i> Add Account</li>
+					<li class="active"><i class="glyphicon glyphicon-plus"></i> Add Account</li>
 				</ol>
 			</div>
 		</div>
@@ -42,24 +42,38 @@
 							</c:if>
 							<div class="form-group col-md-6">
 								<label class="control-label" for="accountNumber">Account
-									Number</label> <font color="red">* <form:input readonly="true"
-										id="accountNumber" class="form-control input-sm" type="text"
-										name="accountNumber" path="accountNumber" />
-								</font>
+									Number</label> <font color="red">* </font>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-asterisk"></span>
+									</span>
+									<form:input readonly="true" id="accountNumber"
+										class="form-control input-sm" type="text" name="accountNumber"
+										path="accountNumber" />
+
+								</div>
 							</div>
 							<div class="form-group col-md-6">
 								<label class="control-label" for="accountOwner">Account
-									Owner </label> <font color="red">* <form:input id="accountOwner"
-										class="form-control input-sm" type="text" name="accountOwner"
-										path="accountOwner" />
-								</font>
+									Owner </label><font color="red">* </font>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-user"></span>
+									</span>
+									<form:input id="accountOwner" class="form-control input-sm"
+										type="text" name="accountOwner" path="accountOwner" />
+								</div>
 							</div>
 							<div class="form-group col-md-3">
 								<label class="control-label" for="balanceAmount">Saving
-									Amount</label> <font color="red">* <form:input
-										id="balanceAmount" class="form-control input-sm" type="text"
-										name="balanceAmount" path="balanceAmount" />
-								</font>
+									Amount</label> <font color="red">* </font>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-usd"></span>
+									</span>
+									<form:input id="balanceAmount" class="form-control input-sm"
+										type="text" name="balanceAmount" path="balanceAmount" />
+								</div>
 							</div>
 							<div class="form-group col-md-4" style="display: none;">
 								<input id="idCardNumber" readonly="readonly"
@@ -70,23 +84,17 @@
 								<label class="control-label" for="period">Saving Period</label>
 								<font color="red">* <select class="form-control input-sm"
 									id="period" name="period">
-									<c:forEach items="${rateList }" var="rate">
-										<c:choose >
-										<c:when test="${rate.period == 0}">
-												<option value="0">No period</option>
-										</c:when>
-										<c:otherwise>
-											<option value="${rate.period}">${rate.period} months</option>
-										</c:otherwise>
-										</c:choose>
-									</c:forEach>
-										<!-- 
-										<option value="1">1 month</option>
-										<option value="2">2 months</option>
-										<option value="3">3 months</option>
-										<option value="6">6 months</option>
-										<option value="12">12 months</option>
-										<option value="24">24 months</option> -->
+										<c:forEach items="${rateList }" var="rate">
+											<c:choose>
+												<c:when test="${rate.period == 0}">
+													<option value="0">No period</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${rate.period}">${rate.period}
+														months</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
 								</select>
 								</font>
 							</div>
@@ -102,9 +110,12 @@
 
 
 							<div class="form-group col-md-8">
-								<input type="submit" value="Submit" name="subRegister"
-									class="btn btn-success" /> <input type="reset" value="Reset"
-									class="btn btn-danger" />
+								<button type="submit" class="btn btn-success">
+									<span class="glyphicon glyphicon-check">&nbsp;</span> Submit
+								</button>
+								<button type="reset" class="btn btn-danger">
+									<span class="glyphicon glyphicon-refresh">&nbsp;</span> Reset
+								</button>
 							</div>
 						</form:form>
 					</div>

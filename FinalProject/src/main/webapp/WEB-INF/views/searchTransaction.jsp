@@ -17,21 +17,28 @@
 
 				<ol class="breadcrumb">
 					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
-					<li class="active"><i class="fa fa-file"></i> Search
-						Transaction</li>
+					<li class="active"><i class="glyphicon glyphicon-search"></i>
+						Search Transaction</li>
+					<li><button type="button" onclick="expandNcollapse()"
+							class="btn btn-info btn-xs" id="btnCollapse">
+							<span id="icon" class="glyphicon glyphicon-menu-up"></span>
+						</button></li>
 				</ol>
 			</div>
 		</div>
-		<form action="submitSearchTransaction" class="form-inline">
+		<form action="submitSearchTransaction" class="form-inline" id="frmSearch">
 			<div class="panel panel-info">
-				<div class="panel panel-heading">
-					Search By Transaction Details
+				<div class="panel panel-heading">Search By Transaction Details
 				</div>
 				<div class="panel panel-body">
 					<div class="form-group">
-						<label for="accountNumber">Account number</label> <input
-							class="form-control input-sm" type="text" name="accountNumber"
-							id="accountNumber" />
+						<label for="accountNumber">Account number</label>
+						<div class="input-group ">
+							<span class="input-group-addon"> <span
+								class=" glyphicon glyphicon-asterisk"></span>
+							</span><input class="form-control input-sm" type="text"
+								name="accountNumber" id="accountNumber" />
+						</div>
 					</div>
 					<div class="form-group">
 						<label for="transactionState">State</label> <select
@@ -51,8 +58,12 @@
 							<option value="Deposit">Deposit</option>
 							<option value="Withdraw Interest">Withdraw Interest</option>
 							<option value="Withdraw Balance">Withdraw Balance</option>
-						</select> <input type="submit" name="submitAction"
-							class="form-control input-sm" value="Search by details" />
+						</select>
+						<button type="submit" class="btn btn-info" name="submitAction"
+							value="Search by details">
+							<span class=" glyphicon glyphicon-search"></span> Search by
+							details
+						</button>
 					</div>
 				</div>
 			</div>
@@ -61,16 +72,22 @@
 				<div class="panel panel-heading">Search By Transaction ID</div>
 				<div class="panel panel-body">
 					<div class="form-group">
-						<label for="transactionId">Transaction ID</label> <input
-							type="text" class="form-control input-sm" name="transactionId"
-							id="transactionId" /><br>
+						<label for="transactionId">Transaction ID</label>
+						<div class="input-group ">
+							<span class="input-group-addon"> <b>#</b>
+							</span><input type="text" class="form-control input-sm"
+								name="transactionId" id="transactionId" /><br>
+						</div>
 					</div>
-					<input type="submit" class="form-control input-sm"
-						name="submitAction" value="Search by ID" />
+					<button type="submit" class="btn btn-info" name="submitAction"
+						value="Search by ID">
+						<span class=" glyphicon glyphicon-search"></span> Search by ID
+					</button>
 				</div>
 			</div>
+			<hr />
 		</form>
-		<hr />
+
 		<div class="row">
 			<div class="col-md-12">
 				<c:if test="${apprError != null }">
@@ -105,7 +122,7 @@
 								<td><h4>
 										<span
 											class="
-									<c:if test="${transaction.state == 'Pending'}">label label-info</c:if>
+									<c:if test="${transaction.state == 'Pending'}">label label-warning</c:if>
 									<c:if test="${transaction.state == 'Approved'}">label label-success</c:if>
 									<c:if test="${transaction.state == 'Rejected'}">label label-danger</c:if>
 									">
@@ -114,10 +131,14 @@
 								<td><c:forEach var="user" items="${transaction.users }">
 										<p>
 											<c:if test="${user.role.role == 'Admin'}">
-									 Approved By 
-									 </c:if>
+												<c:choose>
+													<c:when test="${transaction.state == 'Approved'}">Approved by </c:when>
+													<c:otherwise>Rejected by</c:otherwise>
+												</c:choose>
+
+											</c:if>
 											<c:if test="${user.role.role == 'Support'}">
-									 Performed By 
+									 Performed by 
 									 </c:if>
 											<strong>${user.username }</strong>
 										</p>
@@ -140,53 +161,26 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<%-- <table class="table table-striped" id="tableTransactions">
-					<thead>
-						<tr>
-							<th>Transaction ID</th>
-							<th>Transaction Amount</th>
-							<th>Transaction Date</th>
-							<th>Transaction Owner</th>
-							<th>Transaction State</th>
-							<th>Transaction Type</th>
-							<th>Transaction User</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="transaction" items="${transactionList }">
-							<tr>
-								<td>${transaction.id }</td>
-								<td><fmt:formatNumber value="${transaction.amount }"
-										type="number" /></td>
-								<td><fmt:formatDate value="${transaction.date }"
-										type="date" /></td>
-								<td>${transation.savingAccount.accountNumber }</td>
-								<td>${transaction.state }</td>
-								<td>${transaction.type }</td>
-								<td><c:forEach var="user" items="${transaction.users }">
-										<p>
-											<c:if test="${user.role.role == 'admin'}">
-									 Approved By 
-									 </c:if>
-											<c:if test="${user.role.role == 'support'}">
-									 Performed By 
-									 </c:if>
-											<strong>${user.username }</strong>
-										</p>
-									</c:forEach></td>
-
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
- --%>
 			</div>
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#tableTransactions').dataTable()
+		$('#tableTransactions').dataTable({
+			"bFilter" : false
+		});
 	});
+	
+	function expandNcollapse() {
+		if ($("#icon").attr("class") == "glyphicon glyphicon-menu-up") {
+			$("#frmSearch").hide();
+			$("#icon").attr("class", "glyphicon glyphicon-menu-down");
+		} else {
+			$("#frmSearch").fadeIn();
+			$("#icon").attr("class", "glyphicon glyphicon-menu-up");
+		}
+		
+	}
 </script>
 </html>

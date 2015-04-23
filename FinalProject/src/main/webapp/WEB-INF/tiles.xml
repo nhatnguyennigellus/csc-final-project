@@ -37,10 +37,6 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/performTransaction.jsp"></put-attribute>
 	</definition>
-	<definition name="listTransaction" extends="masterpage">
-		<put-attribute name="title" value="Transaction List"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/listTransaction.jsp"></put-attribute>
-	</definition>
 	<definition name="403" extends="masterpage">
 		<put-attribute name="title" value="Access denied"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/403.jsp"></put-attribute>

@@ -12,8 +12,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-
-
 @Entity
 @Table(name = "savinginterestrate")
 public class SavingInterestRate {
@@ -29,12 +27,8 @@ public class SavingInterestRate {
 
 	@OneToMany(mappedBy = "interestRate")
 	private Set<SavingAccount> savingAccounts = new HashSet<SavingAccount>();
-	
-	public SavingInterestRate(Integer id, Integer period, double interestRate) {
-		super();
-		this.id = id;
-		this.period = period;
-		this.interestRate = interestRate;
+
+	public SavingInterestRate() {
 	}
 
 	public Set<SavingAccount> getSavingAccounts() {
@@ -43,9 +37,6 @@ public class SavingInterestRate {
 
 	public void setSavingAccounts(Set<SavingAccount> savingAccounts) {
 		this.savingAccounts = savingAccounts;
-	}
-
-	public SavingInterestRate() {
 	}
 
 	public Integer getId() {

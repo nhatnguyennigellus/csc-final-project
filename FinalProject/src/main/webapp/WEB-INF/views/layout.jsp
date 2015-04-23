@@ -11,8 +11,13 @@
 	href="<c:url value='/resources/images/csc.png'/>" />
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/jquery-ui.css'/> ">
-<link rel="stylesheet"
+
+	<link rel="stylesheet"
+	href="<c:url value='/resources/css/bootstrap.min.css'/> ">
+	
+	<link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap.css'/> ">
+
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/jquery.dataTables.css' />">
 <link rel="stylesheet"
@@ -94,7 +99,7 @@
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav side-nav">
-					<li class="active"><a href="home"><i
+					<li><a href="home"><i
 							class="glyphicon glyphicon-home"></i> &nbsp;Dashboard</a></li>
 					<li><a href="javascript:;" data-toggle="collapse"
 						data-target="#customer"><i class="glyphicon glyphicon-user"></i>
@@ -108,16 +113,16 @@
 					<li><a href="searchAccount"><i
 							class="glyphicon glyphicon-search"></i> &nbsp;Account</a></li>
 					<li><a href="viewInterestRate"><i
-							class="glyphicon glyphicon-search"></i> &nbsp;Interest Rate</a></li>
+							class="glyphicon glyphicon-usd"></i> &nbsp;Interest Rate</a></li>
 					<li><a href="javascript:;" data-toggle="collapse"
 						data-target="#trans"><i class="glyphicon glyphicon-briefcase"></i>
 							&nbsp;Transaction &nbsp;<i
 							class="glyphicon glyphicon-chevron-down"></i></a>
 						<ul id="trans" class="collapse">
 							<li><a href="searchTransaction"><i
-									class="glyphicon glyphicon-time"></i> Search Transaction</a></li>
+									class="glyphicon glyphicon-search"></i> Search Transaction</a></li>
 							<li><a href="accountTransaction"><i
-									class="glyphicon glyphicon-usd"></i> Perform Transaction</a></li>
+									class="glyphicon glyphicon-save-file"></i> Perform Transaction</a></li>
 						</ul></li>
 
 				</ul>
@@ -137,7 +142,7 @@
 
 		</div>
 		<img src="<c:url value='/resources/images/csc.png'/>" width="25px">
-			<font color="white">CSC Java Fresher Mar 2015 - Final Project - Group 2</font>
+			<font color="white">CSC Java Fresher - Mar 2015 - Final Project</font>
 		<!-- /#page-wrapper -->
 
 	</div>

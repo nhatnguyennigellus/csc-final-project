@@ -24,24 +24,35 @@
 					<div class="alert alert-success" role="alert">${msg}</div>
 				</c:if>
 				<form name='loginForm'
-					action="<c:url value='/auth/login_check?targetUrl=${targetUrl}' />" method='POST'>
+					action="<c:url value='/auth/login_check?targetUrl=${targetUrl}' />"
+					method='POST'>
 
 					<div class="form-group">
-						<label for="username">Username</label> <font color="red"><input
-							class="form-control" type="text" name="username"
-							class="textBox"/></font>
+						<label for="username">Username</label>
+						<div class="input-group ">
+							<span class="input-group-addon"> <span
+								class=" glyphicon glyphicon-user"></span>
+							</span> <input class="form-control" type="text" name="username"
+								placeholder="Username">
+						</div>
 					</div>
 					<div class="form-group">
-						<label for="password">Password</label> <font color="red"><input
-							class="form-control" type="password" name="password" /></font>
+						<label for="password">Password</label>
+						<div class="input-group ">
+							<span class="input-group-addon"> <span
+								class=" glyphicon glyphicon-lock"></span>
+							</span><input class="form-control" type="password" name="password"
+								placeholder="Password" />
+						</div>
 					</div>
 					<div class="checkbox">
 						<label> <input type="checkbox" value="yes"
 							name="remember-me" /> Remember me
 						</label>
 					</div>
-					<input class="btn btn-success" type="submit" name="btLogin"
-						value="Login" class="button" /> <input type="hidden"
+					<button class="btn btn-success" type="submit" value="Login" >
+					<span class="glyphicon glyphicon-log-in">&nbsp;</span> Login
+					</button><input type="hidden"
 						name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 				</form>

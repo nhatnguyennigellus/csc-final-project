@@ -51,15 +51,13 @@
 									<p>${customer.phone2}</p>
 								</td>
 								<td>${customer.email}</td>
-								<td>
-								<sec:authorize access="hasRole('Support')">
-								<a
-									href="toAddAccount?customerId=${customer.customerId }">
-										<button type="button" class="btn btn-primary btn-sm">
-											<span class="glyphicon glyphicon-book"></span>
-										</button>
-								</a>
-								</sec:authorize></td>
+								<td><sec:authorize access="hasRole('Support')">
+										<a href="toAddAccount?customerId=${customer.customerId }">
+											<button type="button" class="btn btn-primary btn-sm">
+												<span class="glyphicon glyphicon-book"></span>
+											</button>
+										</a>
+									</sec:authorize></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -70,8 +68,9 @@
 		<div class="row">
 			<div class="col-md-12">
 				<a href="toAddCustomer">
-					<button type="button" class="btn btn-primary btn-sm">Add
-						Customer</button>
+					<button type="button" class="btn btn-primary btn-sm">
+						<span class="glyphicon glyphicon-user">&nbsp;</span> Add Customer
+					</button>
 				</a>
 			</div>
 		</div>

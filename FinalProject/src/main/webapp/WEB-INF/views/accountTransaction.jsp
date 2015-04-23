@@ -17,7 +17,7 @@
 				<ol class="breadcrumb">
 					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
 
-					<li class="active"><i class="fa fa-file"></i> Perform
+					<li class="active"><i class="glyphicon glyphicon-usd"></i> Perform
 						Transaction</li>
 				</ol>
 			</div>

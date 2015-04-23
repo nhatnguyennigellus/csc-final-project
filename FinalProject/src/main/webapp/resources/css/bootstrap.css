@@ -4088,7 +4088,7 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 .input-group-addon:not (:first-child ):not (:last-child ),
 	.input-group-btn:not (:first-child ):not (:last-child ), .input-group .form-control:not
 	(:first-child ):not (:last-child ) {
-	border-radius: 0;
+	border-radius: 2px;
 }
 
 .input-group-addon, .input-group-btn {

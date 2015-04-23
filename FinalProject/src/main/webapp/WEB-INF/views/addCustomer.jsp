@@ -16,9 +16,10 @@
 
 				<ol class="breadcrumb">
 					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
-					<li><i class="fa fa-file"></i> <a href="viewCustomer"> Customer
-							List</a></li>
-					<li class="active"><i class="fa fa-file"></i> Add Customer</li>
+					<li><i class="fa fa-file"></i> <a href="viewCustomer">
+							Customer List</a></li>
+					<li class="active"><i class="glyphicon glyphicon-plus"></i>
+						Add Customer</li>
 				</ol>
 			</div>
 		</div>
@@ -35,76 +36,117 @@
 							<c:if test="${addCusSuccess!= null }">
 
 								<div class="alert alert-success" role="alert">${addCusSuccess }
-									<strong><a href="viewCustomer" class="alert-link">Back to customer
-											list</a></strong>
+									<strong><a href="viewCustomer" class="alert-link">Back
+											to customer list</a></strong>
 								</div>
 							</c:if>
 							<div class="form-group col-md-3">
 								<label class="control-label" for="lastName">Last name</label> <font
-									color="red">* <form:input id="lastName"
-										class="form-control input-sm" type="text" name="lastName"
-										path="lastName" />
-								</font>
+									color="red">* </font>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-user"></span>
+									</span>
+									<form:input id="lastName" class="form-control input-sm"
+										type="text" name="lastName" path="lastName" />
+								</div>
 							</div>
 							<div class="form-group col-md-3">
 								<label class="control-label" for="middleName">Middle
-									name (optional) </label> <font color="red"> <form:input
-										id="middleName" class="form-control input-sm" type="text"
-										name="middleName" path="middleName" />
-								</font>
+									name (optional) </label>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-user"></span>
+									</span>
+									<form:input id="middleName" class="form-control input-sm"
+										type="text" name="middleName" path="middleName" />
+								</div>
 							</div>
 							<div class="form-group col-md-3">
 								<label class="control-label" for="firstName">First name</label>
-								<font color="red">* <form:input id="firstName"
-										class="form-control input-sm" type="text" name="firstName"
-										path="firstName" />
-								</font>
+								<font color="red">* </font>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-user"></span>
+									</span>
+									<form:input id="firstName" class="form-control input-sm"
+										type="text" name="firstName" path="firstName" />
+								</div>
 							</div>
 							<div class="form-group col-md-2">
 								<label class="control-label" for="idCardNumber">ID Card
-									Number</label> <font color="red">* <form:input id="idCardNumber"
-										class="form-control input-sm" type="text" name="idCardNumber"
-										path="idCardNumber" />
-								</font>
+									Number</label> <font color="red">* </font>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-credit-card"></span>
+									</span>
+									<form:input id="idCardNumber" class="form-control input-sm"
+										type="text" name="idCardNumber" path="idCardNumber" />
+								</div>
 							</div>
 							<div class="form-group col-md-4">
 								<label class="control-label" for="address1">Address 1</label> <font
-									color="red">* <form:input id="address1"
-										class="form-control input-sm" type="text" name="address1"
-										path="address1" />
-								</font>
+									color="red">* </font>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-home"></span>
+									</span>
+									<form:input id="address1" class="form-control input-sm"
+										type="text" name="address1" path="address1" />
+								</div>
 							</div>
 							<div class="form-group col-md-4">
 								<label class="control-label" for="address2">Address 2
 									(optional)</label>
-								<form:input class="form-control input-sm" type="text"
-									id="address2" name="address2" path="address2" />
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-home"></span>
+									</span>
+									<form:input class="form-control input-sm" type="text"
+										id="address2" name="address2" path="address2" />
+								</div>
 							</div>
 							<div class="form-group col-md-4">
 								<label class="control-label" for="email">Email</label> <font
-									color="red">* <form:input id="email"
-										class="form-control input-sm" type="text" name="email"
-										path="email" />
-								</font>
+									color="red">* </font>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class="glyphicon glyphicon-envelope"></span>
+									</span>
+									<form:input id="email" class="form-control input-sm"
+										type="text" name="email" path="email" />
+								</div>
 							</div>
 							<div class="form-group col-md-3">
-								<label class="control-label" for="phone1">Phone 1</label> <font
-									color="red">* <form:input id="phone1"
-										class="form-control input-sm" type="text" name="phone1"
-										path="phone1" />
-								</font>
+								<label class="control-label" for="phone1">Phone 1</label><font
+									color="red">* </font>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class="glyphicon glyphicon-phone"></span>
+									</span>
+									<form:input id="phone1" class="form-control input-sm"
+										type="text" name="phone1" path="phone1" />
+								</div>
 							</div>
 							<div class="form-group col-md-3">
 								<label class="control-label" for="phone2">Phone 2
-									(optional)</label> <font color="red"> <form:input
-										class="form-control input-sm" type="text" id="phone2"
-										name="phone2" path="phone2" /></font>
+									(optional)</label>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-phone"></span>
+									</span>
+									<form:input class="form-control input-sm" type="text"
+										id="phone2" name="phone2" path="phone2" />
+								</div>
 							</div>
 
 							<div class="form-group col-md-8">
-								<input type="submit" value="Submit" name="subRegister"
-									class="btn btn-success" /> <input type="reset" value="Reset"
-									class="btn btn-danger" />
+								<button type="submit" class="btn btn-success">
+									<span class="glyphicon glyphicon-check">&nbsp;</span> Submit
+								</button>
+								<button type="reset" class="btn btn-danger">
+									<span class="glyphicon glyphicon-refresh">&nbsp;</span> Reset
+								</button>
 							</div>
 						</form:form>
 					</div>

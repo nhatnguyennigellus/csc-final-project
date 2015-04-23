@@ -17,7 +17,8 @@
 
 				<ol class="breadcrumb">
 					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
-					<li class="active"><i class="fa fa-file"></i> Search Account</li>
+					<li class="active"><i class="glyphicon glyphicon-search"></i>
+						Search Account</li>
 				</ol>
 			</div>
 		</div>
@@ -28,25 +29,33 @@
 						<form action="searchAccount" class="form-inline">
 
 							<div class="form-group">
-								<label for="idCardValue">Customer ID Card Number</label> <input
-									class="form-control input-sm" type="text" id="idCardValue"
-									name="idCardValue" />
+								<label for="idCardValue">Customer ID Card Number</label>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-credit-card"></span>
+									</span><input class="form-control input-sm" type="text"
+										id="idCardValue" name="idCardValue" />
+								</div>
 							</div>
-
+							&nbsp;
 							<div class="form-group">
-								<label for="accNumberValue"> Account Number</label> <input
-									class="form-control input-sm" type="text" name="accNumberValue"
-									id="accNumberValue" />
+								<label for="accNumberValue"> Account Number</label>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-asterisk"></span>
+									</span><input class="form-control input-sm" type="text"
+										name="accNumberValue" id="accNumberValue" />
+								</div>
 							</div>
-
-							<input type="submit" value="Search" class="btn btn-success" />
+							<button type="submit" class="btn btn-info">
+								<span class=" glyphicon glyphicon-search"></span> Search
+							</button>
 
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-		<hr />
 		<div class="row">
 			<div class="col-lg-12">
 				<table class="table table-striped" id="tableAccounts">
@@ -82,12 +91,12 @@
 								<td><h4>
 										<c:if
 											test="${account.repeatable == true and account.interestRate.period != 0}">
-											<span class="label label-info"> ${account.repeatable}</span>
+											<span class="label label-info"> Yes
+											</span>
 										</c:if>
 										<c:if
 											test="${account.repeatable == false and account.interestRate.period != 0}">
-											<span class="label label-warning">
-												${account.repeatable}</span>
+											<span class="label label-warning"> No </span>
 										</c:if>
 									</h4></td>
 								<td>

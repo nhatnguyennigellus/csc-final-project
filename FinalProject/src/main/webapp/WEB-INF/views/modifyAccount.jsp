@@ -90,9 +90,10 @@
 
 				<ol class="breadcrumb">
 					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
-					<li class="active"><i class="fa fa-file"></i> <a
-						href="searchAccount">Search Account</a></li>
-					<li class="active"><i class="fa fa-file"></i> Modify Account</li>
+					<li class="active"><i class="glyphicon glyphicon-search"></i>
+						<a href="searchAccount">Search Account</a></li>
+					<li class="active"><i class="glyphicon glyphicon-edit"></i>
+						Modify Account</li>
 				</ol>
 			</div>
 		</div>
@@ -114,14 +115,14 @@
 							Customer ID: <input class="form-control"
 								style="width: 10%; display: inline; margin-right: 2%;"
 								type="text" id="customerID" name="customerID"
-								value="${customer.customerId }" readonly="readonly" /><br>
+								value="${customer.customerId }" readonly="readonly" /> <br />
 							First Name: <input class="form-control"
 								style="width: 15%; display: inline; margin-right: 2%; margin-top: 5px; margin-left: 2%;"
 								type="text"
 								onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)"
 								id="customerFirstName" name="customerFirstName"
 								value="${customer.firstName }"
-								onblur="validate('customerFirstName')" /><span
+								onblur="validate('customerFirstName')" /> <span
 								id="checkcustomerFirstName" style="width: 100px; height: 34px;"></span>
 							Middle Name: <input class="form-control"
 								style="width: 15%; display: inline; margin-right: 2%; margin-left: 2%;"
@@ -164,7 +165,7 @@
 								onblur="validate('phone2')" /><span id="checkphone2"
 								style="width: 100px; height: 34px;"></span><br> Email: <input
 								class="form-control"
-								style="width: 15%; display: inline; margin-right: 2%; margin-top: 5px; margin-left: 2%;"
+								style="width: 30%; display: inline; margin-right: 2%; margin-top: 5px; margin-left: 2%;"
 								type="text" id="email" name="email" value="${customer.email }"
 								onblur="validate('email')" /><span id="checkemail"
 								style="width: 100px; height: 34px;"></span> ID Card Number: <input
@@ -176,9 +177,11 @@
 								onblur="validate('idCard')" /><span id="checkidCard"
 								style="width: 100px; height: 34px;"></span><br> <input
 								name="currentAccount" style="display: none;"
-								value="${account.accountNumber}"> <input
-								class="btn btn-primary" style="margin-top: 20px;" type="submit"
-								value="Save Changes">
+								value="${account.accountNumber}">
+							<button type="submit" class="btn btn-primary" style="margin-top: 15px">
+								<span class="glyphicon glyphicon-check">&nbsp;</span> Save
+								changes
+							</button>
 						</form>
 					</div>
 				</div>
@@ -252,8 +255,10 @@
 									<br>
 								</div>
 								<div style="width: 100%; float: left;">
-									<input class="btn btn-primary" type="submit"
-										value="Save Changes">
+									<button type="submit" class="btn btn-primary">
+										<span class="glyphicon glyphicon-check">&nbsp;</span> Save
+										changes
+									</button>
 								</div>
 
 							</div>
