@@ -121,7 +121,7 @@ public class TransactionDAO {
 	public boolean approveTransaction(Transaction transaction) {
 		try {
 			SavingAccount account = entityManager.find(SavingAccount.class,
-					transaction.getSavingAccount().getAccountNumber());
+					transaction.getSavingAccount().getAccountId());
 
 			if (transaction.getType().equals("Withdraw All")) {
 				account.setBalanceAmount(0);
