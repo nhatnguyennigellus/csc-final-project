@@ -59,14 +59,14 @@
 
 		//Phone contrains(10 - 15 number)
 		if (control.attr("id") == "phone1") {
-			if (control.val().length < 10 || control.val().length > 15) {
+			if (control.val().length < 7 || control.val().length > 15) {
 				checkSpan.addClass("label label-danger");
 				checkSpan.text("Invalid");
 			}
 		}
 
 		if (control.attr("id") == "phone2" && control.val() != ""
-				&& (control.val().length < 10 || control.val().length > 15)) {
+				&& (control.val().length < 7 || control.val().length > 15)) {
 			checkSpan.addClass("label label-danger");
 			checkSpan.text("Invalid");
 		}
@@ -102,10 +102,18 @@
 			<div class="col-lg-12">
 				<c:if test="${updateSuccess != null }">
 					<div class="alert alert-success" role="alert">${updateSuccess }
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 				</c:if>
 				<c:if test="${updateError != null }">
-					<div class="alert alert-danger" role="alert">${updateError }
+					<div class="alert alert-danger" role="alert">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>${updateError }
 					</div>
 				</c:if>
 				<div id="customerDiv" class="panel panel-primary">
@@ -178,7 +186,8 @@
 								style="width: 100px; height: 34px;"></span><br> <input
 								name="currentAccount" style="display: none;"
 								value="${account.accountNumber}">
-							<button type="submit" class="btn btn-primary" style="margin-top: 15px">
+							<button type="submit" class="btn btn-primary"
+								style="margin-top: 15px">
 								<span class="glyphicon glyphicon-check">&nbsp;</span> Save
 								changes
 							</button>
@@ -199,6 +208,7 @@
 										readonly="readonly" /> Balance Amount<br> <input
 										class="form-control" style="width: 40%; display: inline;"
 										type="text" id="balanceAmount" name="balanceAmount"
+										readonly="readonly"
 										value="<fmt:formatNumber groupingUsed="false" type="number" 
 										 maxFractionDigits="0" value="${account.balanceAmount}" />"
 										onblur="validate('balanceAmount')" /><span
@@ -223,7 +233,7 @@
 										onblur="validate('accountOwner')" /><span
 										id="checkaccountOwner"></span><br> Interest<br> <input
 										class="form-control" style="width: 20%; display: inline;"
-										type="text" id="interest" name="interest"
+										type="text" id="interest" name="interest" readonly="readonly"
 										value="<fmt:formatNumber groupingUsed="false" type="number" 
 											value="${account.interest}" maxFractionDigits="0" />"
 										onblur="validate('interest')" /><span id="checkinterest"></span><br>

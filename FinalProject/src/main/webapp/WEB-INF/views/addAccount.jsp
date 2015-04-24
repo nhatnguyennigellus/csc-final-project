@@ -18,7 +18,8 @@
 					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
 					<li><i class="fa fa-file"></i> <a href="viewCustomer">
 							Customer List</a></li>
-					<li class="active"><i class="glyphicon glyphicon-plus"></i> Add Account</li>
+					<li class="active"><i class="glyphicon glyphicon-plus"></i>
+						Add Account</li>
 				</ol>
 			</div>
 		</div>
@@ -30,11 +31,19 @@
 							modelAttribute="savingAccount" id="frmAddAccount">
 							<c:if test="${addAccError != null }">
 
-								<div class="alert alert-danger" role="alert">${addAccError }</div>
+								<div class="alert alert-danger" role="alert">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>${addAccError }</div>
 							</c:if>
 							<c:if test="${addAccSuccess != null }">
 
 								<div class="alert alert-success" role="alert">${addAccSuccess }
+									<button type="button" class="close" data-dismiss="alert"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
 									<strong><a href="viewCustomer" class="alert-link">Back
 											to customer list</a> or <a href="searchAccount"
 										class="alert-link">Back to account list</a></strong>
@@ -64,7 +73,7 @@
 										type="text" name="accountOwner" path="accountOwner" />
 								</div>
 							</div>
-							<div class="form-group col-md-3">
+							<div class="form-group col-md-6" style="display: none;">
 								<label class="control-label" for="balanceAmount">Saving
 									Amount</label> <font color="red">* </font>
 								<div class="input-group ">
@@ -72,7 +81,8 @@
 										class=" glyphicon glyphicon-usd"></span>
 									</span>
 									<form:input id="balanceAmount" class="form-control input-sm"
-										type="text" name="balanceAmount" path="balanceAmount" />
+										readonly="true" type="text" name="balanceAmount"
+										path="balanceAmount" />
 								</div>
 							</div>
 							<div class="form-group col-md-4" style="display: none;">
@@ -80,7 +90,7 @@
 									value="${customerId }" class="form-control input-sm"
 									type="text" name="customerId" />
 							</div>
-							<div class="form-group col-md-4">
+							<div class="form-group col-md-8">
 								<label class="control-label" for="period">Saving Period</label>
 								<font color="red">* <select class="form-control input-sm"
 									id="period" name="period">
@@ -134,6 +144,24 @@
 			return this.optional(element) || value.length == param;
 		}, jQuery.format("Please enter exactly {0} digits."));
 
+		$.validator.setDefaults({
+			highlight : function(element) {
+				$(element).closest('.form-group').addClass('has-error');
+			},
+			unhighlight : function(element) {
+				$(element).closest('.form-group').removeClass('has-error');
+			},
+			errorElement : 'span',
+			errorClass : 'help-block',
+			errorPlacement : function(error, element) {
+				if (element.parent('.input-group').length) {
+					error.insertAfter(element.parent());
+				} else {
+					error.insertAfter(element);
+				}
+			}
+		});
+
 		$("#frmAddAccount").validate({
 			rules : {
 				accountNumber : {
@@ -143,12 +171,12 @@
 				},
 				accountOwner : {
 					required : true,
-				},
+				},/* 
 				balanceAmount : {
 					required : true,
 					number : true,
 					minStrict : 1000000
-				}
+				} */
 			},
 			messages : {
 				accountNumber : {
@@ -159,12 +187,12 @@
 				accountOwner : {
 					required : "Account Owner is required",
 
-				},
+				}/* ,
 				balanceAmount : {
 					required : "Balance Amount is required",
 					number : "Please enter a number",
 					minStrict : "Balance Amount must be at least 1.000.000 VND"
-				}
+				} */
 			},
 
 		})

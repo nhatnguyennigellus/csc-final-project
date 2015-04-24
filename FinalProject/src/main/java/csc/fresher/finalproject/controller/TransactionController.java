@@ -104,7 +104,8 @@ public class TransactionController {
 		SavingAccount account = bankingService
 				.getSavingAccountByAccNumber(transaction.getSavingAccount()
 						.getAccountNumber());
-
+		transaction.setSavingAccount(account);
+		
 		if (transaction.getType().equals("Withdraw All")) {
 			// Period
 			if (account.getInterestRate().getPeriod() != 0) {
@@ -181,7 +182,10 @@ public class TransactionController {
 				if (!list.isEmpty())
 					lastWithdrawAll = list.get(list.size() - 1);
 				// Deposit before due date
-				if (DateUtils.isBeforeDay(new Date(), account.getDueDate())
+				if ((account.getBalanceAmount() != 0 && !DateUtils
+						.isToday(account.getStartDate()))
+						&& DateUtils.isBeforeDay(new Date(),
+								account.getDueDate())
 						&& !DateUtils.isToday(account.getDueDate())
 						|| (!list.isEmpty() && DateUtils.isBeforeDay(
 								account.getDueDate(), lastWithdrawAll))) {
@@ -301,8 +305,7 @@ public class TransactionController {
 					transactionId = Integer.parseInt(request
 							.getParameter("transactionId"));
 				}
-				transaction = bankingService
-						.getTransactionById(transactionId);
+				transaction = bankingService.getTransactionById(transactionId);
 				transactions = new ArrayList<Transaction>();
 				if (transaction != null) {
 					transactions.add(transaction);

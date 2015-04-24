@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -33,12 +35,14 @@
 								class="glyphicon glyphicon-circle-arrow-right"></i>
 						</span></a>
 					</div>
-					<div class="panel-body">
-						<a href="toAddCustomer"> <span class="pull-left">Add
-								Customer</span> <span class="pull-right"> <i
-								class="glyphicon glyphicon-circle-arrow-right"></i>
-						</span></a>
-					</div>
+					<sec:authorize access="hasRole('Support')">
+						<div class="panel-body">
+							<a href="toAddCustomer"> <span class="pull-left">Add
+									Customer</span> <span class="pull-right"> <i
+									class="glyphicon glyphicon-circle-arrow-right"></i>
+							</span></a>
+						</div>
+					</sec:authorize>
 				</div>
 			</div>
 
@@ -86,13 +90,14 @@
 								class="glyphicon glyphicon-circle-arrow-right"></i>
 						</span></a>
 					</div>
-					<div class="panel-body">
-						<a href="accountTransaction"> <span class="pull-left">Perform
-								Transaction </span> <span class="pull-right"> <i
-								class="glyphicon glyphicon-circle-arrow-right"></i>
-						</span></a>
-					</div>
-
+					<sec:authorize access="hasRole('Support')">
+						<div class="panel-body">
+							<a href="accountTransaction"> <span class="pull-left">Perform
+									Transaction </span> <span class="pull-right"> <i
+									class="glyphicon glyphicon-circle-arrow-right"></i>
+							</span></a>
+						</div>
+					</sec:authorize>
 				</div>
 			</div>
 			<div class="col-lg-3">

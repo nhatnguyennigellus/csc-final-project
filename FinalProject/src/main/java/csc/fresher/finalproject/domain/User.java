@@ -18,13 +18,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "user")
 public class User {
 	@Id
-	@NotEmpty
 	private String username;
 
-	@NotEmpty
 	private String password;
 	
-	@NotEmpty
 	private boolean enable;
 
 	@ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)

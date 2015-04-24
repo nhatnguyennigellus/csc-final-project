@@ -1,6 +1,7 @@
 package csc.fresher.finalproject.controller;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import csc.fresher.finalproject.domain.Customer;
 import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.SavingInterestRate;
+import csc.fresher.finalproject.domain.Transaction;
 import csc.fresher.finalproject.service.BankingService;
 import csc.fresher.finalproject.service.DateUtils;
 
@@ -83,6 +85,7 @@ public class SavingAccountController {
 
 		boolean repeatable = request.getParameter("repeatable") != null;
 		savingAccount.setRepeatable(repeatable);
+		
 
 		if (bankingService.addSavingAccount(savingAccount)) {
 			model.addAttribute("addAccSuccess",

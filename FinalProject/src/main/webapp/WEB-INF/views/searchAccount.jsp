@@ -29,7 +29,7 @@
 						<form action="searchAccount" class="form-inline">
 
 							<div class="form-group">
-								<label for="idCardValue">Customer ID Card Number</label>
+								<label for="idCardValue">ID Card Number</label>
 								<div class="input-group ">
 									<span class="input-group-addon"> <span
 										class=" glyphicon glyphicon-credit-card"></span>
@@ -64,7 +64,6 @@
 							<th>Account Number</th>
 							<th>Customer</th>
 							<th>Account Owner</th>
-
 							<th>Repeatable</th>
 							<th>State</th>
 							<th>Action</th>
@@ -199,7 +198,7 @@
 		$("dd#cus").html($(this).data('customer'));
 		$("dd#own").html($(this).data('owner'));
 		$("dd#bal").html($(this).data('balance') + ' VND');
-		$("dd#inter").html($(this).data('interest') + '');
+		$("dd#inter").html($(this).data('interest') + ' VND');
 		$("dd#start").html($(this).data('startdate'));
 		$("dd#due").html($(this).data('duedate'));
 	});

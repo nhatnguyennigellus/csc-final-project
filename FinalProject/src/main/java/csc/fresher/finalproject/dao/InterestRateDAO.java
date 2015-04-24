@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -15,25 +16,27 @@ import csc.fresher.finalproject.domain.SavingInterestRate;
 
 @Repository("interestRateDAO")
 public class InterestRateDAO {
-	public List<SavingInterestRate> getInterestRateList() {
-		EntityManager entityManager = EntityManagerFactoryUtil
-				.createEntityManager();
 
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	public List<SavingInterestRate> getInterestRateList() {
 		// Obtains transaction from entity manager
-		EntityTransaction entr = entityManager.getTransaction();
+	//	EntityTransaction entr = entityManager.getTransaction();
 
 		// -----------Begin transaction-----------
 		List<SavingInterestRate> rateList = null;
 		try {
-			entr.begin();
+	//		entr.begin();
 			// Get a list of accounts from DB
 			TypedQuery<SavingInterestRate> query = entityManager.createQuery(
 					"SELECT r FROM SavingInterestRate r",
 					SavingInterestRate.class);
 			rateList = query.getResultList();
-			entr.commit();
+	//		entr.commit();
 		} catch (Exception e) {
-			entityManager.close();
+	//		entr.rollback();
+			return null;
 		}
 		// -----------End transaction-----------
 
@@ -41,23 +44,20 @@ public class InterestRateDAO {
 	}
 
 	public SavingInterestRate getInterestRateByPeriod(Integer interestRatePeriod) {
-		EntityManager entityManager = EntityManagerFactoryUtil
-				.createEntityManager();
-		EntityTransaction enTr = entityManager.getTransaction();
+	//	EntityTransaction enTr = entityManager.getTransaction();
 
 		SavingInterestRate rate = new SavingInterestRate();
 		try {
-			enTr.begin();
+	//		enTr.begin();
 
 			TypedQuery<SavingInterestRate> query = entityManager.createQuery(
 					"SELECT r FROM SavingInterestRate r WHERE r.period = ?1",
 					SavingInterestRate.class);
 			query.setParameter(1, interestRatePeriod);
 			rate = query.getSingleResult();
-			enTr.commit();
+	//		enTr.commit();
 		} catch (Exception e) {
-			enTr.rollback();
-			entityManager.close();
+	//		enTr.rollback();
 			return null;
 		}
 
@@ -65,23 +65,20 @@ public class InterestRateDAO {
 	}
 
 	public SavingInterestRate getInterestRateById(int id) {
-		EntityManager entityManager = EntityManagerFactoryUtil
-				.createEntityManager();
-		EntityTransaction enTr = entityManager.getTransaction();
+	//	EntityTransaction enTr = entityManager.getTransaction();
 
 		SavingInterestRate rate = new SavingInterestRate();
 		try {
-			enTr.begin();
+	//		enTr.begin();
 
 			TypedQuery<SavingInterestRate> query = entityManager.createQuery(
 					"SELECT r FROM SavingInterestRate r WHERE r.id = ?1",
 					SavingInterestRate.class);
 			query.setParameter(1, id);
 			rate = query.getSingleResult();
-			enTr.commit();
+	//		enTr.commit();
 		} catch (Exception e) {
-			enTr.rollback();
-			entityManager.close();
+	//		enTr.rollback();
 			return null;
 		}
 
@@ -89,17 +86,14 @@ public class InterestRateDAO {
 	}
 
 	public boolean updateInterestRate(SavingInterestRate rate) {
-		EntityManager entityManager = EntityManagerFactoryUtil
-				.createEntityManager();
-		EntityTransaction enTr = entityManager.getTransaction();
+	//	EntityTransaction enTr = entityManager.getTransaction();
 
 		try {
-			enTr.begin();
+	//		enTr.begin();
 			entityManager.merge(rate);
-			enTr.commit();
+	//		enTr.commit();
 		} catch (Exception e) {
-			enTr.rollback();
-			entityManager.close();
+	//		enTr.rollback();
 			return false;
 		}
 
@@ -107,17 +101,14 @@ public class InterestRateDAO {
 	}
 
 	public boolean addInterestRate(SavingInterestRate newInterestRate) {
-		EntityManager entityManager = EntityManagerFactoryUtil
-				.createEntityManager();
-		EntityTransaction enTr = entityManager.getTransaction();
+		//EntityTransaction enTr = entityManager.getTransaction();
 
 		try {
-			enTr.begin();
+		//	enTr.begin();
 			entityManager.persist(newInterestRate);
-			enTr.commit();
+	//		enTr.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			entityManager.close();
 			return false;
 		}
 

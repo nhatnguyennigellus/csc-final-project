@@ -57,7 +57,10 @@ public class InterestRateServiceTest {
 		InterestRateDAO rateDAO = new InterestRateDAO();
 		EntityManager en = EntityManagerFactoryUtil.createEntityManager();
 		en.getTransaction().begin();
-		SavingInterestRate interestRate = new SavingInterestRate(1, 6, 0.5);
+		SavingInterestRate interestRate = new SavingInterestRate();
+		interestRate.setId(1);
+		interestRate.setPeriod(6);
+		interestRate.setInterestRate(0.5);
 		assertTrue(rateDAO.updateInterestRate(interestRate, en));
 		en.getTransaction().rollback();
 		en.close();

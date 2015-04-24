@@ -5,27 +5,28 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.User;
 
 @Repository("userDAO")
+@Transactional
 public class UserDAO {
-	public UserDAO() {
-	}
+
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	public User checkUser(String username, String password) {
-		EntityManager entityManager = EntityManagerFactoryUtil
-				.createEntityManager();
-		EntityTransaction enTr = entityManager.getTransaction();
+		
+//		EntityTransaction enTr = entityManager.getTransaction();
 
 		User user = new User();
 		try {
-			enTr.begin();
+//			enTr.begin();
 
 			TypedQuery<User> query = entityManager
 					.createQuery(
@@ -34,10 +35,9 @@ public class UserDAO {
 			query.setParameter(1, username);
 			query.setParameter(2, password);
 			user = query.getSingleResult();
-			enTr.commit();
+//			enTr.commit();
 		} catch (Exception e) {
-			enTr.rollback();
-			entityManager.close();
+//			enTr.rollback();
 			return null;
 		}
 
@@ -45,12 +45,14 @@ public class UserDAO {
 	}
 
 	public boolean checkUserActive(String username) {
-		EntityManager entityManager = EntityManagerFactoryUtil
-				.createEntityManager();
-		EntityTransaction enTr = entityManager.getTransaction();
+		/*
+		 * EntityManager entityManager = EntityManagerFactoryUtil
+		 * .createEntityManager();
+		 */
+//		EntityTransaction enTr = entityManager.getTransaction();
 		boolean active = false;
 		try {
-			enTr.begin();
+//			enTr.begin();
 
 			TypedQuery<User> query = entityManager
 					.createQuery(
@@ -58,10 +60,9 @@ public class UserDAO {
 							User.class);
 			query.setParameter(1, username);
 			active = query.getSingleResult() != null;
-			enTr.commit();
+	//		enTr.commit();
 		} catch (Exception e) {
-			enTr.rollback();
-			entityManager.close();
+	//		enTr.rollback();
 			return false;
 		}
 
@@ -69,21 +70,22 @@ public class UserDAO {
 	}
 
 	public User getUserByUsername(String username) {
-		EntityManager entityManager = EntityManagerFactoryUtil
-				.createEntityManager();
-		EntityTransaction enTr = entityManager.getTransaction();
+		/*
+		 * EntityManager entityManager = EntityManagerFactoryUtil
+		 * .createEntityManager();
+		 */
+	//	EntityTransaction enTr = entityManager.getTransaction();
 		User user = new User();
 		try {
-			enTr.begin();
+	//		enTr.begin();
 
 			TypedQuery<User> query = entityManager.createQuery(
 					"SELECT u FROM User u WHERE u.username = ?1", User.class);
 			query.setParameter(1, username);
 			user = query.getSingleResult();
-			enTr.commit();
+	//		enTr.commit();
 		} catch (Exception e) {
-			enTr.rollback();
-			entityManager.close();
+	//		enTr.rollback();
 			return null;
 		}
 
@@ -91,21 +93,20 @@ public class UserDAO {
 	}
 
 	public List<User> getUserByRole(String role) {
-		EntityManager em = EntityManagerFactoryUtil.createEntityManager();
-		EntityTransaction enTr = em.getTransaction();
+		/* EntityManager em = EntityManagerFactoryUtil.createEntityManager(); */
+//		EntityTransaction enTr = entityManager.getTransaction();
 
 		List<User> users = new ArrayList<User>();
 		try {
-			enTr.begin();
+//			enTr.begin();
 
-			TypedQuery<User> query = em.createQuery(
+			TypedQuery<User> query = entityManager.createQuery(
 					"SELECT u FROM User u WHERE u.role.role = ?1", User.class);
 			query.setParameter(1, role);
 			users = query.getResultList();
-			enTr.commit();
+//			enTr.commit();
 		} catch (Exception e) {
-			enTr.rollback();
-			em.close();
+//			enTr.rollback();
 			return null;
 		}
 

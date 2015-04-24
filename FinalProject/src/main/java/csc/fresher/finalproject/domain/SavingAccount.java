@@ -4,13 +4,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -20,43 +21,48 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "savingaccount")
 public class SavingAccount {
 	@Id
+	@GeneratedValue
+	private Integer accountId;
+
 	@NotEmpty
 	@Length(max = 12)
 	private String accountNumber;
-	
-	@NotEmpty
+
 	private String accountOwner;
-	
-	@NotNull 
+
 	private double balanceAmount;
-	
-	@NotNull
+
 	private double interest;
-	
-	@NotNull
+
 	private Date startDate;
-	
+
 	private Date dueDate;
 
-	@NotNull
 	private boolean repeatable;
-	
-	@NotEmpty
+
 	private String state;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "customerId")
 	private Customer customer;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "interestRateId")
 	private SavingInterestRate interestRate;
-	
+
 	@OneToMany(mappedBy = "savingAccount")
 	private Set<Transaction> transactions = new HashSet<Transaction>();
 
-	public SavingAccount(){
-		
+	public SavingAccount() {
+
+	}
+
+	public Integer getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(Integer id) {
+		this.accountId = id;
 	}
 
 	public String getAccountNumber() {
@@ -106,7 +112,6 @@ public class SavingAccount {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
 
 	public Date getStartDate() {
 		return startDate;
@@ -123,7 +128,6 @@ public class SavingAccount {
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
-
 
 	public Customer getCustomer() {
 		return customer;
@@ -148,6 +152,5 @@ public class SavingAccount {
 	public void setTransactions(Set<Transaction> transactions) {
 		this.transactions = transactions;
 	}
-	
-	
+
 }

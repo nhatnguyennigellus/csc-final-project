@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,20 +25,17 @@ public class Transaction {
 	@GeneratedValue
 	private Integer id;
 
-	@NotEmpty
 	private String type;
 
-	@NotNull
 	private double amount;
 
-	@NotNull
 	private Date date;
 
-	@NotEmpty
 	private String state;
 
 	@ManyToOne
-	@JoinColumn(name = "accountNumber")
+	@JoinColumn(name = "accountId")
+	
 	private SavingAccount savingAccount;
 
 	@ManyToMany(fetch = FetchType.LAZY)

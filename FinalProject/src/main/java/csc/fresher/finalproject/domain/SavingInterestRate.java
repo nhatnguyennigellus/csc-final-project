@@ -25,6 +25,9 @@ public class SavingInterestRate {
 	@NotNull
 	private double interestRate;
 
+	@NotNull
+	private String state;
+
 	@OneToMany(mappedBy = "interestRate")
 	private Set<SavingAccount> savingAccounts = new HashSet<SavingAccount>();
 
@@ -61,5 +64,13 @@ public class SavingInterestRate {
 
 	public void setInterestRate(double interestRate) {
 		this.interestRate = interestRate;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 }

@@ -2,6 +2,8 @@
 	pageEncoding="utf-8"%>
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html5/loose.dtd">
 <html>
 <head>
@@ -12,10 +14,10 @@
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/jquery-ui.css'/> ">
 
-	<link rel="stylesheet"
+<link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap.min.css'/> ">
-	
-	<link rel="stylesheet"
+
+<link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap.css'/> ">
 
 <link rel="stylesheet"
@@ -77,38 +79,40 @@
 				alt="" />
 			</a>
 		</div>
-		<!-- Top Menu Items --> <c:if test="${pageContext.request.userPrincipal.name != null}">
+		<!-- Top Menu Items --> <c:if
+			test="${pageContext.request.userPrincipal.name != null}">
 			<ul class="nav navbar-right top-nav">
 
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i>
-						${sessionScope.USER.username} <b class="caret"></b></a> 
-						
-						<c:url	value="/j_spring_security_logout" var="logoutUrl" />
+						${sessionScope.USER.username} <b class="caret"></b></a> <c:url
+						value="/j_spring_security_logout" var="logoutUrl" />
 					<form action="${logoutUrl}" method="post" id="logoutForm">
 						<input type="hidden" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
 					</form>
 					<ul class="dropdown-menu">
 
-						<li><a href="javascript:formSubmit()"><i class="fa fa-fw fa-power-off"></i>
-								Log Out</a></li>
+						<li><a href="javascript:formSubmit()"><i
+								class="fa fa-fw fa-power-off"></i> Log Out</a></li>
 					</ul></li>
 			</ul>
 		</c:if> <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav side-nav">
-					<li><a href="home"><i
-							class="glyphicon glyphicon-home"></i> &nbsp;Dashboard</a></li>
+					<li><a href="home"><i class="glyphicon glyphicon-home"></i>
+							&nbsp;Dashboard</a></li>
 					<li><a href="javascript:;" data-toggle="collapse"
 						data-target="#customer"><i class="glyphicon glyphicon-user"></i>
 							&nbsp;Customer &nbsp;<i class="glyphicon glyphicon-chevron-down"></i></a>
 						<ul id="customer" class="collapse">
 							<li><a href="viewCustomer"><i
 									class="glyphicon glyphicon-th-list"></i> Customer List</a></li>
-							<li><a href="toAddCustomer"><i
-									class="glyphicon glyphicon-plus"></i> Add Customer</a></li>
+							<sec:authorize access="hasRole('Support')">
+								<li><a href="toAddCustomer"><i
+										class="glyphicon glyphicon-plus"></i> Add Customer</a></li>
+							</sec:authorize>
 						</ul></li>
 					<li><a href="searchAccount"><i
 							class="glyphicon glyphicon-search"></i> &nbsp;Account</a></li>
@@ -121,8 +125,10 @@
 						<ul id="trans" class="collapse">
 							<li><a href="searchTransaction"><i
 									class="glyphicon glyphicon-search"></i> Search Transaction</a></li>
-							<li><a href="accountTransaction"><i
-									class="glyphicon glyphicon-save-file"></i> Perform Transaction</a></li>
+							<sec:authorize access="hasRole('Support')">
+								<li><a href="accountTransaction"><i
+										class="glyphicon glyphicon-save-file"></i> Perform Transaction</a></li>
+							</sec:authorize>
 						</ul></li>
 
 				</ul>
@@ -142,7 +148,7 @@
 
 		</div>
 		<img src="<c:url value='/resources/images/csc.png'/>" width="25px">
-			<font color="white">CSC Java Fresher - Mar 2015 - Final Project</font>
+		<font color="white">CSC Java Fresher - Mar 2015 - Final Project</font>
 		<!-- /#page-wrapper -->
 
 	</div>

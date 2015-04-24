@@ -103,7 +103,7 @@ public class BankingService {
 	public boolean updateSavingAccount(SavingAccount account) {
 		return savingAccountDAO.updateSavingAccount(account);
 	}
-
+	
 	public SavingAccount getSavingAccountByAccNumber(String accNumber) {
 		return savingAccountDAO.getAccountByAccNumber(accNumber);
 	}
@@ -231,10 +231,6 @@ public class BankingService {
 
 	public List<Date> getWithdrawAll(SavingAccount account) {
 		return transactionDAO.getWithdrawAll(account);
-	}
-
-	public List<Transaction> getTransactionByState(String state) {
-		return transactionDAO.getTransactionsByState(state);
 	}
 
 	/**

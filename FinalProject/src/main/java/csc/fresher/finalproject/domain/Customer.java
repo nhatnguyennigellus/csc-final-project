@@ -33,7 +33,7 @@ public class Customer {
 	private String address2;
 
 	@NotEmpty
-	@Length(max = 15, min = 10)
+	@Length(max = 15, min = 7)
 	private String phone1;
 
 	private String phone2;

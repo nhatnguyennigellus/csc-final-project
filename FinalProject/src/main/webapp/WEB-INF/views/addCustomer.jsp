@@ -31,115 +31,128 @@
 							modelAttribute="customer" id="frmAddCustomer">
 							<c:if test="${addCusError != null }">
 
-								<div class="alert alert-danger" role="alert">${addCusError }</div>
+								<div class="alert alert-danger" role="alert">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>${addCusError }</div>
 							</c:if>
 							<c:if test="${addCusSuccess!= null }">
 
-								<div class="alert alert-success" role="alert">${addCusSuccess }
+								<div class="alert alert-success" role="alert">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>${addCusSuccess }
 									<strong><a href="viewCustomer" class="alert-link">Back
 											to customer list</a></strong>
 								</div>
 							</c:if>
-							<div class="form-group col-md-3">
-								<label class="control-label" for="lastName">Last name</label> <font
-									color="red">* </font>
-								<div class="input-group ">
-									<span class="input-group-addon"> <span
-										class=" glyphicon glyphicon-user"></span>
-									</span>
-									<form:input id="lastName" class="form-control input-sm"
-										type="text" name="lastName" path="lastName" />
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="lastName">Last name</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<form:input id="lastName" class="form-control input-sm"
+											type="text" name="lastName" path="lastName" />
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="middleName">Middle
+										name (optional) </label>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<form:input id="middleName" class="form-control input-sm"
+											type="text" name="middleName" path="middleName" />
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="firstName">First name</label>
+									<font color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<form:input id="firstName" class="form-control input-sm"
+											type="text" name="firstName" path="firstName" />
+									</div>
 								</div>
 							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label" for="middleName">Middle
-									name (optional) </label>
-								<div class="input-group ">
-									<span class="input-group-addon"> <span
-										class=" glyphicon glyphicon-user"></span>
-									</span>
-									<form:input id="middleName" class="form-control input-sm"
-										type="text" name="middleName" path="middleName" />
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="idCardNumber">ID Card
+										Number</label> <font color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-credit-card"></span>
+										</span>
+										<form:input id="idCardNumber" class="form-control input-sm"
+											type="text" name="idCardNumber" path="idCardNumber" />
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="address1">Address 1</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-home"></span>
+										</span>
+										<form:input id="address1" class="form-control input-sm"
+											type="text" name="address1" path="address1" />
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="address2">Address 2
+										(optional)</label>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-home"></span>
+										</span>
+										<form:input class="form-control input-sm" type="text"
+											id="address2" name="address2" path="address2" />
+									</div>
 								</div>
 							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label" for="firstName">First name</label>
-								<font color="red">* </font>
-								<div class="input-group ">
-									<span class="input-group-addon"> <span
-										class=" glyphicon glyphicon-user"></span>
-									</span>
-									<form:input id="firstName" class="form-control input-sm"
-										type="text" name="firstName" path="firstName" />
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="email">Email</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class="glyphicon glyphicon-envelope"></span>
+										</span>
+										<form:input id="email" class="form-control input-sm"
+											type="text" name="email" path="email" />
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="phone1">Phone 1</label><font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class="glyphicon glyphicon-phone"></span>
+										</span>
+										<form:input id="phone1" class="form-control input-sm"
+											type="text" name="phone1" path="phone1" />
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="phone2">Phone 2
+										(optional)</label>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-phone"></span>
+										</span>
+										<form:input class="form-control input-sm" type="text"
+											id="phone2" name="phone2" path="phone2" />
+									</div>
 								</div>
 							</div>
-							<div class="form-group col-md-2">
-								<label class="control-label" for="idCardNumber">ID Card
-									Number</label> <font color="red">* </font>
-								<div class="input-group ">
-									<span class="input-group-addon"> <span
-										class=" glyphicon glyphicon-credit-card"></span>
-									</span>
-									<form:input id="idCardNumber" class="form-control input-sm"
-										type="text" name="idCardNumber" path="idCardNumber" />
-								</div>
-							</div>
-							<div class="form-group col-md-4">
-								<label class="control-label" for="address1">Address 1</label> <font
-									color="red">* </font>
-								<div class="input-group ">
-									<span class="input-group-addon"> <span
-										class=" glyphicon glyphicon-home"></span>
-									</span>
-									<form:input id="address1" class="form-control input-sm"
-										type="text" name="address1" path="address1" />
-								</div>
-							</div>
-							<div class="form-group col-md-4">
-								<label class="control-label" for="address2">Address 2
-									(optional)</label>
-								<div class="input-group ">
-									<span class="input-group-addon"> <span
-										class=" glyphicon glyphicon-home"></span>
-									</span>
-									<form:input class="form-control input-sm" type="text"
-										id="address2" name="address2" path="address2" />
-								</div>
-							</div>
-							<div class="form-group col-md-4">
-								<label class="control-label" for="email">Email</label> <font
-									color="red">* </font>
-								<div class="input-group ">
-									<span class="input-group-addon"> <span
-										class="glyphicon glyphicon-envelope"></span>
-									</span>
-									<form:input id="email" class="form-control input-sm"
-										type="text" name="email" path="email" />
-								</div>
-							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label" for="phone1">Phone 1</label><font
-									color="red">* </font>
-								<div class="input-group ">
-									<span class="input-group-addon"> <span
-										class="glyphicon glyphicon-phone"></span>
-									</span>
-									<form:input id="phone1" class="form-control input-sm"
-										type="text" name="phone1" path="phone1" />
-								</div>
-							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label" for="phone2">Phone 2
-									(optional)</label>
-								<div class="input-group ">
-									<span class="input-group-addon"> <span
-										class=" glyphicon glyphicon-phone"></span>
-									</span>
-									<form:input class="form-control input-sm" type="text"
-										id="phone2" name="phone2" path="phone2" />
-								</div>
-							</div>
-
 							<div class="form-group col-md-8">
 								<button type="submit" class="btn btn-success">
 									<span class="glyphicon glyphicon-check">&nbsp;</span> Submit
@@ -158,6 +171,7 @@
 <script type="text/javascript">
 	$(function() {
 		$("#frmAddCustomer").validate({
+
 			rules : {
 
 				firstName : {
@@ -180,11 +194,11 @@
 				phone1 : {
 					required : true,
 					digits : true,
-					rangelength : [ 10, 15 ]
+					rangelength : [ 7, 15 ]
 				},
 				phone2 : {
 					digits : true,
-					rangelength : [ 10, 15 ],
+					rangelength : [ 7, 15 ],
 				}
 			},
 			messages : {
@@ -208,15 +222,33 @@
 				phone1 : {
 					required : "Phone 1 is required!",
 					digits : "Please enter digits only!",
-					rangelength : "Length must be between 10 and 15 digits",
+					rangelength : "Length must be between 7 and 15 digits",
 
 				},
 				phone2 : {
 					digits : "Please enter digits only!",
-					rangelength : "Length must be between 10 and 15 digits",
+					rangelength : "Length must be between 7 and 15 digits",
 				}
-			},
+			}
 		})
+	});
+
+	$.validator.setDefaults({
+		highlight : function(element) {
+			$(element).closest('.form-group').addClass('has-error');
+		},
+		unhighlight : function(element) {
+			$(element).closest('.form-group').removeClass('has-error');
+		},
+		errorElement : 'span',
+		errorClass : 'help-block',
+		errorPlacement : function(error, element) {
+			if (element.parent('.input-group').length) {
+				error.insertAfter(element.parent());
+			} else {
+				error.insertAfter(element);
+			}
+		}
 	});
 </script>
 </html>

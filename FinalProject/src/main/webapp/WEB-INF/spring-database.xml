@@ -16,4 +16,5 @@
 		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
 		<property name="targetUrlParameter" value="targetUrl" />
 	</bean>
+	
 </beans>

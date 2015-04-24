@@ -168,7 +168,11 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#tableTransactions').dataTable({
-			"bFilter" : false
+			"bFilter" : false,
+			"aoColumnDefs" : [ {
+				'bSortable' : false,
+				'aTargets' : [ 7 ]
+			} ]
 		});
 	});
 	

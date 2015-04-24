@@ -108,8 +108,7 @@ public class HomeController {
 				.size());
 		model.addAttribute("AccountNo", bankingService.getSavingAccounts()
 				.size());
-		model.addAttribute("TransactionNo", bankingService.getTransactionList()
-				.size());
+		model.addAttribute("TransactionNo", bankingService.getTransactionList().size());
 
 		return ("home");
 	}

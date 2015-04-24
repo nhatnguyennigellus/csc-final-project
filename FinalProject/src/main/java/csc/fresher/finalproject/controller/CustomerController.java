@@ -97,9 +97,11 @@ public class CustomerController {
 		model.addAttribute("account", currentAccount);
 
 		if (!result) {
+			request.getSession().removeAttribute("updateSuccess");
 			request.getSession().setAttribute("updateError",
 					"Cannot update customer info!");
 		} else {
+			request.getSession().removeAttribute("updateError");
 			request.getSession().setAttribute("updateSuccess",
 					"Updated customer info!");
 		}
