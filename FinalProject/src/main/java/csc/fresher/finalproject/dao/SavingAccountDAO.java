@@ -4,20 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
-
 import csc.fresher.finalproject.domain.SavingAccount;
-import csc.fresher.finalproject.domain.Transaction;
 
 @Repository("savingAccountDAO")
 @Transactional

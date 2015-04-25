@@ -116,8 +116,10 @@
 						</ul></li>
 					<li><a href="searchAccount"><i
 							class="glyphicon glyphicon-search"></i> &nbsp;Account</a></li>
-					<li><a href="viewInterestRate"><i
-							class="glyphicon glyphicon-usd"></i> &nbsp;Interest Rate</a></li>
+					<sec:authorize access="hasRole('Admin')">
+						<li><a href="viewInterestRate"><i
+								class="glyphicon glyphicon-usd"></i> &nbsp;Interest Rate</a></li>
+					</sec:authorize>
 					<li><a href="javascript:;" data-toggle="collapse"
 						data-target="#trans"><i class="glyphicon glyphicon-briefcase"></i>
 							&nbsp;Transaction &nbsp;<i

@@ -107,10 +107,10 @@ public class BankingService {
 		int customerId = Integer.parseInt(request.getParameter("customerId"));
 		Customer customer = this.getCustomerById(customerId);
 
-		Integer interestRatePeriod = Integer.parseInt(request
+		Integer rateId = Integer.parseInt(request
 				.getParameter("period"));
 		SavingInterestRate interestRate = this
-				.getInterestRateByPeriod(interestRatePeriod);
+				.getInterestRateById(rateId);
 
 		account.setInterestRate(interestRate);
 
@@ -120,8 +120,8 @@ public class BankingService {
 		Calendar cal = Calendar.getInstance();
 		account.setStartDate(cal.getTime());
 
-		if (interestRatePeriod != 0) {
-			cal.add(Calendar.MONTH, (int) interestRatePeriod);
+		if (interestRate.getPeriod() != 0) {
+			cal.add(Calendar.MONTH, (int) interestRate.getPeriod());
 			account.setDueDate(cal.getTime());
 		}
 
@@ -220,9 +220,17 @@ public class BankingService {
 	public List<SavingInterestRate> getInterestRateList() {
 		return rateDAO.getInterestRateList();
 	}
+	
+	public List<SavingInterestRate> getCurrentInterestRateList() {
+		return rateDAO.getCurrentInterestRateList();
+	}
 
 	public SavingInterestRate getInterestRateByPeriod(Integer interestRatePeriod) {
 		return rateDAO.getInterestRateByPeriod(interestRatePeriod);
+	}
+	
+	public SavingInterestRate getCurrentRateByPeriod(Integer period) {
+		return rateDAO.getCurrentInterestRateByPeriod(period);
 	}
 
 	public SavingInterestRate getInterestRateById(int id) {
@@ -288,13 +296,7 @@ public class BankingService {
 			double interest = 0;
 
 			// Reset new interest
-			interest = this.calculateInterest(account);/*
-														 * account.getBalanceAmount
-														 * ()
-														 * account.getInterestRate
-														 * ().getInterestRate()
-														 * / 360 30;
-														 */
+			interest = this.calculateInterest(account);
 			account.setInterest(interest);
 		} else if (transaction.getType().equals("Withdraw Interest")) {
 

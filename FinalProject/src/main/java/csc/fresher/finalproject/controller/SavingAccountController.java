@@ -1,7 +1,5 @@
 package csc.fresher.finalproject.controller;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import csc.fresher.finalproject.domain.Customer;
 import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.SavingInterestRate;
-import csc.fresher.finalproject.domain.Transaction;
 import csc.fresher.finalproject.service.BankingService;
-import csc.fresher.finalproject.service.DateUtils;
 
 @Controller
 public class SavingAccountController {
@@ -30,11 +26,11 @@ public class SavingAccountController {
 	BankingService bankingService;
 
 	@RequestMapping(value = "/toAddAccount")
-	public String toAddCustomer(Model model, HttpServletRequest request) {
+	public String toAddAccount(Model model, HttpServletRequest request) {
 		SavingAccount account = new SavingAccount();
 		account.setAccountNumber(bankingService.generateAccountNumber());
 
-		model.addAttribute("rateList", bankingService.getInterestRateList());
+		model.addAttribute("rateList", bankingService.getCurrentInterestRateList());
 		model.addAttribute("savingAccount", account);
 		model.addAttribute("customerId", request.getParameter("customerId"));
 		return "addAccount";

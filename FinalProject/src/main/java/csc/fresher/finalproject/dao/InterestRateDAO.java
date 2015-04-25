@@ -19,45 +19,66 @@ public class InterestRateDAO {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
-	public List<SavingInterestRate> getInterestRateList() {
-		// Obtains transaction from entity manager
-	//	EntityTransaction entr = entityManager.getTransaction();
 
-		// -----------Begin transaction-----------
+	public List<SavingInterestRate> getInterestRateList() {
 		List<SavingInterestRate> rateList = null;
 		try {
-	//		entr.begin();
-			// Get a list of accounts from DB
 			TypedQuery<SavingInterestRate> query = entityManager.createQuery(
 					"SELECT r FROM SavingInterestRate r",
 					SavingInterestRate.class);
 			rateList = query.getResultList();
-	//		entr.commit();
 		} catch (Exception e) {
-	//		entr.rollback();
 			return null;
 		}
-		// -----------End transaction-----------
 
 		return rateList;
 	}
 
 	public SavingInterestRate getInterestRateByPeriod(Integer interestRatePeriod) {
-	//	EntityTransaction enTr = entityManager.getTransaction();
-
 		SavingInterestRate rate = new SavingInterestRate();
 		try {
-	//		enTr.begin();
 
 			TypedQuery<SavingInterestRate> query = entityManager.createQuery(
 					"SELECT r FROM SavingInterestRate r WHERE r.period = ?1",
 					SavingInterestRate.class);
 			query.setParameter(1, interestRatePeriod);
 			rate = query.getSingleResult();
-	//		enTr.commit();
 		} catch (Exception e) {
-	//		enTr.rollback();
+			return null;
+		}
+
+		return rate;
+	}
+
+	public List<SavingInterestRate> getCurrentInterestRateList() {
+		List<SavingInterestRate> rateList = null;
+		try {
+			TypedQuery<SavingInterestRate> query = entityManager
+					.createQuery(
+							"SELECT r FROM SavingInterestRate r WHERE r.state = 'Current'"
+							+ " ORDER BY r.period",
+							SavingInterestRate.class);
+			rateList = query.getResultList();
+		} catch (Exception e) {
+			return null;
+		}
+
+		return rateList;
+
+	}
+
+	public SavingInterestRate getCurrentInterestRateByPeriod(
+			Integer interestRatePeriod) {
+		SavingInterestRate rate = new SavingInterestRate();
+		try {
+
+			TypedQuery<SavingInterestRate> query = entityManager.createQuery(
+					"SELECT r FROM SavingInterestRate r WHERE r.period = ?1 "
+							+ "AND r.state = 'Current' ORDER BY r.period",
+					SavingInterestRate.class);
+			query.setParameter(1, interestRatePeriod);
+			rate = query.getSingleResult();
+		} catch (Exception e) {
 			return null;
 		}
 
@@ -65,20 +86,16 @@ public class InterestRateDAO {
 	}
 
 	public SavingInterestRate getInterestRateById(int id) {
-	//	EntityTransaction enTr = entityManager.getTransaction();
 
 		SavingInterestRate rate = new SavingInterestRate();
 		try {
-	//		enTr.begin();
 
 			TypedQuery<SavingInterestRate> query = entityManager.createQuery(
 					"SELECT r FROM SavingInterestRate r WHERE r.id = ?1",
 					SavingInterestRate.class);
 			query.setParameter(1, id);
 			rate = query.getSingleResult();
-	//		enTr.commit();
 		} catch (Exception e) {
-	//		enTr.rollback();
 			return null;
 		}
 
@@ -86,14 +103,9 @@ public class InterestRateDAO {
 	}
 
 	public boolean updateInterestRate(SavingInterestRate rate) {
-	//	EntityTransaction enTr = entityManager.getTransaction();
-
 		try {
-	//		enTr.begin();
 			entityManager.merge(rate);
-	//		enTr.commit();
 		} catch (Exception e) {
-	//		enTr.rollback();
 			return false;
 		}
 
@@ -101,12 +113,8 @@ public class InterestRateDAO {
 	}
 
 	public boolean addInterestRate(SavingInterestRate newInterestRate) {
-		//EntityTransaction enTr = entityManager.getTransaction();
-
 		try {
-		//	enTr.begin();
 			entityManager.persist(newInterestRate);
-	//		enTr.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -114,27 +122,29 @@ public class InterestRateDAO {
 
 		return true;
 	}
-	
-	//-----------------TEST-----------------------
-	public boolean addInterestRate(SavingInterestRate newInterestRate, EntityManager entityManager){
-		try{
+
+	// -----------------TEST-----------------------
+	public boolean addInterestRate(SavingInterestRate newInterestRate,
+			EntityManager entityManager) {
+		try {
 			entityManager.persist(newInterestRate);
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		return true;
 	}
-	
-	public boolean updateInterestRate(SavingInterestRate interestRate, EntityManager entityManager){
-		try{
+
+	public boolean updateInterestRate(SavingInterestRate interestRate,
+			EntityManager entityManager) {
+		try {
 			entityManager.merge(interestRate);
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		return true;
 	}
 }

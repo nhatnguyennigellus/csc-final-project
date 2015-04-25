@@ -100,7 +100,7 @@
 													<option value="0">No period</option>
 												</c:when>
 												<c:otherwise>
-													<option value="${rate.period}">${rate.period}
+													<option value="${rate.id}">${rate.period}
 														months</option>
 												</c:otherwise>
 											</c:choose>
