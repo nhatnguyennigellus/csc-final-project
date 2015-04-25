@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 
 import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
 
-import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.Transaction;
 
@@ -67,15 +66,10 @@ public class SavingAccountDAO {
 		return savingAccount;
 	}
 
-	public List<SavingAccount> getAccountByCustomer(String customerId) {
-		List<SavingAccount> savingAccounts = null;
+	public SavingAccount getAccountById(int accountId) {
+		SavingAccount savingAccounts = null;
 		try {
-			TypedQuery<SavingAccount> query = entityManager
-					.createQuery(
-							"SELECT a FROM SavingAccount a WHERE a.customer.customerId = ?1",
-							SavingAccount.class);
-			query.setParameter(1, customerId);
-			savingAccounts = query.getResultList();
+			entityManager.find(SavingAccount.class, accountId);
 		} catch (Exception e) {
 			return null;
 		}

@@ -30,8 +30,11 @@
 						<form:form action="submitTransaction" method="post" id="frmTrans"
 							modelAttribute="Transaction">
 							<c:if test="${transError != null }">
-								<div class="alert alert-danger" role="alert">${transError }
-									<a href="javascript:history.go(-1)" class="alert-link">Back</a>
+								<div class="alert alert-danger" role="alert">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>${transError }
 								</div>
 
 							</c:if>
@@ -138,7 +141,7 @@
 									<form:select class="form-control input-sm" id="type"
 										name="type" path="type">
 										<option value="Withdraw All">Withdraw All</option>
-										<c:if test="${account.interestRate.id == 1 }">
+										<c:if test="${account.interestRate.period == 0 }">
 											<option value="Withdraw Balance">Withdraw Balance</option>
 										</c:if>
 

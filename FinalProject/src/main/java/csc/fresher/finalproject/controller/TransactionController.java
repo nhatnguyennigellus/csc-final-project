@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,15 +73,11 @@ public class TransactionController {
 
 		model.addAttribute("account", account);
 
-		Date today = new Date();
-		int dateDiff = DateUtils.daysBetween(account.getStartDate().getTime(),
-				today.getTime());
-		model.addAttribute("BeforeDueTotal", account.getBalanceAmount()
-				+ bankingService.getInterestRateByPeriod(0).getInterestRate()
-				/ 365 * dateDiff * account.getBalanceAmount());
+		model.addAttribute("BeforeDueTotal",
+				bankingService.getBeforeDueTotal(account));
 
 		model.addAttribute("DueDateTotal",
-				account.getBalanceAmount() + account.getInterest());
+				bankingService.getDueDateTotal(account));
 
 		Transaction transaction = new Transaction();
 		transaction.setSavingAccount(account);
@@ -92,7 +89,8 @@ public class TransactionController {
 	@RequestMapping(value = "/submitTransaction", method = RequestMethod.POST)
 	public ModelAndView submitTransaction(
 			@ModelAttribute("Transaction") @Valid Transaction transaction,
-			BindingResult result, Model model, HttpServletRequest request) {
+			BindingResult result, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
 		double currentBalance = Double.parseDouble(request
 				.getParameter("balance"));
 		double monthlyInterest = Double.parseDouble(request
@@ -105,8 +103,18 @@ public class TransactionController {
 				.getSavingAccountByAccNumber(transaction.getSavingAccount()
 						.getAccountNumber());
 		transaction.setSavingAccount(account);
-		
+
+		model.addAttribute("account", account);
+		model.addAttribute("BeforeDueTotal", beforeDueAmount);
+		model.addAttribute("DueDateTotal", dueDateTotal);
+
 		if (transaction.getType().equals("Withdraw All")) {
+			if (account.getBalanceAmount() == 0) {
+				model.addAttribute("transError",
+						"You have nothing to withdraw!");
+
+				return new ModelAndView("performTransaction");
+			}
 			// Period
 			if (account.getInterestRate().getPeriod() != 0) {
 				// Withdraw on due date
@@ -138,7 +146,7 @@ public class TransactionController {
 			if (amount > currentBalance) {
 				model.addAttribute("transError",
 						"You cannot withdraw more than your current balance!");
-				model.addAttribute("account", account);
+
 				return new ModelAndView("performTransaction");
 			}
 
@@ -147,6 +155,8 @@ public class TransactionController {
 				model.addAttribute("transError",
 						"Balance after withdrawal must be at least 1.000.000 VND!");
 				model.addAttribute("account", account);
+				model.addAttribute("BeforeDueTotal", beforeDueAmount);
+				model.addAttribute("DueDateTotal", dueDateTotal);
 				return new ModelAndView("performTransaction");
 			}
 
@@ -163,13 +173,11 @@ public class TransactionController {
 					|| cal.get(Calendar.MONTH) + 1 == thisMonth) {
 				model.addAttribute("transError",
 						"You cannot get interest today!");
-				model.addAttribute("account", account);
 				return new ModelAndView("performTransaction");
 			}
 			if (bankingService.getInterestAlready(account)) {
 				model.addAttribute("transError",
 						"This account has withdrawn this month's interest!");
-				model.addAttribute("account", account);
 				return new ModelAndView("performTransaction");
 			}
 			transaction.setAmount(monthlyInterest);
@@ -191,14 +199,12 @@ public class TransactionController {
 								account.getDueDate(), lastWithdrawAll))) {
 					model.addAttribute("transError",
 							"This account cannot deposit at this time!");
-					model.addAttribute("account", account);
 					return new ModelAndView("performTransaction");
 				}
 			}
 
 			if (transaction.getAmount() <= 0) {
 				model.addAttribute("transError", "Amount must be above zero!");
-				model.addAttribute("account", account);
 				return new ModelAndView("performTransaction");
 			}
 		}
@@ -290,7 +296,6 @@ public class TransactionController {
 		String submitAction = request.getParameter("submitAction");
 		String accountNumber = request.getParameter("accountNumber");
 
-		Hashtable<String, String> messages = new Hashtable<String, String>();
 		List<Transaction> transactions = null;
 		if (submitAction.equalsIgnoreCase("Search by details")) {
 			transactions = bankingService.searchTransaction(state, type,
@@ -316,7 +321,6 @@ public class TransactionController {
 			}
 		}
 		model.addAttribute("transactionList", transactions);
-		model.addAttribute("messageList", messages);
 		return "searchTransaction";
 	}
 }

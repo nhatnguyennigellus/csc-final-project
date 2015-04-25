@@ -120,53 +120,6 @@ public class TransactionDAO {
 
 	public boolean approveTransaction(Transaction transaction) {
 		try {
-			SavingAccount account = entityManager.find(SavingAccount.class,
-					transaction.getSavingAccount().getAccountId());
-
-			if (transaction.getType().equals("Withdraw All")) {
-				account.setBalanceAmount(0);
-				account.setInterest(0);
-			} else if (transaction.getType().equals("Withdraw Balance")) {
-				// Reset new balance = old balance - transaction (withdraw)
-				// amount
-				account.setBalanceAmount(account.getBalanceAmount()
-						- transaction.getAmount() + account.getInterest());
-				double interest = 0;
-
-				// Reset new interest
-				interest = account.getBalanceAmount()
-						* account.getInterestRate().getInterestRate() / 360
-						* 30;
-				account.setInterest(interest);
-			} else if (transaction.getType().equals("Withdraw Interest")) {
-
-			} else if (transaction.getType().equals("Deposit")) {
-				// Set new balance
-				account.setBalanceAmount(account.getBalanceAmount()
-						+ transaction.getAmount());
-
-				// Set new interest
-				double interest = 0;
-				// If period account, set start date and due date
-				if (account.getInterestRate().getPeriod() != 0) {
-					Calendar cal = Calendar.getInstance();
-					account.setStartDate(cal.getTime());
-
-					cal.add(Calendar.MONTH, (int) account.getInterestRate()
-							.getPeriod());
-					account.setDueDate(cal.getTime());
-					int dateDiff = DateUtils.daysBetween(account.getStartDate()
-							.getTime(), account.getDueDate().getTime());
-					interest = account.getBalanceAmount()
-							* account.getInterestRate().getInterestRate() / 365
-							* dateDiff;
-				} else {
-					interest = account.getBalanceAmount()
-							* account.getInterestRate().getInterestRate() / 360
-							* 30;
-				}
-				account.setInterest(interest);
-			}
 			entityManager.merge(transaction);
 		} catch (Exception e) {
 			return false;

@@ -3,3 +3,7 @@ FinalProject/DAO.png
 FinalProject/util.ucls
 FinalProject/DAO.ucls
 FinalProject/Domain.ucls
+FinalProject/src/main/resources/META-INF/persistence.xml
+FinalProject/src/main/resources/META-INF/persistence.xml
+FinalProject/src/main/webapp/WEB-INF/spring-database.xml
+FinalProject/src/main/webapp/WEB-INF/spring-servlet.xml

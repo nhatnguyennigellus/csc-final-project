@@ -72,7 +72,6 @@ public class HomeController {
 			model.addObject("error", "Invalid username and password!");
 			
 			String targetUrl = getRememberMeTargetUrlFromSession(request);
-			System.out.println(targetUrl);
 			if (StringUtils.hasText(targetUrl)) {
 				model.addObject("targetUrl", targetUrl);
 			}

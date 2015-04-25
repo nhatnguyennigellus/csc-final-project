@@ -32,7 +32,6 @@ public class CustomerController {
 
 	@RequestMapping(value = "/toAddCustomer")
 	public String toAddCustomer(Model model) {
-
 		model.addAttribute("customer", new Customer());
 		return "addCustomer";
 	}

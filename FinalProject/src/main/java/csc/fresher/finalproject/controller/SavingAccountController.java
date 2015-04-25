@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,52 +43,9 @@ public class SavingAccountController {
 	@RequestMapping(value = "/addAccount", method = RequestMethod.POST)
 	public String addAccount(
 			@ModelAttribute("savingAccount") @Valid SavingAccount savingAccount,
-			BindingResult result, Model model, HttpServletRequest request) {
-		if (bankingService.existedAccountNumber(savingAccount
-				.getAccountNumber())) {
-			model.addAttribute("addAccError", "This account number exists!");
-			return "redirect:toAddAccount";
-		}
-
-		int customerId = Integer.parseInt(request.getParameter("customerId"));
-		Customer customer = bankingService.getCustomerById(customerId);
-
-		Integer interestRatePeriod = Integer.parseInt(request
-				.getParameter("period"));
-		SavingInterestRate interestRate = bankingService
-				.getInterestRateByPeriod(interestRatePeriod);
-
-		savingAccount.setInterestRate(interestRate);
-
-		savingAccount.setCustomer(customer);
-		savingAccount.setState("new");
-
-		Calendar cal = Calendar.getInstance();
-		savingAccount.setStartDate(cal.getTime());
-
-		if (interestRatePeriod != 0) {
-			cal.add(Calendar.MONTH, (int) interestRatePeriod);
-			savingAccount.setDueDate(cal.getTime());
-		}
-
-		double interest = 0;
-		if (interestRatePeriod != 0) {
-			int dateDiff = DateUtils.daysBetween(savingAccount.getStartDate()
-					.getTime(), savingAccount.getDueDate().getTime());
-			interest = savingAccount.getBalanceAmount()
-					* interestRate.getInterestRate() / 365 * dateDiff;
-		} else {
-			interest = savingAccount.getBalanceAmount()
-					* interestRate.getInterestRate() / 360 * 30;
-		}
-
-		savingAccount.setInterest(interest);
-
-		boolean repeatable = request.getParameter("repeatable") != null;
-		savingAccount.setRepeatable(repeatable);
-		
-
-		if (bankingService.addSavingAccount(savingAccount)) {
+			BindingResult result, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		if (bankingService.addSavingAccount(savingAccount, request, response)) {
 			model.addAttribute("addAccSuccess",
 					"Added new account successfully!");
 		} else {
@@ -96,18 +54,6 @@ public class SavingAccountController {
 		return "addAccount";
 	}
 
-	/**
-	 * Redirect to searchAccount view if user logged in
-	 * 
-	 * @author vinh-tp
-	 * @since 2015-08-04
-	 * 
-	 */
-	/*
-	 * @RequestMapping(value = "/searchAccount", method = RequestMethod.GET)
-	 * public String viewSearchAccount(HttpServletRequest request, Model model)
-	 * { return "searchAccount"; }
-	 */
 	/**
 	 * Search for account existence
 	 * 
@@ -119,15 +65,11 @@ public class SavingAccountController {
 	public String searchAccount(HttpServletRequest request, Model model) {
 		request.getSession().removeAttribute("updateSuccess");
 		request.getSession().removeAttribute("updateError");
-		String idCardValue = request.getParameter("idCardValue");
-		String accNumberValue = request.getParameter("accNumberValue");
-		if (idCardValue != null && accNumberValue != null) {
-			List<SavingAccount> accounts = bankingService.searchSavingAccounts(
-					idCardValue, accNumberValue);
-			model.addAttribute("accountList", accounts);
-		} else {
-			model.addAttribute("message", "nullInput");
-		}
+		
+		List<SavingAccount> accounts = bankingService
+				.searchSavingAccounts(request);
+		model.addAttribute("accountList", accounts);
+		
 		return "searchAccount";
 	}
 
@@ -221,13 +163,8 @@ public class SavingAccountController {
 
 	@RequestMapping(value = "/approveAccount")
 	public String approve(HttpServletRequest request) {
-		String accountNumber = request.getParameter("accountNumber");
-		SavingAccount account = bankingService
-				.getSavingAccountByAccNumber(accountNumber);
-		account.setState("active");
+		bankingService.approve(request);
 
-		boolean result = bankingService.approve(account);
-
-		return "redirect:searchAccount?idCardValue=&accNumberValue=";
+		return "redirect:searchAccount";
 	}
 }
