@@ -91,10 +91,6 @@ public class TransactionController {
 			@ModelAttribute("Transaction") @Valid Transaction transaction,
 			BindingResult result, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		double currentBalance = Double.parseDouble(request
-				.getParameter("balance"));
-		double monthlyInterest = Double.parseDouble(request
-				.getParameter("interest"));
 		double dueDateTotal = Double.parseDouble(request
 				.getParameter("dueDateAmount"));
 		double beforeDueAmount = Double.parseDouble(request
@@ -108,113 +104,12 @@ public class TransactionController {
 		model.addAttribute("BeforeDueTotal", beforeDueAmount);
 		model.addAttribute("DueDateTotal", dueDateTotal);
 
-		if (transaction.getType().equals("Withdraw All")) {
-			if (account.getBalanceAmount() == 0) {
-				model.addAttribute("transError",
-						"You have nothing to withdraw!");
-
-				return new ModelAndView("performTransaction");
-			}
-			// Period
-			if (account.getInterestRate().getPeriod() != 0) {
-				// Withdraw on due date
-				if (DateUtils.isToday(account.getDueDate())) {
-					transaction.setAmount(dueDateTotal);
-					// Withdraw before due date
-				} else if (DateUtils.isBeforeDay(new Date(),
-						account.getDueDate())) {
-					transaction.setAmount(beforeDueAmount);
-					// - Withdraw after due date and account not repeatable
-					// - Not necessary to check after due date for repeatable
-					// account because it is auto-extended after due date
-				} else if (DateUtils.isAfterDay(new Date(),
-						account.getDueDate())
-						&& account.isRepeatable() == false) {
-					transaction.setAmount(beforeDueAmount);
-				}
-				// Demand
-			} else {
-				transaction.setAmount(dueDateTotal);
-			}
-
-		} else if (account.getInterestRate().getPeriod() == 0 // Demand
-				&& transaction.getType().equals("Withdraw Balance")) {
-			// Get transaction amount
-			double amount = transaction.getAmount();
-
-			// Check if transaction amount is less than current balance
-			if (amount > currentBalance) {
-				model.addAttribute("transError",
-						"You cannot withdraw more than your current balance!");
-
-				return new ModelAndView("performTransaction");
-			}
-
-			// Check if balance after withdrawal is >= 1.000.000
-			if (currentBalance - amount < 1000000) {
-				model.addAttribute("transError",
-						"Balance after withdrawal must be at least 1.000.000 VND!");
-				model.addAttribute("account", account);
-				model.addAttribute("BeforeDueTotal", beforeDueAmount);
-				model.addAttribute("DueDateTotal", dueDateTotal);
-				return new ModelAndView("performTransaction");
-			}
-
-			// Set amount := amount + monthly interest
-			// interest will be subtracted when approving transaction
-			transaction.setAmount(amount + monthlyInterest);
-
-		} else if (transaction.getType().equals("Withdraw Interest")) {
-			Calendar cal = Calendar.getInstance();
-			int todayDay = cal.get(Calendar.DAY_OF_MONTH);
-			int thisMonth = cal.get(Calendar.MONTH) + 1;
-			cal.setTime(account.getStartDate());
-			if (cal.get(Calendar.DAY_OF_MONTH) != todayDay
-					|| cal.get(Calendar.MONTH) + 1 == thisMonth) {
-				model.addAttribute("transError",
-						"You cannot get interest today!");
-				return new ModelAndView("performTransaction");
-			}
-			if (bankingService.getInterestAlready(account)) {
-				model.addAttribute("transError",
-						"This account has withdrawn this month's interest!");
-				return new ModelAndView("performTransaction");
-			}
-			transaction.setAmount(monthlyInterest);
-
-		} else if (transaction.getType().equals("Deposit")) {
-			// Period
-			if (account.getInterestRate().getPeriod() != 0) {
-				List<Date> list = bankingService.getWithdrawAll(account);
-				Date lastWithdrawAll = new Date();
-				if (!list.isEmpty())
-					lastWithdrawAll = list.get(list.size() - 1);
-				// Deposit before due date
-				if ((account.getBalanceAmount() != 0 && !DateUtils
-						.isToday(account.getStartDate()))
-						&& DateUtils.isBeforeDay(new Date(),
-								account.getDueDate())
-						&& !DateUtils.isToday(account.getDueDate())
-						|| (!list.isEmpty() && DateUtils.isBeforeDay(
-								account.getDueDate(), lastWithdrawAll))) {
-					model.addAttribute("transError",
-							"This account cannot deposit at this time!");
-					return new ModelAndView("performTransaction");
-				}
-			}
-
-			if (transaction.getAmount() <= 0) {
-				model.addAttribute("transError", "Amount must be above zero!");
-				return new ModelAndView("performTransaction");
-			}
+		String resultMes = bankingService.preSubmitTransaction(transaction,
+				request, account);
+		if (!resultMes.equals("OK")) {
+			model.addAttribute("transError", resultMes);
+			return new ModelAndView("performTransaction");
 		}
-
-		User user = (User) request.getSession().getAttribute(SessionName.USER);
-		transaction.getUsers().add(user);
-		// user.getTransactions().add(transaction);
-
-		transaction.setDate(new Date());
-		transaction.setState("Pending");
 
 		if (bankingService.performTransaction(transaction)) {
 			model.addAttribute("transSuccess",

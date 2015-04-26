@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 
 import csc.fresher.finalproject.dao.CustomerDAO;
 import csc.fresher.finalproject.dao.InterestRateDAO;
@@ -23,6 +24,7 @@ import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.SavingInterestRate;
 import csc.fresher.finalproject.domain.Transaction;
 import csc.fresher.finalproject.domain.User;
+import csc.fresher.finalproject.utilities.SessionName;
 
 @Service("bankingService")
 public class BankingService {
@@ -97,20 +99,13 @@ public class BankingService {
 		return savingAccountDAO.getAccountList();
 	}
 
-	// public List<SavingAccount> getSavingAccountByCustomer(String customerId)
-	// {
-	// return savingAccountDAO.getAccountByCustomer(customerId);
-	// }
-
 	public boolean addSavingAccount(SavingAccount account,
 			HttpServletRequest request, HttpServletResponse response) {
 		int customerId = Integer.parseInt(request.getParameter("customerId"));
 		Customer customer = this.getCustomerById(customerId);
 
-		Integer rateId = Integer.parseInt(request
-				.getParameter("period"));
-		SavingInterestRate interestRate = this
-				.getInterestRateById(rateId);
+		Integer rateId = Integer.parseInt(request.getParameter("period"));
+		SavingInterestRate interestRate = this.getInterestRateById(rateId);
 
 		account.setInterestRate(interestRate);
 
@@ -220,7 +215,7 @@ public class BankingService {
 	public List<SavingInterestRate> getInterestRateList() {
 		return rateDAO.getInterestRateList();
 	}
-	
+
 	public List<SavingInterestRate> getCurrentInterestRateList() {
 		return rateDAO.getCurrentInterestRateList();
 	}
@@ -228,7 +223,7 @@ public class BankingService {
 	public SavingInterestRate getInterestRateByPeriod(Integer interestRatePeriod) {
 		return rateDAO.getInterestRateByPeriod(interestRatePeriod);
 	}
-	
+
 	public SavingInterestRate getCurrentRateByPeriod(Integer period) {
 		return rateDAO.getCurrentInterestRateByPeriod(period);
 	}
@@ -281,6 +276,112 @@ public class BankingService {
 
 	public boolean pendingAvail(String accNumber) {
 		return transactionDAO.pendingTransAvail(accNumber);
+	}
+
+	public String preSubmitTransaction(Transaction transaction,
+			HttpServletRequest request, SavingAccount account) {
+		String result = "OK";
+		double currentBalance = Double.parseDouble(request
+				.getParameter("balance"));
+		double monthlyInterest = Double.parseDouble(request
+				.getParameter("interest"));
+		double dueDateTotal = Double.parseDouble(request
+				.getParameter("dueDateAmount"));
+		double beforeDueAmount = Double.parseDouble(request
+				.getParameter("beforeDueAmount"));
+
+		if (transaction.getType().equals("Withdraw All")) {
+			if (account.getBalanceAmount() == 0) {
+				result = "You have nothing to withdraw!";
+
+			}
+			// Period
+			if (account.getInterestRate().getPeriod() != 0) {
+				// Withdraw on due date
+				if (DateUtils.isToday(account.getDueDate())) {
+					transaction.setAmount(dueDateTotal);
+					// Withdraw before due date
+				} else if (DateUtils.isBeforeDay(new Date(),
+						account.getDueDate())) {
+					transaction.setAmount(beforeDueAmount);
+					// - Withdraw after due date and account not repeatable
+					// - Not necessary to check after due date for repeatable
+					// account because it is auto-extended after due date
+				} else if (DateUtils.isAfterDay(new Date(),
+						account.getDueDate())
+						&& account.isRepeatable() == false) {
+					transaction.setAmount(beforeDueAmount);
+				}
+				// Demand
+			} else {
+				transaction.setAmount(dueDateTotal);
+			}
+
+		} else if (account.getInterestRate().getPeriod() == 0 // Demand
+				&& transaction.getType().equals("Withdraw Balance")) {
+			// Get transaction amount
+			double amount = transaction.getAmount();
+
+			// Check if transaction amount is less than current balance
+			if (amount > currentBalance) {
+				result = "You cannot withdraw more than your current balance!";
+
+			}
+
+			// Check if balance after withdrawal is >= 1.000.000
+			if (currentBalance - amount < 1000000) {
+				result = "Balance after withdrawal must be at least 1.000.000 VND!";
+			}
+
+			// Set amount := amount + monthly interest
+			// interest will be subtracted when approving transaction
+			transaction.setAmount(amount + monthlyInterest);
+
+		} else if (transaction.getType().equals("Withdraw Interest")) {
+			Calendar cal = Calendar.getInstance();
+			int todayDay = cal.get(Calendar.DAY_OF_MONTH);
+			int thisMonth = cal.get(Calendar.MONTH) + 1;
+			cal.setTime(account.getStartDate());
+			if (cal.get(Calendar.DAY_OF_MONTH) != todayDay
+					|| cal.get(Calendar.MONTH) + 1 == thisMonth) {
+				result = "You cannot get interest today!";
+			}
+			if (this.getInterestAlready(account)) {
+				result = "This account has withdrawn this month's interest!";
+			}
+			transaction.setAmount(monthlyInterest);
+
+		} else if (transaction.getType().equals("Deposit")) {
+			// Period
+			if (account.getInterestRate().getPeriod() != 0) {
+				List<Date> list = this.getWithdrawAll(account);
+				Date lastWithdrawAll = new Date();
+				if (!list.isEmpty())
+					lastWithdrawAll = list.get(list.size() - 1);
+				// Deposit before due date
+				if ((account.getBalanceAmount() != 0 && !DateUtils
+						.isToday(account.getStartDate()))
+						&& DateUtils.isBeforeDay(new Date(),
+								account.getDueDate())
+						&& !DateUtils.isToday(account.getDueDate())
+						|| (!list.isEmpty() && DateUtils.isBeforeDay(
+								account.getDueDate(), lastWithdrawAll))) {
+					result = "This account cannot deposit at this time!";
+				}
+			}
+
+			if (transaction.getAmount() <= 0) {
+				result = "Amount must be above zero!";
+			}
+		}
+
+		User user = (User) request.getSession().getAttribute(SessionName.USER);
+		transaction.getUsers().add(user);
+
+		transaction.setDate(new Date());
+		transaction.setState("Pending");
+
+		return result;
 	}
 
 	public boolean approveTransaction(Transaction transaction) {
@@ -338,7 +439,7 @@ public class BankingService {
 		int dateDiff = DateUtils.daysBetween(account.getStartDate().getTime(),
 				today.getTime());
 		return account.getBalanceAmount()
-				+ this.getInterestRateByPeriod(0).getInterestRate() / 365
+				+ this.getCurrentRateByPeriod(0).getInterestRate() / 365
 				* dateDiff * account.getBalanceAmount();
 	}
 
@@ -371,7 +472,7 @@ public class BankingService {
 		} else {
 			newType = type;
 		}
-		
+
 		SavingAccount account = new SavingAccount();
 		account.setAccountNumber(accountNumber);
 		transaction.setState(newState);
