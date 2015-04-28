@@ -10,7 +10,7 @@
 <title>Login</title>
 
 </head>
-<body>
+<body onload="document.getElementById('username').focus();">
 
 	<div class="col-md-4 col-md-offset-3">
 		<h1>Login</h1>
@@ -33,7 +33,7 @@
 							<span class="input-group-addon"> <span
 								class=" glyphicon glyphicon-user"></span>
 							</span> <input class="form-control" type="text" name="username"
-								placeholder="Username">
+								id="username" placeholder="Username">
 						</div>
 					</div>
 					<div class="form-group">
@@ -50,10 +50,11 @@
 							name="remember-me" /> Remember me
 						</label>
 					</div>
-					<button class="btn btn-success" type="submit" value="Login" >
-					<span class="glyphicon glyphicon-log-in">&nbsp;</span> Login
-					</button><input type="hidden"
-						name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<button class="btn btn-success" type="submit" value="Login">
+						<span class="glyphicon glyphicon-log-in">&nbsp;</span> Login
+					</button>
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 
 				</form>
 			</div>

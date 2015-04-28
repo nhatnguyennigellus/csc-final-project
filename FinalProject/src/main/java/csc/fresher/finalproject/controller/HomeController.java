@@ -2,6 +2,7 @@ package csc.fresher.finalproject.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -54,11 +55,10 @@ public class HomeController {
 			HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		HttpSession session = request.getSession();
-
+		
 		model.addObject("targetUrl", "/home");
 		if (session.getAttribute(SessionName.USER) != null) {
 			model.setViewName("home");
-
 			try {
 				response.sendRedirect("home");
 			} catch (IOException e) {
@@ -67,19 +67,53 @@ public class HomeController {
 			}
 			return model;
 		}
+		
+		Cookie[] cookies = request.getCookies();
+
+		boolean blocked = false;
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("login_attempts")) {
+					blocked = true;
+					break;
+				}
+			}
+		}
+
+		if (blocked) {
+			model.addObject("error",
+					"You are temporarily blocked! Please try again later!");
+			return model;
+		}
 
 		if (error != null) {
 			model.addObject("error", "Invalid username and password!");
-			
+
 			String targetUrl = getRememberMeTargetUrlFromSession(request);
 			if (StringUtils.hasText(targetUrl)) {
 				model.addObject("targetUrl", targetUrl);
+			}
+
+			if (session.getAttribute(SessionName.LOGIN_ATTEMPT) == null) {
+				session.setAttribute(SessionName.LOGIN_ATTEMPT, 1);
+			} else {
+				int attempt = Integer.parseInt(session.getAttribute(
+						SessionName.LOGIN_ATTEMPT).toString());
+				attempt += 1;
+				session.setAttribute(SessionName.LOGIN_ATTEMPT, attempt);
+
+				if (attempt == 3) {
+					model.addObject("error", "Too many invalid login attempts!");
+					Cookie cookie = new Cookie("login_attempts", "3");
+					cookie.setMaxAge(15);
+					response.addCookie(cookie);
+				}
 			}
 		}
 
 		if (logout != null) {
 			model.addObject("msg", "You've been logged out successfully.");
-			
+
 		}
 		model.setViewName("login");
 
@@ -94,12 +128,31 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/home")
 	public String redirectHome(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+
+		boolean blocked = false;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("login_attempts")) {
+					blocked = true;
+					break;
+				}
+			}
+		}
+
+		if (blocked) {
+			model.addAttribute("error",
+					"You are temporarily blocked! Please try again later");
+			return "redirect:login";
+		}
+
 		request.getSession().removeAttribute(SessionName.LOGIN_ATTEMPT);
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 		String username = auth.getName();
 		User user = bankingService.getUserByUsername(username);
-		HttpSession session = request.getSession();
+
 		session.setAttribute(SessionName.USER, user);
 
 		setRememberMeTargetUrlToSession(request);
@@ -107,9 +160,10 @@ public class HomeController {
 				.size());
 		model.addAttribute("AccountNo", bankingService.getSavingAccounts()
 				.size());
-		model.addAttribute("TransactionNo", bankingService.getTransactionList().size());
+		model.addAttribute("TransactionNo", bankingService.getTransactionList()
+				.size());
 
-		return ("home");
+		return "home";
 	}
 
 	@RequestMapping(value = "/403", method = RequestMethod.GET)

@@ -80,7 +80,7 @@
 			</a>
 		</div>
 		<!-- Top Menu Items --> <c:if
-			test="${pageContext.request.userPrincipal.name != null}">
+			test="${pageContext.request.userPrincipal.name != null and cookie.login_attempts == null}">
 			<ul class="nav navbar-right top-nav">
 
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -98,7 +98,9 @@
 					</ul></li>
 			</ul>
 		</c:if> <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-		<c:if test="${pageContext.request.userPrincipal.name != null}">
+		<c:if
+			test="${pageContext.request.userPrincipal.name != null
+			and cookie.login_attempts == null}">
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav side-nav">
 					<li><a href="home"><i class="glyphicon glyphicon-home"></i>
