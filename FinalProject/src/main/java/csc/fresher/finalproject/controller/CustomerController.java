@@ -55,55 +55,20 @@ public class CustomerController {
 	@RequestMapping(value = "/updateCustomer", method = { RequestMethod.POST,
 			RequestMethod.GET })
 	public String updateCustomer(Model model, HttpServletRequest request) {
-		int id = Integer.parseInt(request.getParameter("customerID"));
-		String firstName = request.getParameter("customerFirstName");
-		String middleName = request.getParameter("customerMiddleName");
-		String lastName = request.getParameter("customerLastName");
-		String address1 = request.getParameter("address1");
-		String address2 = request.getParameter("address2");
-		String phone1 = request.getParameter("phone1");
-		String phone2 = request.getParameter("phone2");
-		String email = request.getParameter("email");
-		String idCardNumber = request.getParameter("idCard");
-		String currentAccountNumber = request.getParameter("currentAccount");
-
-		if (firstName == "" || lastName == ""
-				|| address1 == "" || phone1 == ""
-				|| email == "" || idCardNumber == ""
-				|| currentAccountNumber == "") {
-			model.addAttribute("updateError",
-					"Please fill all fields with valid data!");
-			return "redirect:modifyAccount?accNumber=" + currentAccountNumber;
-		}
-
-		Customer customer = bankingService.getCustomerById(id);
-		customer.setFirstName(firstName);
-		customer.setMiddleName(middleName);
-		customer.setLastName(lastName);
-		customer.setAddress1(address1);
-		customer.setAddress2(address2);
-		customer.setPhone1(phone1);
-		customer.setPhone2(phone2);
-		customer.setEmail(email);
-		customer.setIdCardNumber(idCardNumber);
-
-		SavingAccount currentAccount = bankingService
-				.getSavingAccountByAccNumber(currentAccountNumber);
-
-		boolean result = bankingService.updateCustomer(customer);
-
-		model.addAttribute("customer", customer);
-		model.addAttribute("account", currentAccount);
-
-		if (!result) {
+		boolean result = bankingService.updateCustomer(request, model);
+		
+		if(!result){
 			request.getSession().removeAttribute("updateSuccess");
 			request.getSession().setAttribute("updateError",
 					"Cannot update customer info!");
-		} else {
-			request.getSession().removeAttribute("updateError");
-			request.getSession().setAttribute("updateSuccess",
-					"Updated customer info!");
+			
+			return "redirect:modifyAccount?accNumber=" + request.getParameter("currentAccount");
 		}
-		return "redirect:modifyAccount?accNumber=" + currentAccountNumber;
+
+		request.getSession().removeAttribute("updateError");
+		request.getSession().setAttribute("updateSuccess",
+					"Updated customer info!");
+		
+		return "redirect:modifyAccount?accNumber=" + request.getParameter("currentAccount");
 	}
 }

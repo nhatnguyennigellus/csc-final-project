@@ -19,11 +19,8 @@ public class InterestRateController {
 	BankingService bankingService;
 
 	@RequestMapping(value = "/viewInterestRate")
-	public String viewInterestRate(Model model) {
-
-		List<SavingInterestRate> rateList = bankingService
-				.getInterestRateList();
-		model.addAttribute("rateList", rateList);
+	public String viewInterestRate(Model model) {		
+		model = bankingService.getInterestRateList(model);
 
 		return "viewInterestRate";
 	}
@@ -38,49 +35,15 @@ public class InterestRateController {
 			RequestMethod.GET })
 	public String changeRate(HttpServletRequest request, Model model) {
 
-		List<SavingInterestRate> rateList = bankingService
-				.getInterestRateList();
-		int totalRate = rateList.size();
+		boolean result = bankingService.updateRate(request, model);
 
-		int rowCount;
-
-		if (request.getParameter("rowCount") == "") {
-			rowCount = totalRate;
-		} else {
-			rowCount = Integer.parseInt(request.getParameter("rowCount"));
+		model = bankingService.getInterestRateList(model);
+		
+		if(!result){
+			model.addAttribute("error", "Cannot update Rate!");
+		} else{
+			model.addAttribute("error", "Successfully update Rate");
 		}
-
-		for (int i = 1; i <= rowCount; i++) {
-			int id = Integer.parseInt(request.getParameter("id" + i));
-
-			// Validate Interest Rates
-			if (request.getParameter("interestRate" + i) == ""
-					|| request.getParameter("period" + i) == "") {
-				model.addAttribute("rateList", rateList);
-				model.addAttribute("notify",
-						"<font color = 'red'>Please enter value!</font>");
-			}
-
-			double interestRate = Double.parseDouble(request
-					.getParameter("interestRate" + i));
-			Integer period = Integer.parseInt(request
-					.getParameter("period" + i));
-
-			if (i <= totalRate) {
-				rateList.get(i - 1).setInterestRate(interestRate);
-				rateList.get(i - 1).setPeriod(period);
-			} else {
-				SavingInterestRate newInterestRate = new SavingInterestRate();
-				newInterestRate.setPeriod(period);
-				newInterestRate.setInterestRate(interestRate);
-				bankingService.addInterestRate(newInterestRate);
-			}
-		}
-
-		bankingService.updateRate(rateList);
-
-		rateList = bankingService.getInterestRateList();
-		model.addAttribute("rateList", rateList);
 
 		return "redirect:viewInterestRate";
 	}

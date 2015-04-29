@@ -71,8 +71,6 @@ public class CustomerDAO {
 	}
 
 	public Customer findCustomerOfAccount(SavingAccount savingAccount) {
-		EntityManager entityManager = EntityManagerFactoryUtil
-				.createEntityManager();
 		return entityManager.find(Customer.class, savingAccount.getCustomer()
 				.getCustomerId());
 	}

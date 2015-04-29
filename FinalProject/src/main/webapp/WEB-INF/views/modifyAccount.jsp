@@ -9,6 +9,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 
+<style type="text/css">
+	.valueRequireIcon{
+		background-image: url(./resources/images/valueRequireIcon.ico) right no-repeat;
+		padding-right: 100px;
+		background-size: 20px; 100px;
+	}
+</style>
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript">
@@ -53,29 +61,23 @@
 
 	function validate(name) {
 		var control = $("#" + name);
-		var checkSpan = $("#check" + control.attr("id"));
+		var checkSpan = $("#check" + control.attr("id")); 
 		checkSpan.text("");
 		checkSpan.removeClass();
 
 		//Phone contrains(10 - 15 number)
-		if (control.attr("id") == "phone1") {
-			if (control.val().length < 7 || control.val().length > 15) {
+		if (control.val() == ""
+				&& (control.attr("id") != "customerMiddleName" && control.attr("id") != "customerPhone2" && control.attr("id") != "customerAddress2")) {
+			if (control.attr("id") == "customerPhone1" || control.attr("id") == "customerPhone2") {
+				if (control.val().length < 7 || control.val().length > 15) {
+					checkSpan.addClass("label label-danger");
+					checkSpan.text("Invalid");
+				}
+			} else{
 				checkSpan.addClass("label label-danger");
-				checkSpan.text("Invalid");
+				checkSpan.text("Value Require");
 			}
-		}
-
-		if (control.attr("id") == "phone2" && control.val() != ""
-				&& (control.val().length < 7 || control.val().length > 15)) {
-			checkSpan.addClass("label label-danger");
-			checkSpan.text("Invalid");
-		}
-
-		else if (control.val() == ""
-				&& control.attr("id") != "customerMiddleName") {
-			checkSpan.addClass("label label-danger");
-			checkSpan.text("Value Require");
-		} else if (control.val() != "") {
+		} else{
 			checkSpan.addClass("label label-success");
 			checkSpan.text("Valid");
 		}
@@ -120,72 +122,175 @@
 					<div class="panel-heading">Customer</div>
 					<div class="panel-body">
 						<form id="customerForm" action="updateCustomer">
-							Customer ID: <input class="form-control"
-								style="width: 10%; display: inline; margin-right: 2%;"
-								type="text" id="customerID" name="customerID"
-								value="${customer.customerId }" readonly="readonly" /> <br />
-							First Name: <input class="form-control"
-								style="width: 15%; display: inline; margin-right: 2%; margin-top: 5px; margin-left: 2%;"
-								type="text"
-								onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)"
-								id="customerFirstName" name="customerFirstName"
-								value="${customer.firstName }"
-								onblur="validate('customerFirstName')" /> <span
-								id="checkcustomerFirstName" style="width: 100px; height: 34px;"></span>
-							Middle Name: <input class="form-control"
-								style="width: 15%; display: inline; margin-right: 2%; margin-left: 2%;"
-								type="text"
-								onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)"
-								id="customerMiddleName" name="customerMiddleName"
-								value="${customer.middleName }"
-								onblur="validate('customerMiddleName')" /><span
-								id="checkcustomerMiddleName" style="width: 100px; height: 34px;"></span>
-							Last Name: <input class="form-control"
-								style="width: 15%; display: inline; margin-right: 2%; margin-left: 2%;"
-								type="text"
-								onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)"
-								id="customerLastName" name="customerLastName"
-								value="${customer.lastName }"
-								onblur="validate('customerLastName')" /><span
-								id="checkcustomerLastName" style="width: 100px; height: 34px;"></span><br>
-							Address 1: <input class="form-control"
-								style="width: 30%; display: inline; margin-right: 2%; margin-top: 5px; margin-left: 2%;"
-								type="text" id="address1" name="address1"
-								value="${customer.address1 }" onblur="validate('address1')" /><span
-								id="checkaddress1" style="width: 100px; height: 34px;"></span>
-							Address 2: <input class="form-control"
-								style="width: 30%; display: inline; margin-right: 2%; margin-left: 2%;"
-								type="text" id="address2" name="address2"
-								value="${customer.address2 }" onblur="validate('address2')" /><span
-								id="checkaddress2" style="width: 100px; height: 34px;"></span><br>
-							Phone 1: <input class="form-control"
-								style="width: 15%; display: inline; margin-right: 2%; margin-top: 5px; margin-left: 2%;"
-								type="text"
-								onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-								id="phone1" name="phone1" value="${customer.phone1 }"
-								onblur="validate('phone1')" /><span id="checkphone1"
-								style="width: 100px; height: 34px;"></span> Phone 2: <input
-								class="form-control"
-								style="width: 15%; display: inline; margin-right: 2%; margin-left: 2%;"
-								type="text"
-								onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-								id="phone2" name="phone2" value="${customer.phone2 }"
-								onblur="validate('phone2')" /><span id="checkphone2"
-								style="width: 100px; height: 34px;"></span><br> Email: <input
-								class="form-control"
-								style="width: 30%; display: inline; margin-right: 2%; margin-top: 5px; margin-left: 2%;"
-								type="text" id="email" name="email" value="${customer.email }"
-								onblur="validate('email')" /><span id="checkemail"
-								style="width: 100px; height: 34px;"></span> ID Card Number: <input
-								class="form-control"
-								style="width: 15%; display: inline; margin-right: 2%; margin-left: 2%;"
-								type="text"
-								onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-								id="idCard" name="idCard" value="${customer.idCardNumber }"
-								onblur="validate('idCard')" /><span id="checkidCard"
-								style="width: 100px; height: 34px;"></span><br> <input
+							
+							<!-- ------------------------------------------------------------------------- -->
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="lastName">Customer ID</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="customerID" class="form-control input-sm"
+											type="text" name="customerID"
+											value="${customer.customerId }" readonly="readonly"
+										/>
+										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="lastName">Last name</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="customerLastName" class="form-control input-sm"
+											type="text" name="customerLastName" onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)"
+											value="${customer.lastName }"
+											onblur="validate('customerLastName')"
+										/>
+										<div id="checkcustomerLastName" style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="middleName">Middle
+										name (optional) </label>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="customerMiddleName" class="form-control input-sm"
+											type="text" name="customerMiddleName" onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)"
+											value="${customer.middleName }"
+											onblur="validate('customerMiddleName')"
+										/>
+										<div id="checkcustomerMiddleName" style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="firstName">First name</label>
+									<font color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="customerFirstName" class="form-control input-sm"
+											type="text" name="customerFirstName" onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)"
+											value="${customer.firstName }"
+											onblur="validate('customerFirstName')"
+										/>
+										<div id="checkcustomerFirstName" style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="idCardNumber">ID Card
+										Number</label> <font color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-credit-card"></span>
+										</span>
+										<input id="customerIDCardNumber" class="form-control input-sm"
+											type="text" name="customerIDCardNumber" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+											value="${customer.idCardNumber }"
+											onblur="validate('customerIDCardNumber')"
+										/>
+										<div id="checkcustomerIDCardNumber" style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="email">Email</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-home"></span>
+										</span>
+										<input id="customerEmail" class="form-control input-sm"
+											type="text" name="customerEmail"
+											value="${customer.email }"
+											onblur="validate('customerEmail')"
+										/>
+										<div id="checkcustomerEmail" style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="address1">Address 1</label><font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class="glyphicon glyphicon-home"></span>
+										</span>
+										<input id="customerAddress1" class="form-control input-sm"
+											type="text" name="customerAddress1"
+											value="${customer.address1 }"
+											onblur="validate('customerAddress1')"
+										/>
+										<div id="checkcustomerAddress1" style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="address2">Address 2
+										(optional)</label>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-home"></span>
+										</span>
+										<input id="customerAddress2" class="form-control input-sm"
+											type="text" name="customerAddress2"
+											value="${customer.address2 }"
+											onblur="validate('customerAddress2')"
+										/>
+										<div id="checkcustomerAddress2" style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="phone1">Phone 1</label><font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class="glyphicon glyphicon-phone"></span>
+										</span>
+										<input id="customerPhone1" class="form-control input-sm"
+											type="text" name="customerPhone1"
+											onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+											value="${customer.phone1 }"
+											onblur="validate('customerPhone1')"
+										/>
+										<div id="checkcustomerPhone1" style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="phone2">Phone 2
+										(optional)</label>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-phone"></span>
+										</span>
+										<input id="customerPhone2" class="form-control input-sm" type="text"
+											type="text" name="customerPhone2"
+											onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+											value="${customer.phone2 }"
+											onblur="validate('customerPhone2')"
+										/>
+										<div id="checkcustomerPhone2" style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+							</div>
+							<input
 								name="currentAccount" style="display: none;"
-								value="${account.accountNumber}">
+								value="${account.accountNumber}"/>
+					<!-- -------------------------------------------------------------------------- -->
 							<button type="submit" class="btn btn-primary"
 								style="margin-top: 15px">
 								<span class="glyphicon glyphicon-check">&nbsp;</span> Save
@@ -199,49 +304,129 @@
 					<div class="panel-body">
 						<form id="accountForm" action="updateAccount">
 
-							<div class="form-group">
-								<div style="width: 400px; float: left;">
-
-									Account Number<br> <input class="form-control"
-										style="width: 40%;" type="text" id="accountNumber"
-										name="accountNumber" value="${account.accountNumber }"
-										readonly="readonly" /> Balance Amount<br> <input
-										class="form-control" style="width: 40%; display: inline;"
-										type="text" id="balanceAmount" name="balanceAmount"
-										readonly="readonly"
-										value="<fmt:formatNumber groupingUsed="false" type="number" 
-										 maxFractionDigits="0" value="${account.balanceAmount}" />"
-										onblur="validate('balanceAmount')" /><span
-										id="checkbalanceAmount"></span><br> Start Date<br> <input
-										class="form-control" style="width: 50%; display: inline;"
-										type="text" id="startDate" name="startDate"
-										value="${account.startDate }" readonly="readonly" /><br>
-									Repeatable<br> <select id="repeatable" name="repeatable"
-										class="form-control" style="width: 30%;">
-										<option value="true">True</option>
-										<option value="false">False</option>
-									</select> Customer ID<br> <input class="form-control"
-										style="width: 20%; display: inline;" type="text"
-										id="customerId" name="customerId"
-										value="${account.customer.customerId }" readonly="readonly" /><br>
+						<!-- ---------------------------------------------------------- -->
+						
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="lastName">Acocunt Number</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="accountNumber" class="form-control input-sm"
+											type="text" name="accountNumber"
+											value="${account.accountNumber }" readonly="readonly"
+										/>
+										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
 								</div>
-								<div style="width: 400px; float: left;">
-									Account Owner<br> <input class="form-control"
-										style="width: 65%; display: inline;" type="text"
-										id="accountOwner" name="accountOwner"
-										value="${account.accountOwner }"
-										onblur="validate('accountOwner')" /><span
-										id="checkaccountOwner"></span><br> Interest<br> <input
-										class="form-control" style="width: 20%; display: inline;"
-										type="text" id="interest" name="interest" readonly="readonly"
-										value="<fmt:formatNumber groupingUsed="false" type="number" 
-											value="${account.interest}" maxFractionDigits="0" />"
-										onblur="validate('interest')" /><span id="checkinterest"></span><br>
-									Due Date<br> <input class="form-control"
-										style="width: 50%; display: inline;" type="text" id="dueDate"
-										name="dueDate" value="${account.dueDate }" readonly="readonly" /><br>
-									State<br> <select id="state" name="state"
-										class="form-control" style="width: 30%;">
+								
+								<div class="form-group col-md-4">
+									<label class="control-label" for="lastName">Account Owner</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="accountOwner" class="form-control input-sm"
+											type="text" name="accountOwner"
+											value="${account.accountOwner }" readonly="readonly"
+										/>
+										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="lastName">Balance Amount</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="balanceAmount" class="form-control input-sm"
+											type="text" name="balanceAmount"
+											value="${account.balanceAmount }"
+											readonly="readonly"
+										/>
+										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="middleName">Interest</label>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="interest" class="form-control input-sm"
+											type="text" name="interest"
+											value="${account.interest }"
+											readonly="readonly"
+										/>
+										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="lastName">Start Date</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="startDate" class="form-control input-sm"
+											type="text" name="startDate"
+											value="${account.startDate }"
+											readonly="readonly"
+										/>
+										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="middleName">Due Date</label>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="dueDate" class="form-control input-sm"
+											type="text" name="dueDate"
+											value="${account.dueDate }"
+											readonly="readonly"
+										/>
+										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="lastName">Repeatable</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<select id="repeatable" name="repeatable"
+										class="form-control">
+											<option value="true">True</option>
+											<option value="false">False</option>
+										</select>
+										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="middleName">State</label>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<select id="state" name="state"
+										class="form-control">
 										<c:if test="${account.state == 'hold'}">
 											<option value="active">Active</option>
 										</c:if>
@@ -258,25 +443,58 @@
 										<c:if test="${account.state == 'new'}">
 											<option value="new">New</option>
 										</c:if>
-									</select> Interest ID<br> <input class="form-control"
-										style="width: 20%; display: inline;" type="text"
-										id="interestId" name="interestId"
-										value="${account.interestRate.id }" readonly="readonly" /><br>
-									<br>
+										</select>
+										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
 								</div>
-								<div style="width: 100%; float: left;">
+							</div>
+							
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="lastName">Customer ID</label> <font
+										color="red">* </font>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="customerId" class="form-control input-sm"
+											type="text" name="customerId"
+											value="${account.customer.customerId }"
+											readonly="readonly"
+										/>
+										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="middleName">Interest ID</label>
+									<div class="input-group ">
+										<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-user"></span>
+										</span>
+										<input id="interestId" class="form-control input-sm"
+											type="text" name="interestId"
+											value="${account.interestRate.id}"
+											readonly="readonly"
+										/>
+										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
+									</div>
+								</div>
+							</div>
+							
+							<div style="width: 100%; float: left;">
 									<button type="submit" class="btn btn-primary">
 										<span class="glyphicon glyphicon-check">&nbsp;</span> Save
 										changes
 									</button>
-								</div>
-
 							</div>
-						</form>
+							<!-- ------------------------------------------------ -->
+								
+							</form>
+							</div>
+						
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 </body>
 </html>
