@@ -202,7 +202,7 @@
 						</tr>
 						<c:forEach items="${rateList}" var="rate">
 							<tr class="rateRow">
-								<td><input type="text" value="${rate.id }" id="id<%=i%>"
+								<td><input type="text" value="<%=i %>" id="id<%=i%>"
 									name="id<%=i%>"
 									style="border: none; height: 34px; width: 50px;"
 									readonly="readonly" /></td>

@@ -95,66 +95,13 @@ public class SavingAccountController {
 			RequestMethod.GET })
 	public String updateAccount(Model model, HttpServletRequest request) {
 
-		int interestId = 0;
-		String accountNumber = "";
-		String accountOwner = "";
-		double balanceAmount = 0;
-		double interest = 0;
-		String repeatableString = "";
-		String state = "";
-		boolean repeatable = false;
-
-		// Validate Saving Account
-		if (request.getParameter("accountNumber") != ""
-				&& request.getParameter("accountOwner") != ""
-				&& request.getParameter("balanceAmount") != ""
-				&& request.getParameter("interest") != ""
-				&& request.getParameter("customerId") != ""
-				&& request.getParameter("interestId") != "") {
-			accountNumber = request.getParameter("accountNumber");
-			accountOwner = request.getParameter("accountOwner");
-			balanceAmount = Double.parseDouble(request
-					.getParameter("balanceAmount"));
-			interest = Double.parseDouble(request.getParameter("interest"));
-
-			repeatableString = request.getParameter("repeatable");
-			if (repeatableString == "True") {
-				repeatable = true;
-			}
-
-			state = request.getParameter("state");
-
-			interestId = Integer.parseInt(request.getParameter("interestId"));
-		} else {
-			request.getSession().setAttribute("updateError",
-					"Please fill all fields with valid data!");
-			return "redirect:modifyAccount?accNumber=" + accountNumber;
+		boolean result = bankingService.updateSavingAccount(request, model);
+		if(!result){
+			request.getSession().setAttribute("updateError", "Please fill all fields with valid data!");
+			return "redirect:modifyAccount?accNumber=" + request.getParameter("accountNumber");
 		}
 
-		SavingInterestRate savingInterestRate = bankingService
-				.getInterestRateById(interestId);
-
-		SavingAccount savingAccount = bankingService
-				.getSavingAccountByAccNumber(accountNumber);
-		savingAccount.setAccountOwner(accountOwner);
-		savingAccount.setBalanceAmount(balanceAmount);
-		savingAccount.setInterest(interest);
-		savingAccount.setState(state);
-		savingAccount.setInterestRate(savingInterestRate);
-		savingAccount.setRepeatable(repeatable);
-
-		boolean result = bankingService.updateSavingAccount(savingAccount);
-		if (!result) {
-			request.getSession().setAttribute("updateError",
-					"Cannot update Account!");
-		} else {
-			request.getSession().setAttribute("updateSuccess",
-					"Updated Account!");
-		}
-
-		model.addAttribute("account", savingAccount);
-
-		return "redirect:modifyAccount?accNumber=" + accountNumber;
+		return "redirect:modifyAccount?accNumber=" + request.getParameter("accountNumber");
 	}
 
 	@RequestMapping(value = "/approveAccount")

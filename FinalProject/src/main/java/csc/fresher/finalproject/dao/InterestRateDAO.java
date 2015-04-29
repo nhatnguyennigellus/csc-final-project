@@ -106,9 +106,18 @@ public class InterestRateDAO {
 		try {
 			entityManager.merge(rate);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 
+		return true;
+	}
+	
+	public boolean updateInterestState(int period){
+		Query query = entityManager.createQuery("UPDATE SavingInterestRate SET state = 'Old' WHERE period = " + period);
+		
+		query.executeUpdate();
+		
 		return true;
 	}
 
