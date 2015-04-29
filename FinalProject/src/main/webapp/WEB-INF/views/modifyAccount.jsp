@@ -308,11 +308,11 @@
 						
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label" for="lastName">Acocunt Number</label> <font
+									<label class="control-label" for="lastName">Account Number</label> <font
 										color="red">* </font>
 									<div class="input-group ">
 										<span class="input-group-addon"> <span
-											class=" glyphicon glyphicon-user"></span>
+											class=" glyphicon glyphicon-asterisk"></span>
 										</span>
 										<input id="accountNumber" class="form-control input-sm"
 											type="text" name="accountNumber"
@@ -345,11 +345,12 @@
 										color="red">* </font>
 									<div class="input-group ">
 										<span class="input-group-addon"> <span
-											class=" glyphicon glyphicon-user"></span>
+											class=" glyphicon glyphicon-usd"></span>
 										</span>
 										<input id="balanceAmount" class="form-control input-sm"
 											type="text" name="balanceAmount"
-											value="${account.balanceAmount }"
+											value="<fmt:formatNumber groupingUsed="false" maxFractionDigits="0"
+							type="number" value="${account.balanceAmount}" />"
 											readonly="readonly"
 										/>
 										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
@@ -359,11 +360,12 @@
 									<label class="control-label" for="middleName">Interest</label>
 									<div class="input-group ">
 										<span class="input-group-addon"> <span
-											class=" glyphicon glyphicon-user"></span>
+											class=" glyphicon glyphicon-usd"></span>
 										</span>
 										<input id="interest" class="form-control input-sm"
 											type="text" name="interest"
-											value="${account.interest }"
+											value="<fmt:formatNumber groupingUsed="false" maxFractionDigits="0"
+							type="number" value="${account.interest}" />"
 											readonly="readonly"
 										/>
 										<div style="display: table-cell; width: 82px; height: 20px; vertical-align: middle;"></div>
@@ -377,7 +379,7 @@
 										color="red">* </font>
 									<div class="input-group ">
 										<span class="input-group-addon"> <span
-											class=" glyphicon glyphicon-user"></span>
+											class=" glyphicon glyphicon-calendar"></span>
 										</span>
 										<input id="startDate" class="form-control input-sm"
 											type="text" name="startDate"
@@ -391,7 +393,7 @@
 									<label class="control-label" for="middleName">Due Date</label>
 									<div class="input-group ">
 										<span class="input-group-addon"> <span
-											class=" glyphicon glyphicon-user"></span>
+											class=" glyphicon glyphicon-calendar"></span>
 										</span>
 										<input id="dueDate" class="form-control input-sm"
 											type="text" name="dueDate"
@@ -409,7 +411,7 @@
 										color="red">* </font>
 									<div class="input-group ">
 										<span class="input-group-addon"> <span
-											class=" glyphicon glyphicon-user"></span>
+											class=" glyphicon glyphicon-share-alt"></span>
 										</span>
 										<select id="repeatable" name="repeatable"
 										class="form-control">
@@ -423,7 +425,7 @@
 									<label class="control-label" for="middleName">State</label>
 									<div class="input-group ">
 										<span class="input-group-addon"> <span
-											class=" glyphicon glyphicon-user"></span>
+											class=" glyphicon glyphicon-ok-circle"></span>
 										</span>
 										<select id="state" name="state"
 										class="form-control">
@@ -469,7 +471,7 @@
 									<label class="control-label" for="middleName">Interest ID</label>
 									<div class="input-group ">
 										<span class="input-group-addon"> <span
-											class=" glyphicon glyphicon-user"></span>
+											class=" glyphicon glyphicon-tags"></span>
 										</span>
 										<input id="interestId" class="form-control input-sm"
 											type="text" name="interestId"

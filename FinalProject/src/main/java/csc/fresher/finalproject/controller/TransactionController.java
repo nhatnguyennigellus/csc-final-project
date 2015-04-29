@@ -1,8 +1,5 @@
 package csc.fresher.finalproject.controller;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -20,10 +17,8 @@ import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.Transaction;
 import csc.fresher.finalproject.domain.User;
 import csc.fresher.finalproject.service.BankingService;
-import csc.fresher.finalproject.service.DateUtils;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 import csc.fresher.finalproject.utilities.SessionName;

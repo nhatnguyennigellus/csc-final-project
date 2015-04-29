@@ -609,5 +609,4 @@ public class BankingService {
 		transaction.setSavingAccount(account);
 		return transactionDAO.searchTransaction(transaction);
 	}
-
 }

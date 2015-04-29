@@ -62,7 +62,7 @@
 									Number</label> <font color="red">* </font>
 								<div class="input-group ">
 									<span class="input-group-addon"> <span
-										class=" glyphicon glyphicon-user"></span>
+										class=" glyphicon glyphicon-asterisk"></span>
 									</span>
 									<form:input readonly="true" id="accountNumber"
 										class="form-control input-sm" type="text" name="accountNumber"
