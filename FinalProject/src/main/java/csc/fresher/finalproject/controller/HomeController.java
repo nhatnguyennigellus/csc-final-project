@@ -68,19 +68,7 @@ public class HomeController {
 			return model;
 		}
 		
-		Cookie[] cookies = request.getCookies();
-
-		boolean blocked = false;
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("login_attempts")) {
-					blocked = true;
-					break;
-				}
-			}
-		}
-
-		if (blocked) {
+		if (isBlocked(request)) {
 			model.addObject("error",
 					"You are temporarily blocked! Please try again later!");
 			return model;
@@ -129,19 +117,8 @@ public class HomeController {
 	@RequestMapping(value = "/home")
 	public String redirectHome(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-
-		boolean blocked = false;
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("login_attempts")) {
-					blocked = true;
-					break;
-				}
-			}
-		}
-
-		if (blocked) {
+		
+		if (isBlocked(request)) {
 			model.addAttribute("error",
 					"You are temporarily blocked! Please try again later");
 			return "redirect:login";
@@ -207,20 +184,18 @@ public class HomeController {
 		return targetUrl;
 	}
 
-	/**
-	 * Check if user is login by remember me cookie, refer
-	 * org.springframework.security
-	 * .authentication.AuthenticationTrustResolverImpl
-	 */
-	private boolean isRememberMeAuthenticated() {
-
-		Authentication authentication = SecurityContextHolder.getContext()
-				.getAuthentication();
-		if (authentication == null) {
-			return false;
+	public boolean isBlocked(HttpServletRequest request) {
+		boolean blocked = false;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("login_attempts")) {
+					blocked = true;
+					break;
+				}
+			}
 		}
-
-		return RememberMeAuthenticationToken.class
-				.isAssignableFrom(authentication.getClass());
+		
+		return blocked;
 	}
 }
