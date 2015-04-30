@@ -23,7 +23,6 @@ import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.SavingInterestRate;
 import csc.fresher.finalproject.domain.Transaction;
 import csc.fresher.finalproject.domain.User;
-import csc.fresher.finalproject.utilities.SessionName;
 
 /**
  * This class provides Service classes for banking business
@@ -52,18 +51,47 @@ public class BankingService {
 	// *************** User services
 	// ***************
 
+	/**
+	 * Check if username and password are authenticated
+	 * 
+	 * @author Nhat Nguyen
+	 * @param username
+	 * @param password
+	 * @return user if authenticated, otherwise return null
+	 */
 	public User checkUserAuthentication(String username, String password) {
 		return userDAO.checkUser(username, password);
 	}
 
+	/**
+	 * Get user by username
+	 * 
+	 * @author Nhat Nguyen
+	 * @param username
+	 * @return user
+	 */
 	public User getUserByUsername(String username) {
 		return userDAO.getUserByUsername(username);
 	}
 
+	/**
+	 * Get list of user by role
+	 * 
+	 * @author Nhat Nguyen
+	 * @param role
+	 * @return list of user
+	 */
 	public List<User> getUserByRole(String role) {
 		return userDAO.getUserByRole(role);
 	}
 
+	/**
+	 * Check if user is active
+	 * 
+	 * @author Nhat Nguyen
+	 * @param username
+	 * @return active or inactive
+	 */
 	public boolean checkUserActive(String username) {
 		return userDAO.checkUserActive(username);
 	}
@@ -72,28 +100,70 @@ public class BankingService {
 	// *************** Customer services
 	// ***************
 
+	/**
+	 * Get list of customer
+	 * 
+	 * @author Nhat Nguyen
+	 * @return list of customer
+	 */
 	public List<Customer> getCustomerList() {
 		return this.customerDAO.getCustomers();
 	}
 
+	/**
+	 * Add new customer
+	 * 
+	 * @author Nhat Nguyen
+	 * @param customer
+	 * @return action result
+	 */
 	public boolean addCustomer(Customer customer) {
 		return this.customerDAO.addCustomer(customer);
 	}
 
+	/**
+	 * Get customer by ID
+	 * 
+	 * @author Nhat Nguyen
+	 * @param id
+	 * @return customer
+	 */
 	public Customer getCustomerById(int id) {
 		return this.customerDAO.getCustomerById(id);
 	}
 
+	/**
+	 * Find customer that owns the account
+	 * 
+	 * @author Nhat Nguyen
+	 * @param savingAccount
+	 * @return customer
+	 */
 	public Customer findCustomerOfAccount(SavingAccount savingAccount) {
 		return this.customerDAO.findCustomerOfAccount(savingAccount);
 	}
 
+	/**
+	 * Update customer information
+	 * 
+	 * @author Nhat Nguyen
+	 * @param customer
+	 * @return action result
+	 */
 	public boolean updateCustomer(Customer customer) {
 		return this.customerDAO.updateCustomer(customer);
 	}
-	
+
+	/**
+	 * Update customer information
+	 * 
+	 * @author Tai Tran
+	 * @param request
+	 * @param model
+	 * @return action result
+	 */
 	@Transactional
-	public boolean updateCustomer(HttpServletRequest request, Model model){
+	public boolean updateCustomer(HttpServletRequest request, Model model) {
 		int id = Integer.parseInt(request.getParameter("customerID"));
 		String firstName = request.getParameter("customerFirstName");
 		String middleName = request.getParameter("customerMiddleName");
@@ -106,8 +176,7 @@ public class BankingService {
 		String idCardNumber = request.getParameter("customerIDCardNumber");
 		String currentAccountNumber = request.getParameter("currentAccount");
 
-		if (firstName == "" || lastName == ""
-				|| address1 == "" || phone1 == ""
+		if (firstName == "" || lastName == "" || address1 == "" || phone1 == ""
 				|| email == "" || idCardNumber == ""
 				|| currentAccountNumber == "") {
 			model.addAttribute("updateError",
@@ -128,10 +197,10 @@ public class BankingService {
 
 		SavingAccount currentAccount = this
 				.getSavingAccountByAccNumber(currentAccountNumber);
-		
+
 		model.addAttribute("customer", customer);
 		model.addAttribute("account", currentAccount);
-		
+
 		return true;
 	}
 
@@ -139,15 +208,27 @@ public class BankingService {
 	// *************** Saving Account services
 	// ***************
 
-	public boolean existedAccountNumber(String accountNo) {
-		return savingAccountDAO.getAccountByAccNumber(accountNo) != null;
-	}
-
+	/**
+	 * Get list of saving account
+	 * 
+	 * @author Nhat Nguyen
+	 * @return list of saving account
+	 */
 	public List<SavingAccount> getSavingAccounts() {
 		return savingAccountDAO.getAccountList();
 	}
 
-	public boolean addSavingAccount(SavingAccount account, HttpServletRequest request, HttpServletResponse response) {
+	/**
+	 * Add new saving account
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @param request
+	 * @param response
+	 * @return action result
+	 */
+	public boolean addSavingAccount(SavingAccount account,
+			HttpServletRequest request, HttpServletResponse response) {
 		int customerId = Integer.parseInt(request.getParameter("customerId"));
 		Customer customer = this.getCustomerById(customerId);
 
@@ -174,23 +255,48 @@ public class BankingService {
 		return savingAccountDAO.addSavingAccount(account);
 	}
 
+	/**
+	 * Calculate interest for the saving account
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @return interest
+	 */
 	public double calculateInterest(SavingAccount account) {
 		double interest = 0;
 		SavingInterestRate interestRate = account.getInterestRate();
 		if (interestRate.getPeriod() != 0) {
-			int dateDiff = DateUtils.daysBetween(account.getStartDate().getTime(), account.getDueDate().getTime());
-			interest = account.getBalanceAmount() * interestRate.getInterestRate() / 365 * dateDiff;
+			int dateDiff = DateUtils.daysBetween(account.getStartDate()
+					.getTime(), account.getDueDate().getTime());
+			interest = account.getBalanceAmount()
+					* interestRate.getInterestRate() / 365 * dateDiff;
 		} else {
-			interest = account.getBalanceAmount() * interestRate.getInterestRate() / 360 * 30;
+			interest = account.getBalanceAmount()
+					* interestRate.getInterestRate() / 360 * 30;
 		}
 
 		return interest;
 	}
 
+	/**
+	 * Update saving account
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @return action result
+	 */
 	public boolean updateSavingAccount(SavingAccount account) {
 		return savingAccountDAO.updateSavingAccount(account);
 	}
 
+	/**
+	 * Update saving account
+	 * 
+	 * @author Tai Tran
+	 * @param request
+	 * @param model
+	 * @return action result
+	 */
 	@Transactional
 	public boolean updateSavingAccount(HttpServletRequest request, Model model) {
 		int interestId = 0;
@@ -203,12 +309,16 @@ public class BankingService {
 		boolean repeatable = false;
 
 		// Validate Saving Account
-		if (request.getParameter("accountNumber") != "" && request.getParameter("accountOwner") != ""
-				&& request.getParameter("balanceAmount") != "" && request.getParameter("interest") != ""
-				&& request.getParameter("customerId") != "" && request.getParameter("interestId") != "") {
+		if (request.getParameter("accountNumber") != ""
+				&& request.getParameter("accountOwner") != ""
+				&& request.getParameter("balanceAmount") != ""
+				&& request.getParameter("interest") != ""
+				&& request.getParameter("customerId") != ""
+				&& request.getParameter("interestId") != "") {
 			accountNumber = request.getParameter("accountNumber");
 			accountOwner = request.getParameter("accountOwner");
-			balanceAmount = Double.parseDouble(request.getParameter("balanceAmount"));
+			balanceAmount = Double.parseDouble(request
+					.getParameter("balanceAmount"));
 			interest = Double.parseDouble(request.getParameter("interest"));
 
 			repeatableString = request.getParameter("repeatable");
@@ -222,7 +332,7 @@ public class BankingService {
 		} else {
 			return false;
 		}
-		
+
 		SavingInterestRate savingInterestRate = this
 				.getInterestRateById(interestId);
 
@@ -234,31 +344,51 @@ public class BankingService {
 		savingAccount.setState(state);
 		savingAccount.setInterestRate(savingInterestRate);
 		savingAccount.setRepeatable(repeatable);
-		
+
 		boolean result = this.updateSavingAccount(savingAccount);
 		if (!result) {
 			request.getSession().setAttribute("updateError",
 					"Cannot update Account!");
-			
+
 			return false;
 		} else {
 			request.getSession().setAttribute("updateSuccess",
 					"Updated Account!");
 		}
-		
+
 		model.addAttribute("account", savingAccount);
-		
+
 		return true;
 	}
 
+	/**
+	 * Get saving account by account number
+	 * 
+	 * @author Nhat Nguyen
+	 * @param accNumber
+	 * @return saving account
+	 */
 	public SavingAccount getSavingAccountByAccNumber(String accNumber) {
 		return savingAccountDAO.getAccountByAccNumber(accNumber);
 	}
 
+	/**
+	 * Get saving account by account ID
+	 * 
+	 * @author Nhat Nguyen
+	 * @param accId
+	 * @return saving account
+	 */
 	public SavingAccount getSavingAccountById(int accId) {
 		return savingAccountDAO.getAccountById(accId);
 	}
 
+	/**
+	 * Auto-generate account number for each account when it is created
+	 * 
+	 * @author Nhat Nguyen
+	 * @return new account number
+	 */
 	public String generateAccountNumber() {
 		String accountNo = "";
 
@@ -266,7 +396,8 @@ public class BankingService {
 		Calendar cal = Calendar.getInstance();
 		DecimalFormat fmt2Digit = new DecimalFormat("00");
 
-		accNoBuilder.append(String.valueOf(cal.get(Calendar.YEAR)).substring(2));
+		accNoBuilder
+				.append(String.valueOf(cal.get(Calendar.YEAR)).substring(2));
 		accNoBuilder.append(fmt2Digit.format(cal.get(Calendar.MONTH) + 1));
 		accNoBuilder.append(fmt2Digit.format(cal.get(Calendar.DAY_OF_MONTH)));
 
@@ -289,12 +420,12 @@ public class BankingService {
 	}
 
 	/**
-	 * Call DAO to search Accounts
+	 * Search saving account by ID card number and account number
 	 * 
 	 * @param idCard
 	 * @param accNumber
-	 * @return
-	 * @author vinh-tp
+	 * @return list of saving account
+	 * @author Vinh Truong
 	 */
 	public List<SavingAccount> searchSavingAccounts(HttpServletRequest request) {
 		String idCardNo = request.getParameter("idCardValue");
@@ -303,6 +434,13 @@ public class BankingService {
 		return savingAccountDAO.searchSavingAccounts(idCardNo, accNumber);
 	}
 
+	/**
+	 * Approve saving account to be active
+	 * 
+	 * @author Nhat Nguyen
+	 * @param request
+	 * @return action result
+	 */
 	public boolean approve(HttpServletRequest request) {
 		String accountNumber = request.getParameter("accountNumber");
 		SavingAccount account = this.getSavingAccountByAccNumber(accountNumber);
@@ -315,35 +453,68 @@ public class BankingService {
 	// *************** Interest Rate services
 	// ***************
 
+	/**
+	 * Get model with list of current interest rates
+	 * 
+	 * @author Tai Tran
+	 * @param model
+	 * @return model with interest rate list
+	 */
 	public Model getInterestRateList(Model model) {
-		List<SavingInterestRate> rateList = rateDAO.getCurrentInterestRateList();
+		List<SavingInterestRate> rateList = rateDAO
+				.getCurrentInterestRateList();
 
 		model.addAttribute("rateList", rateList);
 
 		return model;
 	}
 
+	/**
+	 * Get list of current interest rate
+	 * 
+	 * @author Nhat Nguyen
+	 * @return list of current interest rate
+	 */
 	public List<SavingInterestRate> getCurrentInterestRateList() {
 		return rateDAO.getCurrentInterestRateList();
 	}
 
-	public SavingInterestRate getInterestRateByPeriod(Integer interestRatePeriod) {
-		return rateDAO.getInterestRateByPeriod(interestRatePeriod);
-	}
-
+	/**
+	 * Get current interest rate by period
+	 * 
+	 * @author Nhat Nguyen
+	 * @param interestRatePeriod
+	 * @return interest rate
+	 */
 	public SavingInterestRate getCurrentRateByPeriod(Integer period) {
 		return rateDAO.getCurrentInterestRateByPeriod(period);
 	}
 
+	/**
+	 * Get saving interest rate by ID
+	 * 
+	 * @author Nhat Nguyen
+	 * @param id
+	 * @return interest rate
+	 */
 	public SavingInterestRate getInterestRateById(int id) {
 		return rateDAO.getInterestRateById(id);
 	}
 
+	/**
+	 * Update interest rate
+	 * 
+	 * @author Tai Tran
+	 * @param request
+	 * @param model
+	 * @return action result
+	 */
 	@Transactional
 	public boolean updateRate(HttpServletRequest request, Model model) {
 		boolean result = true;
 
-		List<SavingInterestRate> rateList = rateDAO.getCurrentInterestRateList();
+		List<SavingInterestRate> rateList = rateDAO
+				.getCurrentInterestRateList();
 
 		List<SavingInterestRate> allRateList = rateDAO.getInterestRateList();
 
@@ -360,20 +531,25 @@ public class BankingService {
 		for (int i = 1; i <= rowCount; i++) {
 
 			// Validate Interest Rates
-			if (request.getParameter("interestRate" + i) == "" || request.getParameter("period" + i) == "") {
+			if (request.getParameter("interestRate" + i) == ""
+					|| request.getParameter("period" + i) == "") {
 				model.addAttribute("rateList", rateList);
-				model.addAttribute("notify", "<font color = 'red'>Please enter value!</font>");
+				model.addAttribute("notify",
+						"<font color = 'red'>Please enter value!</font>");
 			}
 
-			double interestRate = Double.parseDouble(request.getParameter("interestRate" + i));
-			Integer period = Integer.parseInt(request.getParameter("period" + i));
+			double interestRate = Double.parseDouble(request
+					.getParameter("interestRate" + i));
+			Integer period = Integer.parseInt(request
+					.getParameter("period" + i));
 
 			if (i <= totalRate) {
 				if (rateList.get(i - 1).getInterestRate() != interestRate) {
 
 					for (SavingInterestRate rate : allRateList) {
 						// If the new Rate is already existed
-						if (rate.getInterestRate() == interestRate && rate.getPeriod() == period) {
+						if (rate.getInterestRate() == interestRate
+								&& rate.getPeriod() == period) {
 							rateDAO.updateInterestState(rate.getPeriod());
 							rate.setState("Current");
 							rateDAO.updateInterestRate(rate);
@@ -399,6 +575,13 @@ public class BankingService {
 		return true;
 	}
 
+	/**
+	 * Add new interest rate
+	 * 
+	 * @author Tai Tran
+	 * @param newInterestRate
+	 * @return
+	 */
 	@Transactional
 	public boolean addInterestRate(SavingInterestRate newInterestRate) {
 		rateDAO.updateInterestState(newInterestRate.getPeriod());
@@ -409,32 +592,80 @@ public class BankingService {
 	// *************** Transaction services
 	// ***************
 
+	/**
+	 * Get list of transaction
+	 * 
+	 * @author Nhat Nguyen
+	 * @return list of transaction
+	 */
 	public List<Transaction> getTransactionList() {
 		return transactionDAO.getTransactions();
 	}
 
+	/**
+	 * Get transaction by ID
+	 * 
+	 * @author Nhat Nguyen
+	 * @param id
+	 * @return transaction
+	 */
 	public Transaction getTransactionById(int id) {
 		return transactionDAO.getTransactionById(id);
 	}
 
+	/**
+	 * Add new pending transaction
+	 * 
+	 * @author Nhat Nguyen
+	 * @param transaction
+	 * @return action result
+	 */
 	public boolean performTransaction(Transaction transaction) {
 		return transactionDAO.performTransaction(transaction);
 	}
 
+	/**
+	 * Check if account has withdrawn monthly interest already
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @return has withdrawn or not yet
+	 */
 	public boolean getInterestAlready(SavingAccount account) {
 		return transactionDAO.getInterestAlready(account);
 	}
 
+	/**
+	 * Check if account still has pending transaction
+	 * 
+	 * @author Nhat Nguyen
+	 * @param accNumber
+	 * @return true or false
+	 */
 	public boolean pendingAvail(String accNumber) {
 		return transactionDAO.pendingTransAvail(accNumber);
 	}
 
-	public String preSubmitTransaction(Transaction transaction, HttpServletRequest request, SavingAccount account) {
+	/**
+	 * Consider the conditions before performing transaction
+	 * 
+	 * @author Nhat Nguyen
+	 * @param transaction
+	 * @param request
+	 * @param account
+	 * @return action result: OK or error name
+	 */
+	public String preSubmitTransaction(Transaction transaction,
+			HttpServletRequest request, SavingAccount account) {
 		String result = "OK";
-		double currentBalance = Double.parseDouble(request.getParameter("balance"));
-		double monthlyInterest = Double.parseDouble(request.getParameter("interest"));
-		double dueDateTotal = Double.parseDouble(request.getParameter("dueDateAmount"));
-		double beforeDueAmount = Double.parseDouble(request.getParameter("beforeDueAmount"));
+		double currentBalance = Double.parseDouble(request
+				.getParameter("balance"));
+		double monthlyInterest = Double.parseDouble(request
+				.getParameter("interest"));
+		double dueDateTotal = Double.parseDouble(request
+				.getParameter("dueDateAmount"));
+		double beforeDueAmount = Double.parseDouble(request
+				.getParameter("beforeDueAmount"));
 
 		if (transaction.getType().equals("Withdraw All")) {
 			if (account.getBalanceAmount() == 0) {
@@ -447,12 +678,15 @@ public class BankingService {
 				if (DateUtils.isToday(account.getDueDate())) {
 					transaction.setAmount(dueDateTotal);
 					// Withdraw before due date
-				} else if (DateUtils.isBeforeDay(new Date(), account.getDueDate())) {
+				} else if (DateUtils.isBeforeDay(new Date(),
+						account.getDueDate())) {
 					transaction.setAmount(beforeDueAmount);
 					// - Withdraw after due date and account not repeatable
 					// - Not necessary to check after due date for repeatable
 					// account because it is auto-extended after due date
-				} else if (DateUtils.isAfterDay(new Date(), account.getDueDate()) && account.isRepeatable() == false) {
+				} else if (DateUtils.isAfterDay(new Date(),
+						account.getDueDate())
+						&& account.isRepeatable() == false) {
 					transaction.setAmount(beforeDueAmount);
 				}
 				// Demand
@@ -485,7 +719,8 @@ public class BankingService {
 			int todayDay = cal.get(Calendar.DAY_OF_MONTH);
 			int thisMonth = cal.get(Calendar.MONTH) + 1;
 			cal.setTime(account.getStartDate());
-			if (cal.get(Calendar.DAY_OF_MONTH) != todayDay || cal.get(Calendar.MONTH) + 1 == thisMonth) {
+			if (cal.get(Calendar.DAY_OF_MONTH) != todayDay
+					|| cal.get(Calendar.MONTH) + 1 == thisMonth) {
 				result = "You cannot get interest today!";
 			}
 			if (this.getInterestAlready(account)) {
@@ -501,10 +736,13 @@ public class BankingService {
 				if (!list.isEmpty())
 					lastWithdrawAll = list.get(list.size() - 1);
 				// Deposit before due date
-				if ((account.getBalanceAmount() != 0 && !DateUtils.isToday(account.getStartDate()))
-						&& DateUtils.isBeforeDay(new Date(), account.getDueDate())
+				if ((account.getBalanceAmount() != 0 && !DateUtils
+						.isToday(account.getStartDate()))
+						&& DateUtils.isBeforeDay(new Date(),
+								account.getDueDate())
 						&& !DateUtils.isToday(account.getDueDate())
-						|| (!list.isEmpty() && DateUtils.isBeforeDay(account.getDueDate(), lastWithdrawAll))) {
+						|| (!list.isEmpty() && DateUtils.isBeforeDay(
+								account.getDueDate(), lastWithdrawAll))) {
 					result = "This account cannot deposit at this time!";
 				}
 			}
@@ -514,7 +752,7 @@ public class BankingService {
 			}
 		}
 
-		User user = (User) request.getSession().getAttribute(SessionName.USER);
+		User user = (User) request.getSession().getAttribute("USER");
 		transaction.getUsers().add(user);
 
 		transaction.setDate(new Date());
@@ -523,6 +761,13 @@ public class BankingService {
 		return result;
 	}
 
+	/**
+	 * Approve transaction and apply all changes for saving account
+	 * 
+	 * @author Nhat Nguyen
+	 * @param transaction
+	 * @return action result
+	 */
 	public boolean approveTransaction(Transaction transaction) {
 		SavingAccount account = transaction.getSavingAccount();
 		if (transaction.getType().equals("Withdraw All")) {
@@ -531,7 +776,8 @@ public class BankingService {
 		} else if (transaction.getType().equals("Withdraw Balance")) {
 			// Reset new balance = old balance - transaction (withdraw)
 			// amount
-			account.setBalanceAmount(account.getBalanceAmount() - transaction.getAmount() + account.getInterest());
+			account.setBalanceAmount(account.getBalanceAmount()
+					- transaction.getAmount() + account.getInterest());
 			double interest = 0;
 
 			// Reset new interest
@@ -541,7 +787,8 @@ public class BankingService {
 
 		} else if (transaction.getType().equals("Deposit")) {
 			// Set new balance
-			account.setBalanceAmount(account.getBalanceAmount() + transaction.getAmount());
+			account.setBalanceAmount(account.getBalanceAmount()
+					+ transaction.getAmount());
 
 			// Set new interest
 			// If period account, reset start date and due date
@@ -549,7 +796,8 @@ public class BankingService {
 				Calendar cal = Calendar.getInstance();
 				account.setStartDate(cal.getTime());
 
-				cal.add(Calendar.MONTH, (int) account.getInterestRate().getPeriod());
+				cal.add(Calendar.MONTH, (int) account.getInterestRate()
+						.getPeriod());
 				account.setDueDate(cal.getTime());
 			}
 			account.setInterest(this.calculateInterest(account));
@@ -558,25 +806,63 @@ public class BankingService {
 		return transactionDAO.approveTransaction(transaction);
 	}
 
+	/**
+	 * Reject transaction
+	 * 
+	 * @author Nhat Nguyen
+	 * @param trans
+	 * @return action result
+	 */
 	public boolean rejectTransaction(Transaction trans) {
 		return transactionDAO.rejectTransaction(trans);
 	}
 
+	/**
+	 * Get list of dates when the account has withdrawn its monthly interest
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @return list of date
+	 */
 	public List<Date> getInterestWithdraw(SavingAccount account) {
 		return transactionDAO.getInterestWithdraw(account);
 	}
 
+	/**
+	 * Get list of dates when the account has withdrawn all its balance and
+	 * interest
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @return list of date
+	 */
 	public List<Date> getWithdrawAll(SavingAccount account) {
 		return transactionDAO.getWithdrawAll(account);
 	}
 
+	/**
+	 * Get total amount that customer can withdraw before due date
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @return total amount of money
+	 */
 	public double getBeforeDueTotal(SavingAccount account) {
 		Date today = new Date();
-		int dateDiff = DateUtils.daysBetween(account.getStartDate().getTime(), today.getTime());
+		int dateDiff = DateUtils.daysBetween(account.getStartDate().getTime(),
+				today.getTime());
 		return account.getBalanceAmount()
-				+ this.getCurrentRateByPeriod(0).getInterestRate() / 365 * dateDiff * account.getBalanceAmount();
+				+ this.getCurrentRateByPeriod(0).getInterestRate() / 365
+				* dateDiff * account.getBalanceAmount();
 	}
 
+	/**
+	 * Get total amount that customer can withdraw on due date
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @return total amount of money
+	 */
 	public double getDueDateTotal(SavingAccount account) {
 		return account.getBalanceAmount() + account.getInterest();
 	}
@@ -590,7 +876,8 @@ public class BankingService {
 	 * @return transactions that satisfy the conditions
 	 * @author vinh-tp
 	 */
-	public List<Transaction> searchTransaction(String state, String type, String accountNumber) {
+	public List<Transaction> searchTransaction(String state, String type,
+			String accountNumber) {
 		Transaction transaction = new Transaction();
 		String newState = "";
 		String newType = "";

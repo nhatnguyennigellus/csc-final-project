@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import csc.fresher.finalproject.domain.User;
 import csc.fresher.finalproject.service.BankingService;
-import csc.fresher.finalproject.utilities.SessionName;
 
 /**
  * This is a controller for home page when user first accesses the application
@@ -58,7 +56,7 @@ public class HomeController {
 		HttpSession session = request.getSession();
 		
 		model.addObject("targetUrl", "/home");
-		if (session.getAttribute(SessionName.USER) != null) {
+		if (session.getAttribute("USER") != null) {
 			model.setViewName("home");
 			try {
 				response.sendRedirect("home");
@@ -83,13 +81,13 @@ public class HomeController {
 				model.addObject("targetUrl", targetUrl);
 			}
 
-			if (session.getAttribute(SessionName.LOGIN_ATTEMPT) == null) {
-				session.setAttribute(SessionName.LOGIN_ATTEMPT, 1);
+			if (session.getAttribute("LOGIN_ATTEMPT") == null) {
+				session.setAttribute("LOGIN_ATTEMPT", 1);
 			} else {
 				int attempt = Integer.parseInt(session.getAttribute(
-						SessionName.LOGIN_ATTEMPT).toString());
+						"LOGIN_ATTEMPT").toString());
 				attempt += 1;
-				session.setAttribute(SessionName.LOGIN_ATTEMPT, attempt);
+				session.setAttribute("LOGIN_ATTEMPT", attempt);
 
 				if (attempt == 3) {
 					model.addObject("error", "Too many invalid login attempts!");
@@ -125,13 +123,13 @@ public class HomeController {
 			return "redirect:login";
 		}
 
-		request.getSession().removeAttribute(SessionName.LOGIN_ATTEMPT);
+		request.getSession().removeAttribute("LOGIN_ATTEMPT");
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 		String username = auth.getName();
 		User user = bankingService.getUserByUsername(username);
 
-		session.setAttribute(SessionName.USER, user);
+		session.setAttribute("USER", user);
 
 		setRememberMeTargetUrlToSession(request);
 		model.addAttribute("CustomerNo", bankingService.getCustomerList()

@@ -21,8 +21,6 @@ import csc.fresher.finalproject.service.BankingService;
 import java.util.ArrayList;
 import java.util.List;
 
-import csc.fresher.finalproject.utilities.SessionName;
-
 @Controller
 public class TransactionController {
 	@Autowired
@@ -33,7 +31,7 @@ public class TransactionController {
 	 * of account that is going to perform transaction
 	 * 
 	 * @author Nhat Nguyen
-	 * @return Transaction Account page 
+	 * @return Transaction Account page
 	 */
 	@RequestMapping(value = "/accountTransaction")
 	public ModelAndView performTransaction() {
@@ -53,12 +51,6 @@ public class TransactionController {
 	public ModelAndView getAccountTransaction(Model model,
 			HttpServletRequest request) {
 		String accNumber = request.getParameter("accountNumber");
-
-		if (!bankingService.existedAccountNumber(accNumber)) {
-			model.addAttribute("accTransError",
-					"This account number does not exist!");
-			return new ModelAndView("accountTransaction");
-		}
 
 		if (bankingService.pendingAvail(accNumber)) {
 			model.addAttribute("accTransError",
@@ -92,6 +84,7 @@ public class TransactionController {
 	/**
 	 * Submit Transaction with information and state "Pending"
 	 * 
+	 * @author Nhat Nguyen
 	 * @param transaction
 	 * @param result
 	 * @param model
@@ -137,6 +130,7 @@ public class TransactionController {
 	/**
 	 * Approve transaction and apply all changes for saving account
 	 * 
+	 * @author Nhat Nguyen
 	 * @param model
 	 * @param request
 	 * @return Perform Transaction page
@@ -146,7 +140,7 @@ public class TransactionController {
 		int transId = Integer.parseInt(request.getParameter("transactionId"));
 		Transaction trans = bankingService.getTransactionById(transId);
 		trans.setState("Approved");
-		User user = (User) request.getSession().getAttribute(SessionName.USER);
+		User user = (User) request.getSession().getAttribute("USER");
 		trans.getUsers().add(user);
 		if (bankingService.approveTransaction(trans)) {
 			model.addAttribute("apprSuccess", "Transaction '" + trans.getType()
@@ -165,6 +159,7 @@ public class TransactionController {
 	/**
 	 * Reject transaction
 	 * 
+	 * @author Nhat Nguyen
 	 * @param model
 	 * @param request
 	 * @return Perform Transaction page

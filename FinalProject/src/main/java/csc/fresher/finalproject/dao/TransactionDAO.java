@@ -117,7 +117,7 @@ public class TransactionDAO {
 	 * 
 	 * @author Nhat Nguyen
 	 * @param account
-	 * @return
+	 * @return list of date
 	 */
 	public List<Date> getWithdrawAll(SavingAccount account) {
 		List<Date> list = new ArrayList<Date>();
