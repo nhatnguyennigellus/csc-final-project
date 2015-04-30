@@ -16,6 +16,12 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * Entity class for saving account
+ * 
+ * @author Nhat Nguyen
+ *
+ */
 @Entity
 @Table(name = "savingaccount")
 public class SavingAccount {

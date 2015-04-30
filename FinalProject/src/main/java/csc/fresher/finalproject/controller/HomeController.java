@@ -27,8 +27,9 @@ import csc.fresher.finalproject.utilities.SessionName;
 
 /**
  * This is a controller for home page when user first accesses the application
+ * It also contains methods for Login page and some other pages
  * 
- * @author nvu3, Hiep Nguyen, Nhat Nguyen
+ * @author Nhat Nguyen
  *
  */
 

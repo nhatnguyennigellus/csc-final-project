@@ -12,6 +12,12 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * Entity class for saving interest rate
+ * 
+ * @author Nhat Nguyen
+ *
+ */
 @Entity
 @Table(name = "savinginterestrate")
 public class SavingInterestRate {

@@ -10,6 +10,12 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * Entity class for Role
+ * 
+ * @author Nhat Nguyen
+ *
+ */
 @Entity
 @Table(name = "userrole")
 public class Role {

@@ -17,6 +17,12 @@ import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.Customer;
 import csc.fresher.finalproject.domain.SavingAccount;
 
+/**
+ * DAO class for Customer
+ * 
+ * @author Nhat Nguyen, Vinh Truong, Tai Tran
+ *
+ */
 @Repository("customerDAO")
 @Transactional
 public class CustomerDAO {

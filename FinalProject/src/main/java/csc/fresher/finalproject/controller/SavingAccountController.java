@@ -19,12 +19,26 @@ import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.SavingInterestRate;
 import csc.fresher.finalproject.service.BankingService;
 
+/**
+ * This controller handles actions that are related to saving account
+ * 
+ * @author Nhat Nguyen
+ *
+ */
 @Controller
 public class SavingAccountController {
 
 	@Autowired
 	BankingService bankingService;
 
+	/**
+	 * Redirect to Add Account page
+	 * 
+	 * @author Nhat Nguyen
+	 * @param model
+	 * @param request
+	 * @return Add Account page
+	 */
 	@RequestMapping(value = "/toAddAccount")
 	public String toAddAccount(Model model, HttpServletRequest request) {
 		SavingAccount account = new SavingAccount();
@@ -36,6 +50,17 @@ public class SavingAccountController {
 		return "addAccount";
 	}
 
+	/**
+	 * Add new account
+	 * 
+	 * @author Nhat Nguyen
+	 * @param savingAccount
+	 * @param result
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @return Add Account page
+	 */
 	@RequestMapping(value = "/addAccount", method = RequestMethod.POST)
 	public String addAccount(
 			@ModelAttribute("savingAccount") @Valid SavingAccount savingAccount,
@@ -53,8 +78,9 @@ public class SavingAccountController {
 	/**
 	 * Search for account existence
 	 * 
-	 * @author vinh-tp
+	 * @author Vinh Truong
 	 * @since 2015-08-04
+	 * @return Search Account Page
 	 */
 	@RequestMapping(value = "/searchAccount", method = { RequestMethod.GET,
 			RequestMethod.POST })
@@ -69,15 +95,14 @@ public class SavingAccountController {
 		return "searchAccount";
 	}
 
-	@RequestMapping(value = "/viewAccount")
-	public String viewAccount(Model model, HttpServletRequest request) {
-		List<SavingAccount> accountList = bankingService.getSavingAccounts();
-
-		model.addAttribute("accountList", accountList);
-
-		return "viewAccount";
-	}
-
+	/**
+	 * Redirect to Modify Account page
+	 * 
+	 * @author Tai Tran
+	 * @param model
+	 * @param request
+	 * @return Modify Account page
+	 */
 	@RequestMapping(value = "/modifyAccount")
 	public String modifyAccount(Model model, HttpServletRequest request) {
 		String accNumber = request.getParameter("accNumber");
@@ -91,6 +116,14 @@ public class SavingAccountController {
 		return "modifyAccount";
 	}
 
+	/**
+	 * Update account
+	 * 
+	 * @author Tai Tran
+	 * @param model
+	 * @param request
+	 * @return Modify Account page
+	 */
 	@RequestMapping(value = "/updateAccount", method = { RequestMethod.POST,
 			RequestMethod.GET })
 	public String updateAccount(Model model, HttpServletRequest request) {
@@ -104,6 +137,12 @@ public class SavingAccountController {
 		return "redirect:modifyAccount?accNumber=" + request.getParameter("accountNumber");
 	}
 
+	/**
+	 * Approve new account and change to active
+	 * 
+	 * @param request
+	 * @return Search Account page
+	 */
 	@RequestMapping(value = "/approveAccount")
 	public String approve(HttpServletRequest request) {
 		bankingService.approve(request);

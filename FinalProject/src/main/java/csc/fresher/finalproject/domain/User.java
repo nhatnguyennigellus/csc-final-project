@@ -14,6 +14,12 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * Entity class for user
+ * 
+ * @author Nigellus
+ *
+ */
 @Entity
 @Table(name = "user")
 public class User {

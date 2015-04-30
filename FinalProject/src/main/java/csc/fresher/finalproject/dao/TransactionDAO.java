@@ -18,6 +18,12 @@ import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.Transaction;
 import csc.fresher.finalproject.service.DateUtils;
 
+/**
+ * DAO class for Transaction
+ * 
+ * @author Nhat Nguyen, Vinh Truong
+ *
+ */
 @Repository("transactionDAO")
 @Transactional
 public class TransactionDAO {
@@ -25,6 +31,12 @@ public class TransactionDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	/**
+	 * Get list of transaction
+	 * 
+	 * @author Nhat Nguyen
+	 * @return list of transaction
+	 */
 	public List<Transaction> getTransactions() {
 		List<Transaction> transactions = null;
 		try {
@@ -37,6 +49,12 @@ public class TransactionDAO {
 		return transactions;
 	}
 
+	/**
+	 * Get transaction by ID
+	 * 
+	 * @param id
+	 * @return transaction
+	 */
 	public Transaction getTransactionById(int id) {
 		Transaction transaction = null;
 		try {
@@ -47,6 +65,13 @@ public class TransactionDAO {
 		return transaction;
 	}
 
+	/**
+	 * Get result if account has got monthly interest of the month already or not
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @return result
+	 */
 	public boolean getInterestAlready(SavingAccount account) {
 		boolean res = false;
 		try {
@@ -64,6 +89,13 @@ public class TransactionDAO {
 		return res;
 	}
 
+	/**
+	 * Get list of dates when the account has withdrawn its monthly interest
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @return list of date
+	 */
 	public List<Date> getInterestWithdraw(SavingAccount account) {
 		List<Date> list = new ArrayList<Date>();
 		try {
@@ -79,6 +111,14 @@ public class TransactionDAO {
 		return list;
 	}
 
+	/**
+	 * Get list of dates when the account has withdrawn all its balance and
+	 * interest
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @return
+	 */
 	public List<Date> getWithdrawAll(SavingAccount account) {
 		List<Date> list = new ArrayList<Date>();
 		try {
@@ -94,6 +134,13 @@ public class TransactionDAO {
 		return list;
 	}
 
+	/**
+	 * Get result if the account still has a pending transaction or not
+	 * 
+	 * @author Nhat Nguyen
+	 * @param accNumber
+	 * @return result
+	 */
 	public boolean pendingTransAvail(String accNumber) {
 		boolean availPending = false;
 		try {
@@ -108,6 +155,13 @@ public class TransactionDAO {
 		return availPending;
 	}
 
+	/**
+	 * Add new pending transaction 
+	 * 
+	 * @author Nhat Nguyen
+	 * @param transaction
+	 * @return action result
+	 */
 	public boolean performTransaction(Transaction transaction) {
 		try {
 			entityManager.persist(transaction);
@@ -118,6 +172,13 @@ public class TransactionDAO {
 		return true;
 	}
 
+	/**
+	 * Approve transaction
+	 * 
+	 * @author Nhat Nguyen
+	 * @param transaction
+	 * @return action result
+	 */
 	public boolean approveTransaction(Transaction transaction) {
 		try {
 			entityManager.merge(transaction);
@@ -128,6 +189,13 @@ public class TransactionDAO {
 		return true;
 	}
 
+	/**
+	 * Reject transaction
+	 * 
+	 * @author Nhat Nguyen
+	 * @param trans
+	 * @return action result
+	 */
 	public boolean rejectTransaction(Transaction trans) {
 		try {
 
@@ -138,12 +206,20 @@ public class TransactionDAO {
 		return true;
 	}
 
+	/**
+	 * Search transactions by state, type and account number
+	 * 
+	 * @author Vinh Truong
+	 * @param transaction
+	 * @return list of transaction
+	 */
 	public List<Transaction> searchTransaction(Transaction transaction) {
 		List<Transaction> transactions = null;
 		try {
 			TypedQuery<Transaction> query = entityManager
 					.createQuery(
-							"SELECT t FROM Transaction t WHERE t.state LIKE ?1 AND t.type LIKE ?2 AND t.savingAccount.accountNumber LIKE ?3",
+							"SELECT t FROM Transaction t WHERE t.state LIKE ?1 AND t.type LIKE ?2 "
+							+ "AND t.savingAccount.accountNumber LIKE ?3",
 							Transaction.class);
 			query.setParameter(1, "%" + transaction.getState() + "%");
 			query.setParameter(2, "%" + transaction.getType() + "%");

@@ -13,6 +13,12 @@ import org.springframework.stereotype.Repository;
 
 import csc.fresher.finalproject.domain.User;
 
+/**
+ * DAO class for User
+ * 
+ * @author Nhat Nguyen
+ *
+ */
 @Repository("userDAO")
 @Transactional
 public class UserDAO {
@@ -20,14 +26,17 @@ public class UserDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	/**
+	 * Check if username and password are authenticated
+	 * 
+	 * @author Nhat Nguyen
+	 * @param username
+	 * @param password
+	 * @return user
+	 */
 	public User checkUser(String username, String password) {
-		
-//		EntityTransaction enTr = entityManager.getTransaction();
-
 		User user = new User();
 		try {
-//			enTr.begin();
-
 			TypedQuery<User> query = entityManager
 					.createQuery(
 							"SELECT u FROM User u WHERE u.username = ?1 AND u.password = ?2",
@@ -35,78 +44,70 @@ public class UserDAO {
 			query.setParameter(1, username);
 			query.setParameter(2, password);
 			user = query.getSingleResult();
-//			enTr.commit();
 		} catch (Exception e) {
-//			enTr.rollback();
 			return null;
 		}
 
 		return user;
 	}
 
+	/**
+	 * Check if user is active
+	 * 
+	 * @param username
+	 * @return active or not
+	 */
 	public boolean checkUserActive(String username) {
-		/*
-		 * EntityManager entityManager = EntityManagerFactoryUtil
-		 * .createEntityManager();
-		 */
-//		EntityTransaction enTr = entityManager.getTransaction();
 		boolean active = false;
 		try {
-//			enTr.begin();
-
 			TypedQuery<User> query = entityManager
 					.createQuery(
 							"SELECT u FROM User u WHERE u.username = ?1 AND u.enable = 1",
 							User.class);
 			query.setParameter(1, username);
 			active = query.getSingleResult() != null;
-	//		enTr.commit();
 		} catch (Exception e) {
-	//		enTr.rollback();
 			return false;
 		}
 
 		return active;
 	}
 
+	/**
+	 * Get user by username
+	 * 
+	 * @param username
+	 * @return user
+	 */
 	public User getUserByUsername(String username) {
-		/*
-		 * EntityManager entityManager = EntityManagerFactoryUtil
-		 * .createEntityManager();
-		 */
-	//	EntityTransaction enTr = entityManager.getTransaction();
 		User user = new User();
 		try {
-	//		enTr.begin();
-
 			TypedQuery<User> query = entityManager.createQuery(
 					"SELECT u FROM User u WHERE u.username = ?1", User.class);
 			query.setParameter(1, username);
 			user = query.getSingleResult();
-	//		enTr.commit();
 		} catch (Exception e) {
-	//		enTr.rollback();
 			return null;
 		}
 
 		return user;
 	}
 
+	
+	/**
+	 * Get list of user by role
+	 * 
+	 * @param role
+	 * @return user
+	 */
 	public List<User> getUserByRole(String role) {
-		/* EntityManager em = EntityManagerFactoryUtil.createEntityManager(); */
-//		EntityTransaction enTr = entityManager.getTransaction();
-
 		List<User> users = new ArrayList<User>();
 		try {
-//			enTr.begin();
-
 			TypedQuery<User> query = entityManager.createQuery(
 					"SELECT u FROM User u WHERE u.role.role = ?1", User.class);
 			query.setParameter(1, role);
 			users = query.getResultList();
-//			enTr.commit();
 		} catch (Exception e) {
-//			enTr.rollback();
 			return null;
 		}
 

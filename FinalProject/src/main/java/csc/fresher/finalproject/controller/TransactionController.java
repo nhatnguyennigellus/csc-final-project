@@ -28,18 +28,26 @@ public class TransactionController {
 	@Autowired
 	BankingService bankingService;
 
+	/**
+	 * Redirect to Transaction Account page, where user can enter account number
+	 * of account that is going to perform transaction
+	 * 
+	 * @author Nhat Nguyen
+	 * @return Transaction Account page 
+	 */
 	@RequestMapping(value = "/accountTransaction")
 	public ModelAndView performTransaction() {
 		return new ModelAndView("accountTransaction");
 	}
 
-	@RequestMapping(value = "/listTransaction")
-	public String listTransaction(Model model) {
-		model.addAttribute("listTransaction",
-				bankingService.getTransactionList());
-		return "listTransaction";
-	}
-
+	/**
+	 * Get information from database and redirect to Perform Transaction page
+	 * 
+	 * @author Nigellus
+	 * @param model
+	 * @param request
+	 * @return Perform Transaction page
+	 */
 	@RequestMapping(value = "/performTransaction", method = {
 			RequestMethod.POST, RequestMethod.GET })
 	public ModelAndView getAccountTransaction(Model model,
@@ -81,6 +89,16 @@ public class TransactionController {
 		return new ModelAndView("performTransaction");
 	}
 
+	/**
+	 * Submit Transaction with information and state "Pending"
+	 * 
+	 * @param transaction
+	 * @param result
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @return Perform Transaction page
+	 */
 	@RequestMapping(value = "/submitTransaction", method = RequestMethod.POST)
 	public ModelAndView submitTransaction(
 			@ModelAttribute("Transaction") @Valid Transaction transaction,
@@ -116,6 +134,13 @@ public class TransactionController {
 		return new ModelAndView("performTransaction");
 	}
 
+	/**
+	 * Approve transaction and apply all changes for saving account
+	 * 
+	 * @param model
+	 * @param request
+	 * @return Perform Transaction page
+	 */
 	@RequestMapping(value = "/approveTransaction")
 	public String approveTransaction(Model model, HttpServletRequest request) {
 		int transId = Integer.parseInt(request.getParameter("transactionId"));
@@ -137,6 +162,13 @@ public class TransactionController {
 		return "searchTransaction";
 	}
 
+	/**
+	 * Reject transaction
+	 * 
+	 * @param model
+	 * @param request
+	 * @return Perform Transaction page
+	 */
 	@RequestMapping(value = "/rejectTransaction")
 	public String rejectTransaction(Model model, HttpServletRequest request) {
 		int transId = Integer.parseInt(request.getParameter("transactionId"));
@@ -157,11 +189,11 @@ public class TransactionController {
 	}
 
 	/**
-	 * Redirect to searchTransaction views if logged in
+	 * Redirect to Search Transaction page if logged in
 	 * 
 	 * @param request
 	 * @return
-	 * @author vinh-tp
+	 * @author Vinh Truong
 	 */
 
 	@RequestMapping(value = "/searchTransaction")
@@ -176,7 +208,7 @@ public class TransactionController {
 	 * @param request
 	 * @param model
 	 * @return
-	 * @author vinh-tp
+	 * @author Vinh Truong
 	 */
 	@RequestMapping(value = "/submitSearchTransaction", method = {
 			RequestMethod.POST, RequestMethod.GET })

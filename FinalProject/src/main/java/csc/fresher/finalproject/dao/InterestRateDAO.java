@@ -14,12 +14,24 @@ import org.springframework.stereotype.Repository;
 import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.SavingInterestRate;
 
+/**
+ * DAO class for InterestRate
+ * 
+ * @author Nhat Nguyen, Tai Tran
+ *
+ */
 @Repository("interestRateDAO")
 public class InterestRateDAO {
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	/**
+	 * Get list of all interest rate
+	 * 
+	 * @author Nhat Nguyen
+	 * @return list of interest rate
+	 */
 	public List<SavingInterestRate> getInterestRateList() {
 		List<SavingInterestRate> rateList = null;
 		try {
@@ -34,6 +46,13 @@ public class InterestRateDAO {
 		return rateList;
 	}
 
+	/**
+	 * Get list of interest rate by period
+	 * 
+	 * @author Nhat Nguyen
+	 * @param interestRatePeriod
+	 * @return list of interest rate
+	 */
 	public SavingInterestRate getInterestRateByPeriod(Integer interestRatePeriod) {
 		SavingInterestRate rate = new SavingInterestRate();
 		try {
@@ -50,14 +69,18 @@ public class InterestRateDAO {
 		return rate;
 	}
 
+	/**
+	 * Get list of current interest rate
+	 * 
+	 * @author Nhat Nguyen
+	 * @return list of interest rate
+	 */
 	public List<SavingInterestRate> getCurrentInterestRateList() {
 		List<SavingInterestRate> rateList = null;
 		try {
-			TypedQuery<SavingInterestRate> query = entityManager
-					.createQuery(
-							"SELECT r FROM SavingInterestRate r WHERE r.state = 'Current'"
-							+ " ORDER BY r.period",
-							SavingInterestRate.class);
+			TypedQuery<SavingInterestRate> query = entityManager.createQuery(
+					"SELECT r FROM SavingInterestRate r WHERE r.state = 'Current'"
+							+ " ORDER BY r.period", SavingInterestRate.class);
 			rateList = query.getResultList();
 		} catch (Exception e) {
 			return null;
@@ -67,6 +90,12 @@ public class InterestRateDAO {
 
 	}
 
+	/**
+	 * Get list of current interest rate by period
+	 * 
+	 * @param interestRatePeriod
+	 * @return list of interest rate
+	 */
 	public SavingInterestRate getCurrentInterestRateByPeriod(
 			Integer interestRatePeriod) {
 		SavingInterestRate rate = new SavingInterestRate();
@@ -85,6 +114,13 @@ public class InterestRateDAO {
 		return rate;
 	}
 
+	/**
+	 * Get interest rate by ID
+	 * 
+	 * @author Nhat Nguyen
+	 * @param id
+	 * @return Interest rate
+	 */
 	public SavingInterestRate getInterestRateById(int id) {
 
 		SavingInterestRate rate = new SavingInterestRate();
@@ -102,6 +138,14 @@ public class InterestRateDAO {
 		return rate;
 	}
 
+	/**
+	 * 
+	 * Update interest rate
+	 * 
+	 * @author Tai Tran
+	 * @param rate
+	 * @return action result
+	 */
 	public boolean updateInterestRate(SavingInterestRate rate) {
 		try {
 			entityManager.merge(rate);
@@ -112,15 +156,31 @@ public class InterestRateDAO {
 
 		return true;
 	}
-	
-	public boolean updateInterestState(int period){
-		Query query = entityManager.createQuery("UPDATE SavingInterestRate SET state = 'Old' WHERE period = " + period);
-		
+
+	/**
+	 * Update interest rate state into Old
+	 * 
+	 * @author Tai Tran
+	 * @param period
+	 * @return action result
+	 */
+	public boolean updateInterestState(int period) {
+		Query query = entityManager
+				.createQuery("UPDATE SavingInterestRate SET state = 'Old' WHERE period = "
+						+ period);
+
 		query.executeUpdate();
-		
+
 		return true;
 	}
 
+	/**
+	 * Add new interest rate
+	 * 
+	 * @author Tai Tran
+	 * @param newInterestRate
+	 * @return
+	 */
 	public boolean addInterestRate(SavingInterestRate newInterestRate) {
 		try {
 			entityManager.persist(newInterestRate);

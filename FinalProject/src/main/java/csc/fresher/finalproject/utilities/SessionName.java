@@ -4,7 +4,7 @@ package csc.fresher.finalproject.utilities;
  * This class defines session names as constants, which are used to save values
  * to session
  * 
- * @author Hiep Nguyen
+ * @author Nhat Nguyen
  *
  */
 public class SessionName {

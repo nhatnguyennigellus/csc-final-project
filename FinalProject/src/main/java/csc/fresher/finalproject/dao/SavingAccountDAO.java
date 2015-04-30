@@ -13,6 +13,12 @@ import org.springframework.stereotype.Repository;
 
 import csc.fresher.finalproject.domain.SavingAccount;
 
+/**
+ * DAO class for SavingAccount
+ * 
+ * @author Nhat Nguyen, Vinh Truong, Tai Tran
+ *
+ */
 @Repository("savingAccountDAO")
 @Transactional
 public class SavingAccountDAO {
@@ -20,6 +26,12 @@ public class SavingAccountDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	/**
+	 * Get list of saving account
+	 * 
+	 * @author Nhat Nguyen
+	 * @return list of account
+	 */
 	public List<SavingAccount> getAccountList() {
 		List<SavingAccount> savingAccounts = null;
 		try {
@@ -32,6 +44,13 @@ public class SavingAccountDAO {
 		return savingAccounts;
 	}
 
+	/**
+	 * Get list of saving account by state
+	 * 
+	 * @author Nhat Nguyen
+	 * @param state
+	 * @return list of account
+	 */
 	public List<SavingAccount> getAccountByState(String state) {
 		List<SavingAccount> savingAccounts = null;
 		try {
@@ -46,6 +65,13 @@ public class SavingAccountDAO {
 		return savingAccounts;
 	}
 
+	/**
+	 * Get list of saving account by account number
+	 * 
+	 * @author Nhat Nguyen
+	 * @param accountNo Account Number
+	 * @return list of account
+	 */
 	public SavingAccount getAccountByAccNumber(String accountNo) {
 		SavingAccount savingAccount = null;
 		try {
@@ -60,6 +86,13 @@ public class SavingAccountDAO {
 		return savingAccount;
 	}
 
+	/**
+	 * Get list of saving account by account ID
+	 * 
+	 * @author Nhat Nguyen
+	 * @param accountId
+	 * @return saving account with ID
+	 */
 	public SavingAccount getAccountById(int accountId) {
 		SavingAccount savingAccounts = null;
 		try {
@@ -70,6 +103,13 @@ public class SavingAccountDAO {
 		return savingAccounts;
 	}
 
+	/**
+	 * Add new saving account
+	 * 
+	 * @author Nhat Nguyen
+	 * @param account
+	 * @return action result
+	 */
 	public boolean addSavingAccount(SavingAccount account) {
 		try {
 			entityManager.persist(account);
@@ -79,6 +119,13 @@ public class SavingAccountDAO {
 		return true;
 	}
 
+	/**
+	 * Update saving account information
+	 * 
+	 * @author Tai Tran
+	 * @param account
+	 * @return action result
+	 */
 	public boolean updateSavingAccount(SavingAccount account) {
 		try {
 			entityManager.merge(account);
@@ -94,7 +141,7 @@ public class SavingAccountDAO {
 	 * @param idCard
 	 *            ID card number of customer
 	 * @return SavingAccount found or null
-	 * @author vinh-tp
+	 * @author Vinh Truong
 	 */
 	public SavingAccount getAccountByIdCard(String idCard) {
 		SavingAccount account = null;
@@ -115,12 +162,12 @@ public class SavingAccountDAO {
 	}
 
 	/**
-	 * Search for accounts
+	 * Search for accounts by ID card number and account number
 	 * 
 	 * @param idCard
 	 * @param accNumber
 	 * @return a list of accounts
-	 * @author vinh-tp
+	 * @author Vinh Truong
 	 */
 	public List<SavingAccount> searchSavingAccounts(String idCard,
 			String accNumber) {
@@ -140,6 +187,13 @@ public class SavingAccountDAO {
 		return accounts;
 	}
 
+	/**
+	 * Approve new account and change state into active
+	 * @author Tai Tran
+	 * @param account
+	 * @return action result
+	 * 
+	 */
 	public boolean approve(SavingAccount account) {
 		try {
 			entityManager.merge(account);

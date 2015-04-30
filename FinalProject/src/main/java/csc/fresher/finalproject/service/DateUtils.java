@@ -3,6 +3,12 @@ package csc.fresher.finalproject.service;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * 
+ * This class provides methods that help performing actions related to datetime
+ * Source: Internet
+ *
+ */
 public class DateUtils {
 
 	/**
@@ -337,6 +343,6 @@ public class DateUtils {
 	public static Date MAX_DATE = new Date(Long.MAX_VALUE);
 
 	public static int daysBetween(long t1, long t2) {
-	    return (int) ((t2 - t1) / (1000 * 60 * 60 * 24));
-	} 
+		return (int) ((t2 - t1) / (1000 * 60 * 60 * 24));
+	}
 }

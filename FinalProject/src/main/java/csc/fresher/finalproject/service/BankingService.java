@@ -1,6 +1,5 @@
 package csc.fresher.finalproject.service;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,7 +12,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
 
 import csc.fresher.finalproject.dao.CustomerDAO;
 import csc.fresher.finalproject.dao.InterestRateDAO;
@@ -27,6 +25,12 @@ import csc.fresher.finalproject.domain.Transaction;
 import csc.fresher.finalproject.domain.User;
 import csc.fresher.finalproject.utilities.SessionName;
 
+/**
+ * This class provides Service classes for banking business
+ * 
+ * @author Nhat Nguyen, Tai Tran, Vinh Truong
+ *
+ */
 @Service("bankingService")
 public class BankingService {
 	@Autowired

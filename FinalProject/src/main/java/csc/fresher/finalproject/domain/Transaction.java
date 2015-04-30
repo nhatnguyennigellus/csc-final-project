@@ -16,6 +16,12 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+/**
+ * Entity class for transaction
+ * 
+ * @author Nigellus
+ *
+ */
 @Entity
 @Table(name = "transaction")
 public class Transaction {

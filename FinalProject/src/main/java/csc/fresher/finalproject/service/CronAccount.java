@@ -12,6 +12,13 @@ import org.springframework.stereotype.Service;
 import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.SavingInterestRate;
 
+/**
+ * This class provides method that update account balance and rate at 12 a.m
+ * every day using Quartz
+ * 
+ * @author Nhat Nguyen
+ *
+ */
 @Service
 public class CronAccount {
 	@Autowired
@@ -21,10 +28,10 @@ public class CronAccount {
 	public void updateAccount() {
 		for (SavingAccount account : bankingService.getSavingAccounts()) {
 			SavingInterestRate newRate = bankingService
-					.getCurrentRateByPeriod(account
-							.getInterestRate().getPeriod());
+					.getCurrentRateByPeriod(account.getInterestRate()
+							.getPeriod());
 			account.setInterestRate(newRate);
-			
+
 			if (account.getInterestRate().getPeriod() != 0) {
 
 				List<Date> list = new ArrayList<Date>();
@@ -56,7 +63,6 @@ public class CronAccount {
 								.getInterestRate().getPeriod());
 						account.setDueDate(calAcc.getTime());
 
-						
 						double newEnterest = bankingService
 								.calculateInterest(account);
 						account.setInterest(newEnterest);
