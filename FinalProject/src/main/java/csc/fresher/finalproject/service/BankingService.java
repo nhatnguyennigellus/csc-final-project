@@ -232,8 +232,8 @@ public class BankingService {
 		int customerId = Integer.parseInt(request.getParameter("customerId"));
 		Customer customer = this.getCustomerById(customerId);
 
-		Integer rateId = Integer.parseInt(request.getParameter("period"));
-		SavingInterestRate interestRate = this.getInterestRateById(rateId);
+		Integer period = Integer.parseInt(request.getParameter("period"));
+		SavingInterestRate interestRate = this.getCurrentRateByPeriod(period);
 
 		account.setInterestRate(interestRate);
 
