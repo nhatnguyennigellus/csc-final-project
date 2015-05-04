@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import csc.fresher.finalproject.dao.CustomerDAO;
 import csc.fresher.finalproject.dao.InterestRateDAO;

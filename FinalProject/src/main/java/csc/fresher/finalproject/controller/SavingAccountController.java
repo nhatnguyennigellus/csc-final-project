@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import csc.fresher.finalproject.domain.Customer;
 import csc.fresher.finalproject.domain.SavingAccount;
-import csc.fresher.finalproject.domain.SavingInterestRate;
 import csc.fresher.finalproject.service.BankingService;
 
 /**

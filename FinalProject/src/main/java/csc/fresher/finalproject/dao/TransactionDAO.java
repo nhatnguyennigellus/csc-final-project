@@ -1,12 +1,10 @@
 package csc.fresher.finalproject.dao;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.Transaction;
-import csc.fresher.finalproject.service.DateUtils;
 
 /**
  * DAO class for Transaction

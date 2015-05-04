@@ -4,15 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Entity class for user
@@ -27,7 +24,7 @@ public class User {
 	private String username;
 
 	private String password;
-	
+
 	private boolean enable;
 
 	@ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
@@ -54,6 +51,13 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isEnable() {
+		return enable;
+	}
+
+	public void setEnable(boolean enable) {
 	}
 
 	public Role getRole() {

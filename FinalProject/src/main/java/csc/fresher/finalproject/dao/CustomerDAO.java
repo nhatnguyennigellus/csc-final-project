@@ -3,15 +3,11 @@ package csc.fresher.finalproject.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import csc.fresher.finalproject.domain.Customer;
 import csc.fresher.finalproject.domain.SavingAccount;
