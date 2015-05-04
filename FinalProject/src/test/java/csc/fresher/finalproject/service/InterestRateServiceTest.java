@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.easymock.EasyMockRunner;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.dao.InterestRateDAO;
 import csc.fresher.finalproject.domain.SavingInterestRate;
 
@@ -64,5 +64,6 @@ public class InterestRateServiceTest {
 		newInterestRate.setPeriod(69);
 		newInterestRate.setState("Current");
 		assertTrue(rateDAO.addInterestRate(newInterestRate));
+		assertNotNull(rateDAO.getInterestRateByPeriod(69));
 	}
 }

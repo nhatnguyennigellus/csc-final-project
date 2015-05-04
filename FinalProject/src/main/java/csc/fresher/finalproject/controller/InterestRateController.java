@@ -33,8 +33,11 @@ public class InterestRateController {
 	 */
 	@RequestMapping(value = "/viewInterestRate")
 	public String viewInterestRate(Model model) {
-		model = bankingService.getInterestRateList(model);
-
+//		model = bankingService.getInterestRateList(model);
+		
+		List<SavingInterestRate> rateList = bankingService.getCurrentInterestRateList();
+		model.addAttribute("rateList", rateList);
+		
 		return "viewInterestRate";
 	}
 
@@ -62,10 +65,38 @@ public class InterestRateController {
 	@RequestMapping(value = "/changeRate", method = { RequestMethod.POST,
 			RequestMethod.GET })
 	public String changeRate(HttpServletRequest request, Model model) {
+		boolean result = false;
+		
+		List<SavingInterestRate> rateList = bankingService.getCurrentInterestRateList();
 
-		boolean result = bankingService.updateRate(request, model);
+		int totalRate = rateList.size();
 
-		model = bankingService.getInterestRateList(model);
+		int rowCount;
+		
+		if (request.getParameter("rowCount") == "") {
+			rowCount = totalRate;
+		} else {
+			rowCount = Integer.parseInt(request.getParameter("rowCount"));
+		}
+		
+		for (int i = 1; i <= rowCount; i++) {
+			if (request.getParameter("interestRate" + i) == ""
+					|| request.getParameter("period" + i) == "") {
+				model.addAttribute("rateList", rateList);
+				model.addAttribute("notify",
+						"<font color = 'red'>Please enter value!</font>");
+			}
+
+			double interestRate = Double.parseDouble(request
+					.getParameter("interestRate" + i));
+			Integer period = Integer.parseInt(request
+					.getParameter("period" + i));
+			
+			bankingService.updateRate(i, totalRate, rateList, interestRate, period);
+		}
+
+		rateList = bankingService.getCurrentInterestRateList();
+		model.addAttribute("rateList", rateList);
 
 		if (!result) {
 			model.addAttribute("error", "Cannot update Rate!");

@@ -130,12 +130,58 @@ public class SavingAccountController {
 			RequestMethod.GET })
 	public String updateAccount(Model model, HttpServletRequest request) {
 
-		boolean result = bankingService.updateSavingAccount(request, model);
-		if(!result){
+		int interestId = 0;
+		String accountNumber = "";
+		String accountOwner = "";
+		double balanceAmount = 0;
+		double interest = 0;
+		String repeatableString = "";
+		String state = "";
+		boolean repeatable = false;
+
+		// Validate Saving Account
+		if (request.getParameter("accountNumber") != ""
+				&& request.getParameter("accountOwner") != ""
+				&& request.getParameter("balanceAmount") != ""
+				&& request.getParameter("interest") != ""
+				&& request.getParameter("customerId") != ""
+				&& request.getParameter("interestId") != "") {
+			accountNumber = request.getParameter("accountNumber");
+			accountOwner = request.getParameter("accountOwner");
+			balanceAmount = Double.parseDouble(request
+					.getParameter("balanceAmount"));
+			interest = Double.parseDouble(request.getParameter("interest"));
+
+			repeatableString = request.getParameter("repeatable");
+			if (repeatableString.equals("true")) {
+				repeatable = true;
+			}
+
+			state = request.getParameter("state");
+
+			interestId = Integer.parseInt(request.getParameter("interestId"));
+		} else {
 			request.getSession().setAttribute("updateError", "Please fill all fields with valid data!");
 			return "redirect:modifyAccount?accNumber=" + request.getParameter("accountNumber");
 		}
-
+		
+		boolean result = bankingService.updateSavingAccount(interestId, accountNumber, accountOwner, balanceAmount, interest, state, repeatable);
+		SavingAccount savingAccount = bankingService
+				.getSavingAccountByAccNumber(accountNumber);
+		
+		model.addAttribute("savingAccount", savingAccount);
+		
+		if(!result){
+			
+			request.getSession().setAttribute("updateError",
+					"Cannot update Account!");
+			
+			request.getSession().setAttribute("updateError", "Please fill all fields with valid data!");
+			return "redirect:modifyAccount?accNumber=" + request.getParameter("accountNumber");
+		}
+		
+		request.getSession().setAttribute("updateSuccess",
+				"Updated Account!");
 		return "redirect:modifyAccount?accNumber=" + request.getParameter("accountNumber");
 	}
 

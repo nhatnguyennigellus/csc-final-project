@@ -94,8 +94,39 @@ public class CustomerController {
 	@RequestMapping(value = "/updateCustomer", method = { RequestMethod.POST,
 			RequestMethod.GET })
 	public String updateCustomer(Model model, HttpServletRequest request) {
-		boolean result = bankingService.updateCustomer(request, model);
+		boolean result = false;
+		
+		int id = Integer.parseInt(request.getParameter("customerID"));
+		String firstName = request.getParameter("customerFirstName");
+		String middleName = request.getParameter("customerMiddleName");
+		String lastName = request.getParameter("customerLastName");
+		String address1 = request.getParameter("customerAddress1");
+		String address2 = request.getParameter("customerAddress2");
+		String phone1 = request.getParameter("customerPhone1");
+		String phone2 = request.getParameter("customerPhone2");
+		String email = request.getParameter("customerEmail");
+		String idCardNumber = request.getParameter("customerIDCardNumber");
+		String currentAccountNumber = request.getParameter("currentAccount");
 
+		if (firstName == "" || lastName == "" || address1 == "" || phone1 == ""
+				|| email == "" || idCardNumber == ""
+				|| currentAccountNumber == "") {
+			model.addAttribute("updateError",
+					"Please fill all fields with valid data!");
+			
+			return "redirect:modifyAccount?accNumber="
+			+ request.getParameter("currentAccount");
+		}
+		
+		result = bankingService.updateCustomer(id, firstName, middleName, lastName, address1, address2, phone1, phone2, email, idCardNumber, currentAccountNumber);
+
+		Customer customer = bankingService.getCustomerById(id);
+		SavingAccount currentAccount = bankingService
+				.getSavingAccountByAccNumber(currentAccountNumber);
+		
+		model.addAttribute("customer", customer);
+		model.addAttribute("account", currentAccount);
+		
 		if (!result) {
 			request.getSession().removeAttribute("updateSuccess");
 			request.getSession().setAttribute("updateError",

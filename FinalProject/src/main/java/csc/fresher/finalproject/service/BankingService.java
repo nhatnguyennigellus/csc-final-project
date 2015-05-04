@@ -163,27 +163,7 @@ public class BankingService {
 	 * @return action result
 	 */
 	@Transactional
-	public boolean updateCustomer(HttpServletRequest request, Model model) {
-		int id = Integer.parseInt(request.getParameter("customerID"));
-		String firstName = request.getParameter("customerFirstName");
-		String middleName = request.getParameter("customerMiddleName");
-		String lastName = request.getParameter("customerLastName");
-		String address1 = request.getParameter("customerAddress1");
-		String address2 = request.getParameter("customerAddress2");
-		String phone1 = request.getParameter("customerPhone1");
-		String phone2 = request.getParameter("customerPhone2");
-		String email = request.getParameter("customerEmail");
-		String idCardNumber = request.getParameter("customerIDCardNumber");
-		String currentAccountNumber = request.getParameter("currentAccount");
-
-		if (firstName == "" || lastName == "" || address1 == "" || phone1 == ""
-				|| email == "" || idCardNumber == ""
-				|| currentAccountNumber == "") {
-			model.addAttribute("updateError",
-					"Please fill all fields with valid data!");
-			return false;
-		}
-
+	public boolean updateCustomer(int id, String firstName, String middleName, String lastName, String address1, String address2, String phone1, String phone2, String email, String idCardNumber, String currentAccountNumber) {
 		Customer customer = this.getCustomerById(id);
 		customer.setFirstName(firstName);
 		customer.setMiddleName(middleName);
@@ -194,14 +174,8 @@ public class BankingService {
 		customer.setPhone2(phone2);
 		customer.setEmail(email);
 		customer.setIdCardNumber(idCardNumber);
-
-		SavingAccount currentAccount = this
-				.getSavingAccountByAccNumber(currentAccountNumber);
-
-		model.addAttribute("customer", customer);
-		model.addAttribute("account", currentAccount);
-
-		return true;
+		
+		return this.updateCustomer(customer);
 	}
 
 	// ***************
@@ -298,40 +272,8 @@ public class BankingService {
 	 * @return action result
 	 */
 	@Transactional
-	public boolean updateSavingAccount(HttpServletRequest request, Model model) {
-		int interestId = 0;
-		String accountNumber = "";
-		String accountOwner = "";
-		double balanceAmount = 0;
-		double interest = 0;
-		String repeatableString = "";
-		String state = "";
-		boolean repeatable = false;
-
-		// Validate Saving Account
-		if (request.getParameter("accountNumber") != ""
-				&& request.getParameter("accountOwner") != ""
-				&& request.getParameter("balanceAmount") != ""
-				&& request.getParameter("interest") != ""
-				&& request.getParameter("customerId") != ""
-				&& request.getParameter("interestId") != "") {
-			accountNumber = request.getParameter("accountNumber");
-			accountOwner = request.getParameter("accountOwner");
-			balanceAmount = Double.parseDouble(request
-					.getParameter("balanceAmount"));
-			interest = Double.parseDouble(request.getParameter("interest"));
-
-			repeatableString = request.getParameter("repeatable");
-			if (repeatableString.equals("true")) {
-				repeatable = true;
-			}
-
-			state = request.getParameter("state");
-
-			interestId = Integer.parseInt(request.getParameter("interestId"));
-		} else {
-			return false;
-		}
+	public boolean updateSavingAccount(int interestId, String accountNumber, String accountOwner, double balanceAmount, double interest, String state, boolean repeatable) {
+		
 
 		SavingInterestRate savingInterestRate = this
 				.getInterestRateById(interestId);
@@ -347,18 +289,10 @@ public class BankingService {
 
 		boolean result = this.updateSavingAccount(savingAccount);
 		if (!result) {
-			request.getSession().setAttribute("updateError",
-					"Cannot update Account!");
-
 			return false;
 		} else {
-			request.getSession().setAttribute("updateSuccess",
-					"Updated Account!");
+			return true;
 		}
-
-		model.addAttribute("account", savingAccount);
-
-		return true;
 	}
 
 	/**
@@ -459,13 +393,8 @@ public class BankingService {
 	 * @param model
 	 * @return model with interest rate list
 	 */
-	public Model getInterestRateList(Model model) {
-		List<SavingInterestRate> rateList = rateDAO
-				.getCurrentInterestRateList();
-
-		model.addAttribute("rateList", rateList);
-
-		return model;
+	public List<SavingInterestRate> getInterestRateList() {
+		return rateDAO.getCurrentInterestRateList();
 	}
 
 	/**
@@ -509,68 +438,37 @@ public class BankingService {
 	 * @return action result
 	 */
 	@Transactional
-	public boolean updateRate(HttpServletRequest request, Model model) {
-		boolean result = true;
+	public boolean updateRate(int i, int totalRate, List<SavingInterestRate> rateList, double interestRate, int period) {
+		List<SavingInterestRate> allRateList = this.getInterestRateList();
 
-		List<SavingInterestRate> rateList = rateDAO
-				.getCurrentInterestRateList();
+		if (i <= totalRate) {
+			if (rateList.get(i - 1).getInterestRate() != interestRate) {
 
-		List<SavingInterestRate> allRateList = rateDAO.getInterestRateList();
-
-		int totalRate = rateList.size();
-
-		int rowCount;
-
-		if (request.getParameter("rowCount") == "") {
-			rowCount = totalRate;
-		} else {
-			rowCount = Integer.parseInt(request.getParameter("rowCount"));
-		}
-
-		for (int i = 1; i <= rowCount; i++) {
-
-			// Validate Interest Rates
-			if (request.getParameter("interestRate" + i) == ""
-					|| request.getParameter("period" + i) == "") {
-				model.addAttribute("rateList", rateList);
-				model.addAttribute("notify",
-						"<font color = 'red'>Please enter value!</font>");
-			}
-
-			double interestRate = Double.parseDouble(request
-					.getParameter("interestRate" + i));
-			Integer period = Integer.parseInt(request
-					.getParameter("period" + i));
-
-			if (i <= totalRate) {
-				if (rateList.get(i - 1).getInterestRate() != interestRate) {
-
-					for (SavingInterestRate rate : allRateList) {
-						// If the new Rate is already existed
-						if (rate.getInterestRate() == interestRate
-								&& rate.getPeriod() == period) {
-							rateDAO.updateInterestState(rate.getPeriod());
-							rate.setState("Current");
-							rateDAO.updateInterestRate(rate);
-							return true;
-						}
+				for (SavingInterestRate rate : allRateList) {
+					// If the new Rate is already existed
+					if (rate.getInterestRate() == interestRate
+							&& rate.getPeriod() == period) {
+						rateDAO.updateInterestState(rate.getPeriod());
+						rate.setState("Current");
+						rateDAO.updateInterestRate(rate);
+						return true;
 					}
-
-					SavingInterestRate newInterestRate = new SavingInterestRate();
-					newInterestRate.setPeriod(period);
-					newInterestRate.setInterestRate(interestRate);
-					newInterestRate.setState("Current");
-					this.addInterestRate(newInterestRate);
 				}
-			} else {
+
 				SavingInterestRate newInterestRate = new SavingInterestRate();
 				newInterestRate.setPeriod(period);
 				newInterestRate.setInterestRate(interestRate);
 				newInterestRate.setState("Current");
 				this.addInterestRate(newInterestRate);
 			}
+		} else {
+			SavingInterestRate newInterestRate = new SavingInterestRate();
+			newInterestRate.setPeriod(period);
+			newInterestRate.setInterestRate(interestRate);
+			newInterestRate.setState("Current");
+			this.addInterestRate(newInterestRate);
 		}
-
+		
 		return true;
 	}
 

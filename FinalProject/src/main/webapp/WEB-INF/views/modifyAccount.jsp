@@ -72,21 +72,23 @@
 		checkSpan.removeClass();
 
 		//Phone contrains(10 - 15 number)
-		if (control.val() == ""
-				&& (control.attr("id") != "customerMiddleName"
-						&& control.attr("id") != "customerPhone2" && control
-						.attr("id") != "customerAddress2")) {
+		if (control.val() == "") {
+			if ((control.attr("id") != "customerMiddleName"
+					&& control.attr("id") != "customerPhone2" && control
+					.attr("id") != "customerAddress2")) {
+				checkSpan.addClass("label label-danger");
+				checkSpan.text("Required");
+			}
+		} else {
 			if (control.attr("id") == "customerPhone1"
 					|| control.attr("id") == "customerPhone2") {
 				if (control.val().length < 7 || control.val().length > 15) {
 					checkSpan.addClass("label label-danger");
 					checkSpan.text("Invalid");
+					return;
 				}
-			} else {
-				checkSpan.addClass("label label-danger");
-				checkSpan.text("Value Require");
 			}
-		} else {
+
 			if (control.attr("id") == "customerEmail") {
 				if (!IsEmail(control.val())) {
 					checkSpan.addClass("label label-danger");

@@ -15,7 +15,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.SavingAccount;
 
 @RunWith(SpringJUnit4ClassRunner.class)
