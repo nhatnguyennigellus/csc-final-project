@@ -69,7 +69,8 @@ public class SavingAccountDAO {
 	 * Get list of saving account by account number
 	 * 
 	 * @author Nhat Nguyen
-	 * @param accountNo Account Number
+	 * @param accountNo
+	 *            Account Number
 	 * @return list of account
 	 */
 	public SavingAccount getAccountByAccNumber(String accountNo) {
@@ -189,6 +190,7 @@ public class SavingAccountDAO {
 
 	/**
 	 * Approve new account and change state into active
+	 * 
 	 * @author Tai Tran
 	 * @param account
 	 * @return action result

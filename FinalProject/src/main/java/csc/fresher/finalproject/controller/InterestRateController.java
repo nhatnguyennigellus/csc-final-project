@@ -32,12 +32,14 @@ public class InterestRateController {
 	 * @return Interest Rate page
 	 */
 	@RequestMapping(value = "/viewInterestRate")
-	public String viewInterestRate(Model model) {
-//		model = bankingService.getInterestRateList(model);
-		
-		List<SavingInterestRate> rateList = bankingService.getCurrentInterestRateList();
+	public String viewInterestRate(HttpServletRequest request, Model model) {
+		// model = bankingService.getInterestRateList(model);
+		request.getSession().removeAttribute("success");
+		request.getSession().removeAttribute("error");
+		List<SavingInterestRate> rateList = bankingService
+				.getCurrentInterestRateList();
 		model.addAttribute("rateList", rateList);
-		
+
 		return "viewInterestRate";
 	}
 
@@ -66,19 +68,20 @@ public class InterestRateController {
 			RequestMethod.GET })
 	public String changeRate(HttpServletRequest request, Model model) {
 		boolean result = false;
-		
-		List<SavingInterestRate> rateList = bankingService.getCurrentInterestRateList();
+
+		List<SavingInterestRate> rateList = bankingService
+				.getCurrentInterestRateList();
 
 		int totalRate = rateList.size();
 
 		int rowCount;
-		
+
 		if (request.getParameter("rowCount") == "") {
 			rowCount = totalRate;
 		} else {
 			rowCount = Integer.parseInt(request.getParameter("rowCount"));
 		}
-		
+
 		for (int i = 1; i <= rowCount; i++) {
 			if (request.getParameter("interestRate" + i) == ""
 					|| request.getParameter("period" + i) == "") {
@@ -91,19 +94,27 @@ public class InterestRateController {
 					.getParameter("interestRate" + i));
 			Integer period = Integer.parseInt(request
 					.getParameter("period" + i));
-			
-			bankingService.updateRate(i, totalRate, rateList, interestRate, period);
+
+			result = bankingService.updateRate(i, totalRate, rateList,
+					interestRate, period);
+
 		}
 
 		rateList = bankingService.getCurrentInterestRateList();
 		model.addAttribute("rateList", rateList);
 
-		if (!result) {
-			model.addAttribute("error", "Cannot update Rate!");
+		if (result == false) {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("error", "Cannot Update Rate!");
 		} else {
-			model.addAttribute("error", "Successfully update Rate");
+			request.getSession().removeAttribute("error");
+			request.getSession().setAttribute("success",
+					"Successfully updated Rate");
 		}
+		rateList = bankingService
+				.getCurrentInterestRateList();
+		model.addAttribute("rateList", rateList);
 
-		return "redirect:viewInterestRate";
+		return "viewInterestRate";
 	}
 }

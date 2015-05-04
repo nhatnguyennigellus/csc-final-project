@@ -44,7 +44,8 @@ public class SavingAccountController {
 		SavingAccount account = new SavingAccount();
 		account.setAccountNumber(bankingService.generateAccountNumber());
 
-		model.addAttribute("rateList", bankingService.getCurrentInterestRateList());
+		model.addAttribute("rateList",
+				bankingService.getCurrentInterestRateList());
 		model.addAttribute("savingAccount", account);
 		model.addAttribute("customerId", request.getParameter("customerId"));
 		return "addAccount";
@@ -89,11 +90,11 @@ public class SavingAccountController {
 		request.getSession().removeAttribute("updateError");
 		String idCardNo = request.getParameter("idCardValue");
 		String accNumber = request.getParameter("accNumberValue");
-		
-		List<SavingAccount> accounts = bankingService
-				.searchSavingAccounts(idCardNo,accNumber);
+
+		List<SavingAccount> accounts = bankingService.searchSavingAccounts(
+				idCardNo, accNumber);
 		model.addAttribute("accountList", accounts);
-		
+
 		return "searchAccount";
 	}
 
@@ -161,28 +162,35 @@ public class SavingAccountController {
 
 			interestId = Integer.parseInt(request.getParameter("interestId"));
 		} else {
-			request.getSession().setAttribute("updateError", "Please fill all fields with valid data!");
-			return "redirect:modifyAccount?accNumber=" + request.getParameter("accountNumber");
+			request.getSession().setAttribute("updateError",
+					"Please fill all fields with valid data!");
+			return "redirect:modifyAccount?accNumber="
+					+ request.getParameter("accountNumber");
 		}
-		
-		boolean result = bankingService.updateSavingAccount(interestId, accountNumber, accountOwner, balanceAmount, interest, state, repeatable);
+
+		boolean result = bankingService.updateSavingAccount(interestId,
+				accountNumber, accountOwner, balanceAmount, interest, state,
+				repeatable);
 		SavingAccount savingAccount = bankingService
 				.getSavingAccountByAccNumber(accountNumber);
-		
+
 		model.addAttribute("savingAccount", savingAccount);
-		
-		if(!result){
-			
+
+		if (!result) {
+			request.getSession().removeAttribute("updateSuccess");
 			request.getSession().setAttribute("updateError",
 					"Cannot update Account!");
-			
-			request.getSession().setAttribute("updateError", "Please fill all fields with valid data!");
-			return "redirect:modifyAccount?accNumber=" + request.getParameter("accountNumber");
+
+			request.getSession().setAttribute("updateError",
+					"Please fill all fields with valid data!");
+			return "redirect:modifyAccount?accNumber="
+					+ request.getParameter("accountNumber");
 		}
-		
-		request.getSession().setAttribute("updateSuccess",
-				"Updated Account!");
-		return "redirect:modifyAccount?accNumber=" + request.getParameter("accountNumber");
+
+		request.getSession().removeAttribute("updateError");
+		request.getSession().setAttribute("updateSuccess", "Updated Account!");
+		return "redirect:modifyAccount?accNumber="
+				+ request.getParameter("accountNumber");
 	}
 
 	/**

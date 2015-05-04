@@ -180,19 +180,38 @@
 
 				<ol class="breadcrumb">
 					<li><i class="glyphicon glyphicon-home"></i> <a href="home">Dashboard</a></li>
-					<li class="active"><i class="glyphicon glyphicon-usd"></i> Interest Rate</li>
+					<li class="active"><i class="glyphicon glyphicon-usd"></i>
+						Interest Rate</li>
 				</ol>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-12">
 				<form id="rateForm" action="changeRate">
+					<c:if test="${error != null }">
+
+						<div class="alert alert-danger" role="alert">
+							<button type="button" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>${error }</div>
+					</c:if>
+					<c:if test="${success != null }">
+
+						<div class="alert alert-success" role="alert">${success }
+							<button type="button" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					</c:if>
 					<input type="submit" class="btn btn-primary" id="saveChangeRate"
 						value="Save Changes" style="margin-right: 20px;"><input
 						type="button" class="btn btn-info" onclick="addRow()"
 						value="Add Rate" /> <input type="text" id="rowCount"
 						name="rowCount" style="display: none;" />
-					<h3>${notify }</h3>
+					<h3>${success }</h3>
+
 					<table class="table" id="rateTable">
 						<tr>
 							<th>ID</th>
@@ -202,7 +221,7 @@
 						</tr>
 						<c:forEach items="${rateList}" var="rate">
 							<tr class="rateRow">
-								<td><input type="text" value="<%=i %>" id="id<%=i%>"
+								<td><input type="text" value="<%=i%>" id="id<%=i%>"
 									name="id<%=i%>"
 									style="border: none; height: 34px; width: 50px;"
 									readonly="readonly" /></td>
@@ -211,8 +230,8 @@
 									name="interestRate<%=i%>" onblur="onBlur(<%=i%>)" /></td>
 								<td><input type="text"
 									style="border: none; height: 34px; width: 50px;"
-									value="<fmt:formatNumber value="${rate.period }" type="number"/>" id="period<%=i%>" name="period<%=i%>"
-									readonly="readonly" /></td>
+									value="<fmt:formatNumber value="${rate.period }" type="number"/>"
+									id="period<%=i%>" name="period<%=i%>" readonly="readonly" /></td>
 								<td><div id="checkDiv<%=i%>"
 										style="width: 100px; height: 34px; display: table;">
 										<span id="checkSpan<%=i%>"
