@@ -4,26 +4,26 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.Transaction;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/META-INF/test-context.xml"})
+@Transactional
+@TransactionConfiguration(defaultRollback = true)
 public class TransactionServiceTest {
 	@Autowired
 	public BankingService bankingService;
-	
-	@BeforeClass
-	public static void setUp() {
-		EntityManagerFactoryUtil.setEntityManagerFactory();
-	}
 	
 	@Test
 	public void testBankingService() {

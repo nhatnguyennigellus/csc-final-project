@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,29 +13,27 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.SavingAccount;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/META-INF/test-context.xml"})
+@Transactional
+@TransactionConfiguration(defaultRollback = true)
 public class AccountServiceTest {
 	@Autowired
 	private BankingService bankingService;
-	
+	/*
 	@BeforeClass
 	public static void setUp() {
 		EntityManagerFactoryUtil.setEntityManagerFactory();
-	}
+	}*/
 	
 	@Test
 	public void testBankingService() {
 		assertNotNull(bankingService);
-	}
-	
-	@Test
-	public void testExistedAccountNumber() {
-		assertFalse(bankingService.existedAccountNumber("2015"));
 	}
 	
 	@Test

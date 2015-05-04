@@ -87,9 +87,11 @@ public class SavingAccountController {
 	public String searchAccount(HttpServletRequest request, Model model) {
 		request.getSession().removeAttribute("updateSuccess");
 		request.getSession().removeAttribute("updateError");
+		String idCardNo = request.getParameter("idCardValue");
+		String accNumber = request.getParameter("accNumberValue");
 		
 		List<SavingAccount> accounts = bankingService
-				.searchSavingAccounts(request);
+				.searchSavingAccounts(idCardNo,accNumber);
 		model.addAttribute("accountList", accounts);
 		
 		return "searchAccount";

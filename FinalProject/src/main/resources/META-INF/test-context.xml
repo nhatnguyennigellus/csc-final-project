@@ -12,9 +12,8 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
                            
-       <import resource="classpath*:/WEB-INF/spring-servlet.xml"/>
-       <import resource="classpath*:/WEB-INF/spring-security.xml"/>
-       <import resource="classpath*:/WEB-INF/spring-database.xml"/>
+       <import resource="classpath:/META-INF/spring-servlet.xml"/>
+       <import resource="classpath:/META-INF/spring-database.xml"/>
        <context:component-scan base-package="csc.fresher.finalproject.*" />
 </beans>
      

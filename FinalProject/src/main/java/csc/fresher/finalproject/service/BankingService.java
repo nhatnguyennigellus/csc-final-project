@@ -427,9 +427,8 @@ public class BankingService {
 	 * @return list of saving account
 	 * @author Vinh Truong
 	 */
-	public List<SavingAccount> searchSavingAccounts(HttpServletRequest request) {
-		String idCardNo = request.getParameter("idCardValue");
-		String accNumber = request.getParameter("accNumberValue");
+	public List<SavingAccount> searchSavingAccounts(String idCardNo,String accNumber) {
+		
 
 		return savingAccountDAO.searchSavingAccounts(idCardNo, accNumber);
 	}
