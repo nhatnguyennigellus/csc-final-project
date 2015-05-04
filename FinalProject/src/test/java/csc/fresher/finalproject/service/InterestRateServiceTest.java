@@ -3,15 +3,8 @@ package csc.fresher.finalproject.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import org.easymock.EasyMockRunner;
-import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
