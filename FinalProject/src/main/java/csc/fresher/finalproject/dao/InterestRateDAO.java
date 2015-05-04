@@ -3,15 +3,13 @@ package csc.fresher.finalproject.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.SavingInterestRate;
 
 /**
@@ -21,6 +19,7 @@ import csc.fresher.finalproject.domain.SavingInterestRate;
  *
  */
 @Repository("interestRateDAO")
+@Transactional
 public class InterestRateDAO {
 
 	@PersistenceContext

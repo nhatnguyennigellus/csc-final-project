@@ -39,8 +39,8 @@ public class InterestRateServiceTest {
 	}
 	
 	@Test
-	public void testGetInterestRateByPeriod() {
-		assertNotNull(rateDAO.getInterestRateByPeriod(1));
+	public void testGetCurrentRateByPeriod() {
+		assertNotNull(rateDAO.getCurrentInterestRateByPeriod(12));
 	}
 
 	@Test
@@ -50,29 +50,19 @@ public class InterestRateServiceTest {
 
 	@Test
 	public void testUpdateRate() {
-		InterestRateDAO rateDAO = new InterestRateDAO();
-		EntityManager en = EntityManagerFactoryUtil.createEntityManager();
-		en.getTransaction().begin();
 		SavingInterestRate interestRate = new SavingInterestRate();
-		interestRate.setId(1);
 		interestRate.setPeriod(6);
 		interestRate.setInterestRate(0.5);
-		assertTrue(rateDAO.updateInterestRate(interestRate, en));
-		en.getTransaction().rollback();
-		en.close();
+		interestRate.setState("Current");
+		assertTrue(rateDAO.updateInterestRate(interestRate));
 	}
 
 	@Test
 	public void testAddInterestRate() {
-	//	InterestRateDAO rateDAO = new InterestRateDAO();
-	//	EntityManager en = EntityManagerFactoryUtil.createEntityManager();
 		SavingInterestRate newInterestRate = new SavingInterestRate();
-		newInterestRate.setId(3);
 		newInterestRate.setInterestRate(0.45);
-		newInterestRate.setPeriod(3);
-	//	en.getTransaction().begin();
-		assertTrue(bankingService.addInterestRate(newInterestRate));
-	//	en.getTransaction().rollback();
-	//	en.close();
+		newInterestRate.setPeriod(69);
+		newInterestRate.setState("Current");
+		assertTrue(rateDAO.addInterestRate(newInterestRate));
 	}
 }
