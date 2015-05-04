@@ -13,7 +13,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
-import csc.fresher.finalproject.controller.EntityManagerFactoryUtil;
 import csc.fresher.finalproject.domain.SavingAccount;
 import csc.fresher.finalproject.domain.Transaction;
 import csc.fresher.finalproject.service.DateUtils;

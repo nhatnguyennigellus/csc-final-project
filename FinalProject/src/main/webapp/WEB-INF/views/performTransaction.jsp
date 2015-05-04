@@ -119,8 +119,8 @@
 								</div>
 							</div>
 							<div class="form-group col-md-4">
-								<label class="control-label" for="interest">Total Before
-									Due (Period)</label> <font color="red"></font>
+								<label class="control-label" for="interest">Before
+									Due Total<font color="red"> (For Period)</font></label> <font color="red"></font>
 								<div class="input-group ">
 									<span class="input-group-addon"> <span
 										class=" glyphicon glyphicon-usd"></span>
@@ -140,12 +140,15 @@
 									</span>
 									<form:select class="form-control input-sm" id="type"
 										name="type" path="type">
-										<option value="Withdraw All">Withdraw All</option>
-										<c:if test="${account.interestRate.period == 0 }">
-											<option value="Withdraw Balance">Withdraw Balance</option>
-										</c:if>
+										<c:if
+											test="${account.balanceAmount != 0 and account.interest != 0 }">
+											<option value="Withdraw All">Withdraw All</option>
+											<c:if test="${account.interestRate.period == 0 }">
+												<option value="Withdraw Balance">Withdraw Balance</option>
+											</c:if>
 
-										<option value="Withdraw Interest">Withdraw Interest</option>
+											<option value="Withdraw Interest">Withdraw Interest</option>
+										</c:if>
 										<option value="Deposit">Deposit</option>
 									</form:select>
 								</div>
@@ -177,7 +180,7 @@
 
 </body>
 <script type="text/javascript">
-	$('#type').change(
+	$('#type').click(
 			function() {
 
 				if ($(this).val() == 'Withdraw Balance'
