@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  */
 @Entity
-@Table(name = "userrole")
+@Table(name = "userroles")
 public class Role {
 	@Id
 	@NotEmpty

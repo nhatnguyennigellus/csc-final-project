@@ -22,7 +22,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "transaction")
+@Table(name = "transactions")
 public class Transaction {
 	@Id
 	@GeneratedValue

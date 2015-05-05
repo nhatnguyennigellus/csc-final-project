@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
  *
  */
 @Entity
-@Table(name = "savinginterestrate")
+@Table(name = "savinginterestrates")
 public class SavingInterestRate {
 	@Id
 	@GeneratedValue

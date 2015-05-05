@@ -3,6 +3,7 @@ package csc.fresher.finalproject.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,10 +20,11 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  */
 @Entity
-@Table(name = "customer")
+@Table(name = "customers")
 public class Customer {
 	@Id
 	@GeneratedValue
+	@Column(name = "id")
 	private Integer customerId;
 
 	@NotEmpty
