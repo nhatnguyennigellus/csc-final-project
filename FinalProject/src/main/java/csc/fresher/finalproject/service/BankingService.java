@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import csc.fresher.finalproject.dao.CustomerDAO;
 import csc.fresher.finalproject.dao.InterestRateDAO;
@@ -162,10 +163,7 @@ public class BankingService {
 	 * @return action result
 	 */
 	@Transactional
-	public boolean updateCustomer(int id, String firstName, String middleName,
-			String lastName, String address1, String address2, String phone1,
-			String phone2, String email, String idCardNumber,
-			String currentAccountNumber) {
+	public boolean updateCustomer(int id, String firstName, String middleName, String lastName, String address1, String address2, String phone1, String phone2, String email, String idCardNumber, String currentAccountNumber) {
 		Customer customer = this.getCustomerById(id);
 		customer.setFirstName(firstName);
 		customer.setMiddleName(middleName);
@@ -176,7 +174,7 @@ public class BankingService {
 		customer.setPhone2(phone2);
 		customer.setEmail(email);
 		customer.setIdCardNumber(idCardNumber);
-
+		
 		return this.updateCustomer(customer);
 	}
 
@@ -274,9 +272,8 @@ public class BankingService {
 	 * @return action result
 	 */
 	@Transactional
-	public boolean updateSavingAccount(int interestId, String accountNumber,
-			String accountOwner, double balanceAmount, double interest,
-			String state, boolean repeatable) {
+	public boolean updateSavingAccount(int interestId, String accountNumber, String accountOwner, double balanceAmount, double interest, String state, boolean repeatable) {
+		
 
 		SavingInterestRate savingInterestRate = this
 				.getInterestRateById(interestId);
@@ -364,8 +361,8 @@ public class BankingService {
 	 * @return list of saving account
 	 * @author Vinh Truong
 	 */
-	public List<SavingAccount> searchSavingAccounts(String idCardNo,
-			String accNumber) {
+	public List<SavingAccount> searchSavingAccounts(String idCardNo,String accNumber) {
+		
 
 		return savingAccountDAO.searchSavingAccounts(idCardNo, accNumber);
 	}
@@ -397,7 +394,7 @@ public class BankingService {
 	 * @return model with interest rate list
 	 */
 	public List<SavingInterestRate> getInterestRateList() {
-		return rateDAO.getCurrentInterestRateList();
+		return rateDAO.getInterestRateList();
 	}
 
 	/**
@@ -441,8 +438,7 @@ public class BankingService {
 	 * @return action result
 	 */
 	@Transactional
-	public boolean updateRate(int i, int totalRate,
-			List<SavingInterestRate> rateList, double interestRate, int period) {
+	public boolean updateRate(int i, int totalRate, List<SavingInterestRate> rateList, double interestRate, int period) {
 		List<SavingInterestRate> allRateList = this.getInterestRateList();
 
 		if (i <= totalRate) {
@@ -472,7 +468,7 @@ public class BankingService {
 			newInterestRate.setState("Current");
 			this.addInterestRate(newInterestRate);
 		}
-
+		
 		return true;
 	}
 

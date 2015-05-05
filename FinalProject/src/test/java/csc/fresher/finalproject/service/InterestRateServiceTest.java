@@ -3,6 +3,8 @@ package csc.fresher.finalproject.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.junit.Test;
@@ -23,31 +25,35 @@ public class InterestRateServiceTest {
 	@Autowired
 	BankingService bankingService;
 	
-	@Autowired
-	InterestRateDAO rateDAO;
-	
 	@Test
 	public void testGetInterestRateList() {
-		assertNotNull(rateDAO.getInterestRateList());
+		List<SavingInterestRate> allRateList = bankingService.getInterestRateList();
+		
+		assertNotNull(allRateList);
+		assertTrue(allRateList.get(0).getId() == 1);
+		assertTrue(allRateList.get(0).getState().equals("Old"));
+	}
+	
+	@Test
+	public void testGetCurrentInterestRateList(){
+		List<SavingInterestRate> rateList = bankingService.getCurrentInterestRateList();
+		
+		assertNotNull(rateList);
+		assertTrue(rateList.get(0).getId() == 17);
+		assertTrue(rateList.get(0).getInterestRate() == 0.8);
 	}
 	
 	@Test
 	public void testGetCurrentRateByPeriod() {
-		assertNotNull(rateDAO.getCurrentInterestRateByPeriod(12));
+		SavingInterestRate rate = bankingService.getCurrentRateByPeriod(12);
+		
+		assertNotNull(rate);
+		assertTrue(rate.getState().equals("Current"));
 	}
 
 	@Test
 	public void testGetInterestRateById() {
-		assertNotNull(rateDAO.getInterestRateById(1));
-	}
-
-	@Test
-	public void testUpdateRate() {
-		SavingInterestRate interestRate = new SavingInterestRate();
-		interestRate.setPeriod(6);
-		interestRate.setInterestRate(0.5);
-		interestRate.setState("Current");
-		assertTrue(rateDAO.updateInterestRate(interestRate));
+		assertNotNull(bankingService.getInterestRateById(1));
 	}
 
 	@Test
@@ -56,7 +62,7 @@ public class InterestRateServiceTest {
 		newInterestRate.setInterestRate(0.45);
 		newInterestRate.setPeriod(69);
 		newInterestRate.setState("Current");
-		assertTrue(rateDAO.addInterestRate(newInterestRate));
-		assertNotNull(rateDAO.getInterestRateByPeriod(69));
+		assertTrue(bankingService.addInterestRate(newInterestRate));
+		assertNotNull(bankingService.getCurrentRateByPeriod(69));
 	}
 }
