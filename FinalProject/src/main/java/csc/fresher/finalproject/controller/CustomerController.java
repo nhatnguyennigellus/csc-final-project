@@ -114,6 +114,10 @@ public class CustomerController {
 			model.addAttribute("updateError",
 					"Please fill all fields with valid data!");
 			
+			request.getSession().removeAttribute("updateSuccess");
+			request.getSession().setAttribute("updateError",
+					"Cannot update customer info! Your input data is invalid!");
+			
 			return "redirect:modifyAccount?accNumber="
 			+ request.getParameter("currentAccount");
 		}

@@ -126,8 +126,8 @@
 				checkSpan[i].addClass("label label-success");
 				checkSpan[i].text("Valid");
 			} else{
-				checkSpan[i].addClass("label label-success");
-				checkSpan[i].text("Original");
+// 				checkSpan[i].addClass("label label-success");
+// 				checkSpan[i].text("Original");
 			}
 		}, 1000)
 		
@@ -148,9 +148,9 @@
 			if(j == 1){
 				cell1.innerHTML = "<input type='text' style='border: none; height: 34px; width: 50px;' value='" + i + "' id='id" + i + "' name='id" + i + "' readonly='readonly'/>";
 			} else if(j == 2){
-				cell2.innerHTML = "<input type='text' class='form-control' id='interestRate" + i + "' name='interestRate" + i + "' onblur='onBlur(" + i + ")'/>";
+				cell2.innerHTML = "<input type='text' class='form-control' id='interestRate" + i + "' name='interestRate" + i + "' onblur='onBlur(" + i + ")' onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46'/>";
 			} else if(j == 3){
-				cell3.innerHTML = "<input type='text' style='width: 50px;' class='form-control' id='period" + i + "' name='period" + i + "' onblur='onBlur(" + i + ")'/>";
+				cell3.innerHTML = "<input type='text' style='width: 50px;' class='form-control' id='period" + i + "' name='period" + i + "' onblur='onBlur(" + i + ")' onkeypress='return (event.charCode >= 48 && event.charCode <= 57)'/>";
 			} else{
 				cell4.innerHTML = "<div id='checkDiv" + i + "' style='width: 100px; height: 34px; display: table;'><span id='checkSpan" + i + "' style='display: table-cell; vertical-align: middle;'></span></div>";
 			}
@@ -217,7 +217,7 @@
 							<th>#</th>
 							<th>Interest Rate</th>
 							<th>Period (months)</th>
-							<th></th>
+							<th style="border: none;"></th>
 						</tr>
 						<c:forEach items="${rateList}" var="rate">
 							<tr class="rateRow">
@@ -227,12 +227,12 @@
 									readonly="readonly" /></td>
 								<td><input type="text" class="form-control"
 									value="${rate.interestRate }" id="interestRate<%=i%>"
-									name="interestRate<%=i%>" onblur="onBlur(<%=i%>)" /></td>
+									name="interestRate<%=i%>" onblur="onBlur(<%=i%>)" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"/></td>
 								<td><input type="text"
 									style="border: none; height: 34px; width: 50px;"
 									value="<fmt:formatNumber value="${rate.period }" type="number"/>"
 									id="period<%=i%>" name="period<%=i%>" readonly="readonly" /></td>
-								<td><div id="checkDiv<%=i%>"
+								<td style="border: none;"><div id="checkDiv<%=i%>"
 										style="width: 100px; height: 34px; display: table;">
 										<span id="checkSpan<%=i%>"
 											style="display: table-cell; vertical-align: middle;"></span>

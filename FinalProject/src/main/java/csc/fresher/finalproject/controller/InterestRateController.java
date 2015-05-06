@@ -52,7 +52,6 @@ public class InterestRateController {
 	 */
 	@RequestMapping(value = "/changeRate")
 	public String changeRate(Model model) {
-
 		return "changeRate";
 	}
 
@@ -67,6 +66,10 @@ public class InterestRateController {
 	@RequestMapping(value = "/changeRate", method = { RequestMethod.POST,
 			RequestMethod.GET })
 	public String changeRate(HttpServletRequest request, Model model) {
+		//Remove attribute from session
+		request.getSession().removeAttribute("success");
+		request.getSession().removeAttribute("error");
+		
 		boolean result = false;
 
 		List<SavingInterestRate> rateList = bankingService
@@ -83,20 +86,30 @@ public class InterestRateController {
 		}
 
 		for (int i = 1; i <= rowCount; i++) {
-			if (request.getParameter("interestRate" + i) == ""
-					|| request.getParameter("period" + i) == "") {
-				model.addAttribute("rateList", rateList);
-				model.addAttribute("notify",
-						"<font color = 'red'>Please enter value!</font>");
-			}
-
-			double interestRate = Double.parseDouble(request
+			
+			//Validate input data
+			try{
+				double interestRate = Double.parseDouble(request
 					.getParameter("interestRate" + i));
-			Integer period = Integer.parseInt(request
+				if(interestRate > 1){
+					throw new Exception();
+				}
+				
+				Integer period = Integer.parseInt(request
 					.getParameter("period" + i));
 
-			result = bankingService.updateRate(i, totalRate, rateList,
+				result = bankingService.updateRate(i, totalRate, rateList,
 					interestRate, period);
+			} catch(Exception e){
+				request.getSession().removeAttribute("success");
+				request.getSession().setAttribute("error", "Cannot Update Rate! Your input data is invalid");
+				
+				rateList = bankingService
+						.getCurrentInterestRateList();
+				model.addAttribute("rateList", rateList);
+				
+				return "viewInterestRate";
+			}
 
 		}
 

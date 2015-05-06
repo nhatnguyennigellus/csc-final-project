@@ -23,49 +23,46 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						$("#repeatable").val("${account.repeatable}");
-						$("#state").val("${account.state}");
 
-						$("#customerForm")
-								.submit(
-										function() {
-											
-											if ($("#customerFirstName").val() == ""
-													|| $("#customerLastName")
-															.val() == ""
-													|| $("#customerAddress1").val() == ""
-													|| $("#customerPhone1").val() == ""
-													|| $("#customerEmail").val() == ""
-													|| $("#customerIDCardNumber").val() == "") {
-												alert("Please input valid value for all customer fields!")
-												return false;
-											}
+	//These script will run only after the page has successfully been loaded
+	$(document).ready(
+		function() {
+			
+			//Initialize value for select box Repeatable and State
+			$("#repeatable").val("${account.repeatable}");
+			$("#state").val("${account.state}");
 
-											return true;
-										});
+			//Validate data on submit of customer form
+			$("#customerForm").submit(
+			function() {
+				if ($("#customerFirstName").val() == "" || $("#customerLastName").val() == "" || $("#customerAddress1").val() == ""
+				|| $("#customerPhone1").val() == "" || $("#customerEmail").val() == "" || $("#customerIDCardNumber").val() == "") {
+					alert("Please input valid value for all customer fields!")
+						return false;
+				}
 
-						$("#accountForm")
-								.submit(
-										function() {
-											if ($("#balanceAmount").val() == ""
-													|| $("#accountOwner").val() == ""
-													|| $("#interest").val() == "") {
-												alert("Please input valid value for all account fields!")
-												return false;
-											}
+				return true;
+			});
 
-											return true;
-										});
-					});
+			//Validate data on submit of account form
+			$("#accountForm").submit(
+			function() {
+				if ($("#accountOwner").val() == "" || $("#interest").val() == "") {
+					alert("Please input valid value for all account fields!")
+					return false;
+				}
 
+				return true;
+			});
+		});
+
+	//Validate email field
 	function IsEmail(email) {
 		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 		return regex.test(email);
 	}
 
+	//Validate for all controls
 	function validate(name) {
 		var control = $("#" + name);
 		var checkSpan = $("#check" + control.attr("id"));
