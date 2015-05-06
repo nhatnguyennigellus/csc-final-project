@@ -29,7 +29,7 @@
 						<form action="searchAccount" class="form-inline">
 
 							<div class="form-group">
-								<label for="idCardValue">ID Card Number</label>
+								<label for="idCardValue">ID Card Number&nbsp;</label>
 								<div class="input-group ">
 									<span class="input-group-addon"> <span
 										class=" glyphicon glyphicon-credit-card"></span>
@@ -39,7 +39,7 @@
 							</div>
 							&nbsp;
 							<div class="form-group">
-								<label for="accNumberValue"> Account Number</label>
+								<label for="accNumberValue"> Account Number&nbsp;</label>
 								<div class="input-group ">
 									<span class="input-group-addon"> <span
 										class=" glyphicon glyphicon-asterisk"></span>
@@ -77,6 +77,7 @@
 									data-number="${account.accountNumber }"
 									data-customer="${account.customer.lastName }&nbsp;${account.customer.middleName }&nbsp;${account.customer.firstName }"
 									data-owner="${account.accountOwner }"
+									data-period="${account.interestRate.period }"
 									data-balance="<fmt:formatNumber value="${account.balanceAmount }"
 										type="number" />"
 									data-interest="<fmt:formatNumber value="${account.interest }" type="number"/>"
@@ -149,6 +150,10 @@
 														<dd id="own"></dd>
 													</dl>
 													<dl class="dl-horizontal">
+														<dt>Period:</dt>
+														<dd id="period"></dd>
+													</dl>
+													<dl class="dl-horizontal">
 														<dt>Balance:</dt>
 														<dd id="bal"></dd>
 													</dl>
@@ -197,6 +202,11 @@
 		$("dd#accNo").html($(this).data('number'));
 		$("dd#cus").html($(this).data('customer'));
 		$("dd#own").html($(this).data('owner'));
+		if ($(this).data('period') == 0) {
+			$("dd#period").html('No period');
+		} else {
+			$("dd#period").html($(this).data('period') + ' month(s)');
+		}
 		$("dd#bal").html($(this).data('balance') + ' VND');
 		$("dd#inter").html($(this).data('interest') + ' VND');
 		$("dd#start").html($(this).data('startdate'));
