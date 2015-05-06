@@ -32,13 +32,14 @@
 						$("#customerForm")
 								.submit(
 										function() {
+											
 											if ($("#customerFirstName").val() == ""
 													|| $("#customerLastName")
 															.val() == ""
-													|| $("#address1").val() == ""
-													|| $("#phone1").val() == ""
-													|| $("#email").val() == ""
-													|| $("#idCard").val() == "") {
+													|| $("#customerAddress1").val() == ""
+													|| $("#customerPhone1").val() == ""
+													|| $("#customerEmail").val() == ""
+													|| $("#customerIDCardNumber").val() == "") {
 												alert("Please input valid value for all customer fields!")
 												return false;
 											}
@@ -436,7 +437,7 @@
 											<c:if test="${account.state == 'hold'}">
 												<option value="active">Active</option>
 											</c:if>
-											<c:if test="${account.state != 'new'}">
+											<c:if test="${account.state != 'new' && account.state != 'done'}">
 												<c:if test="${account.state != 'hold'}">
 													<option value="active">Active</option>
 												</c:if>

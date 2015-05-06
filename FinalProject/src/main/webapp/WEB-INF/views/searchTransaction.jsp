@@ -58,6 +58,7 @@
 							<option value="Deposit">Deposit</option>
 							<option value="Withdraw Interest">Withdraw Interest</option>
 							<option value="Withdraw Balance">Withdraw Balance</option>
+							<option value="Withdraw All" > Withdraw All </option>
 						</select>
 						<button type="submit" class="btn btn-info" name="submitAction"
 							value="Search by details">

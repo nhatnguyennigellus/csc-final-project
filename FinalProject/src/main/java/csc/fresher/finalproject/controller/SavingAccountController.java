@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import csc.fresher.finalproject.domain.Customer;
 import csc.fresher.finalproject.domain.SavingAccount;
@@ -66,6 +67,14 @@ public class SavingAccountController {
 			@ModelAttribute("savingAccount") @Valid SavingAccount savingAccount,
 			BindingResult result, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
+		model.addAttribute("rateList",
+				bankingService.getCurrentInterestRateList());
+		String accNumber = request.getParameter("accountNumber");
+		if (bankingService.existedAccountNumber(accNumber)) {
+			model.addAttribute("addAccError",
+					"This account number exists!");
+			return "addAccount";
+		}
 		if (bankingService.addSavingAccount(savingAccount, request, response)) {
 			model.addAttribute("addAccSuccess",
 					"Added new account successfully!");

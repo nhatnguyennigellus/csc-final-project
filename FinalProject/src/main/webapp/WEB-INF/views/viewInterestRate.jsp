@@ -214,7 +214,7 @@
 
 					<table class="table" id="rateTable">
 						<tr>
-							<th>ID</th>
+							<th>#</th>
 							<th>Interest Rate</th>
 							<th>Period (months)</th>
 							<th></th>

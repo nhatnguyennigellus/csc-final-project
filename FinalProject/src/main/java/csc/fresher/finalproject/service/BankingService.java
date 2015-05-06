@@ -637,6 +637,7 @@ public class BankingService {
 
 		} else if (transaction.getType().equals("Deposit")) {
 			// Period
+			
 			if (account.getInterestRate().getPeriod() != 0) {
 				List<Date> list = this.getWithdrawAll(account);
 				Date lastWithdrawAll = new Date();
@@ -654,8 +655,8 @@ public class BankingService {
 				}
 			}
 
-			if (transaction.getAmount() <= 0) {
-				result = "Amount must be above zero!";
+			if (transaction.getAmount() <= 1000000) {
+				result = "Amount must be above 1.000.000 VND!";
 			}
 		}
 
