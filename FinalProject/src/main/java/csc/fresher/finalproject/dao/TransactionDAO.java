@@ -194,7 +194,6 @@ public class TransactionDAO {
 	 */
 	public boolean rejectTransaction(Transaction trans) {
 		try {
-
 			entityManager.merge(trans);
 		} catch (Exception e) {
 			return false;

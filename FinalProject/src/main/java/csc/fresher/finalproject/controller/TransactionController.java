@@ -51,7 +51,11 @@ public class TransactionController {
 	public ModelAndView getAccountTransaction(Model model,
 			HttpServletRequest request) {
 		String accNumber = request.getParameter("accountNumber");
-
+		if (!bankingService.existedAccountNumber(accNumber)) {
+			model.addAttribute("accTransError",
+					"This account number does not exist!");
+			return new ModelAndView("accountTransaction");
+		}
 		if (bankingService.pendingAvail(accNumber)) {
 			model.addAttribute("accTransError",
 					"This account still have pending transaction!"
@@ -169,6 +173,8 @@ public class TransactionController {
 		int transId = Integer.parseInt(request.getParameter("transactionId"));
 		Transaction trans = bankingService.getTransactionById(transId);
 		trans.setState("Rejected");
+		User user = (User) request.getSession().getAttribute("USER");
+		trans.getUsers().add(user);
 		if (bankingService.rejectTransaction(trans)) {
 			model.addAttribute("apprError", "Transaction '" + trans.getType()
 					+ "' of account "

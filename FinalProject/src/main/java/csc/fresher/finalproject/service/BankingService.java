@@ -228,6 +228,16 @@ public class BankingService {
 		account.setRepeatable(repeatable);
 		return savingAccountDAO.addSavingAccount(account);
 	}
+	
+	/**
+	 * Check if account number existed in database
+	 * 
+	 * @param accNumber
+	 * @return existed or not
+	 */
+	public boolean existedAccountNumber(String accNumber) {
+		return savingAccountDAO.getAccountByAccNumber(accNumber) != null;
+	}
 
 	/**
 	 * Calculate interest for the saving account
